@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=JetBrains+Mono:wght@100..900&family=Space+Grotesk:wght@100..900&display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-secondary-fixed": "#002113", "surface-variant": "#31353c", "on-primary-container": "#004965", "tertiary-fixed": "#ffdbca", "primary-fixed": "#c4e7ff", "on-tertiary-fixed": "#341100", "tertiary-container": "#ff975d", "on-error": "#690005", "on-tertiary-container": "#743000", "outline-variant": "#3e484f", "surface-container-high": "#262a31", "surface-container-low": "#181c22", "outline": "#87929a", "surface-bright": "#353940", "on-background": "#dfe2eb", "on-primary": "#00354a", "primary-container": "#38bdf8", "on-error-container": "#ffdad6", "on-surface": "#dfe2eb", "on-secondary": "#003824", "on-primary-fixed-variant": "#004c69", "on-secondary-fixed-variant": "#005236", "primary": "#8ed5ff", "surface-tint": "#7bd0ff", "primary-fixed-dim": "#7bd0ff", "inverse-on-surface": "#2d3137", "secondary": "#4edea3", "on-surface-variant": "#bdc8d1", "surface-container": "#1c2026", "error-container": "#93000a", "secondary-fixed": "#6ffbbe", "on-tertiary-fixed-variant": "#783200", "on-secondary-container": "#00311f", "tertiary": "#ffbf9e", "error": "#ffb4ab", "on-tertiary": "#552100", "tertiary-fixed-dim": "#ffb690", "on-primary-fixed": "#001e2c", "inverse-primary": "#00668a", "background": "#10141a", "secondary-fixed-dim": "#4edea3", "surface-container-lowest": "#0a0e14", "surface-dim": "#10141a", "surface": "#10141a", "surface-container-highest": "#31353c", "secondary-container": "#00a572", "inverse-surface": "#dfe2eb" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "0.5rem", "space-lg": "0.75rem", "margin": "0.5rem", "space-md": "0.5rem", "space-xl": "1rem", "space-sm": "0.25rem", "space-xs": "0.125rem" }, "fontFamily": { "body-sm": ["Geist"], "headline-md": ["Space Grotesk"], "label-lg": ["JetBrains Mono"], "headline-xl": ["Space Grotesk"], "label-md": ["JetBrains Mono"], "body-md": ["Geist"], "body-lg": ["Geist"], "headline-lg": ["Space Grotesk"], "label-sm": ["JetBrains Mono"] }, "fontSize": { "body-sm": ["11px", { "lineHeight": "14px", "fontWeight": "400" }], "headline-md": ["14px", { "lineHeight": "18px", "letterSpacing": "0em", "fontWeight": "600" }], "label-lg": ["12px", { "lineHeight": "14px", "letterSpacing": "0.02em", "fontWeight": "500" }], "headline-xl": ["24px", { "lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "600" }], "label-md": ["11px", { "lineHeight": "13px", "letterSpacing": "0.03em", "fontWeight": "500" }], "body-md": ["12px", { "lineHeight": "16px", "fontWeight": "400" }], "body-lg": ["13px", { "lineHeight": "18px", "fontWeight": "400" }], "headline-lg": ["18px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "600" }], "label-sm": ["10px", { "lineHeight": "12px", "letterSpacing": "0.04em", "fontWeight": "400" }] } } } };</script></head><body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant/40 z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-12 border-b border-outline-variant/30 px-space-md flex items-center justify-between bg-surface-container-low"><div class="flex items-center gap-space-sm"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface font-semibold">MISSION CONTROL</span></div><span class="font-label-sm text-label-sm px-space-xs py-0.5 bg-surface-container-highest border border-outline-variant/60 text-secondary-fixed-dim">SECURE NODE</span></div><nav class="flex flex-col py-space-sm" data-active-classes="bg-surface-container-high text-primary border-l-2 border-primary font-medium"><a aria-current="page" class="flex items-center gap-space-md px-space-md py-space-sm transition-colors bg-surface-container-high text-primary border-l-2 border-primary font-medium" data-path="overview" href="#"><span class="material-symbols-outlined text-[16px]">dashboard</span><span>Overview</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors border-l-2 border-transparent font-label-md text-label-md" data-path="investigate" href="#"><span class="material-symbols-outlined text-[16px]">explore</span><span>Investigate</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors border-l-2 border-transparent font-label-md text-label-md" data-path="glaciers" href="#"><span class="material-symbols-outlined text-[16px]">terrain</span><span>Glaciers</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors border-l-2 border-transparent font-label-md text-label-md" data-path="observations" href="#"><span class="material-symbols-outlined text-[16px]">satellite_alt</span><span>Observations</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors border-l-2 border-transparent font-label-md text-label-md" data-path="alerts-and-events" href="#"><span class="material-symbols-outlined text-[16px]">crisis_alert</span><span>Alerts & Events</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors border-l-2 border-transparent font-label-md text-label-md" data-path="risk-analysis" href="#"><span class="material-symbols-outlined text-[16px]">schema</span><span>Risk Analysis</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors border-l-2 border-transparent font-label-md text-label-md" data-path="time-series" href="#"><span class="material-symbols-outlined text-[16px]">stacked_line_chart</span><span>Time Series</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors border-l-2 border-transparent font-label-md text-label-md" data-path="pipeline-jobs" href="#"><span class="material-symbols-outlined text-[16px]">sync_alt</span><span>Pipeline Jobs</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors border-l-2 border-transparent font-label-md text-label-md" data-path="data-sources" href="#"><span class="material-symbols-outlined text-[16px]">dataset</span><span>Data Sources</span></a><a class="flex items-center gap-space-md px-space-md py-space-sm text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors border-l-2 border-transparent font-label-md text-label-md" data-path="briefings" href="#"><span class="material-symbols-outlined text-[16px]">summarize</span><span>Briefings</span></a></nav></div><div class="border-t border-outline-variant/30 bg-surface-container-lowest p-space-md flex flex-col gap-space-sm"><div class="bg-surface-container-low border border-outline-variant/30 p-space-sm flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-on-surface-variant">SYSTEM HEALTH</span><span class="font-label-sm text-label-sm text-secondary font-semibold">99.8%</span></div><div class="w-full bg-surface-container-highest h-1"><div class="bg-secondary h-1 w-[99.8%]"></div></div><span class="font-label-sm text-label-sm text-on-surface-variant/80 truncate">NASA Earthdata, ICESat-2, Landsat-9 ONLINE</span></div><div class="flex flex-col gap-space-xs pt-space-xs"><a class="flex items-center gap-space-sm px-space-xs py-1 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm" data-path="system-settings" href="#"><span class="material-symbols-outlined text-[14px]">settings</span><span>Settings & Config</span></a><a class="flex items-center gap-space-sm px-space-xs py-1 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm" data-path="documentation-schema" href="#"><span class="material-symbols-outlined text-[14px]">description</span><span>Quick Documentation / Schema</span></a></div></div></aside><div class="pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-64 right-0 h-12 bg-surface-container-low/95 border-b border-outline-variant/40 z-40 px-space-md flex items-center justify-between gap-space-md backdrop-blur-sm"><div class="flex items-center gap-space-md shrink-0"><div class="flex items-center gap-space-sm"><img alt="Glacier Monitor Operational Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1WradF-x8PrY1sRLOmjATfDkc5wySv2xNeb2NrfL5RwhA2jw9IBt9KfGnEf968U0BdiZVRzH2XYrAo7EhWgc5tSzIjr_2OCMpCMNNVjd_Ub8xynetWsp071cv3Vy6KdA6TWZE6CUKq5R7WffjGzLm8XVMO8a1vQVHWOwDXHbkaK2ll3E9s3V18sZHl-cjTJ4oKPr5cJQil0wnv9aty4wwpsAaTE7zxM7494LLw2fdPqPUUHcnikRUZsnqQ"/><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-md text-headline-md tracking-wider uppercase text-on-surface font-bold">GLACIER MONITOR</span><span class="font-label-sm text-label-sm text-primary px-1 bg-surface-container-high border border-outline-variant/50">v2.8-EO</span></div><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-tight">EARTH OBSERVATION & EARLY WARNING SYSTEM</span></div></div><div class="h-6 w-px bg-outline-variant/50"></div><button class="flex items-center gap-space-xs px-space-sm py-1 bg-surface-container border border-outline-variant/50 hover:bg-surface-container-high transition-colors"><span class="font-label-sm text-label-sm text-on-surface-variant">REGION:</span><span class="font-label-sm text-label-sm text-on-surface font-semibold">HIMALAYAS / KHUMBU-HIMAL</span><span class="font-label-sm text-label-sm text-secondary">[27.98° N, 86.92° E]</span><span class="material-symbols-outlined text-[14px] text-on-surface-variant">arrow_drop_down</span></button></div><div class="flex-1 max-w-xl mx-space-md"><div class="relative flex items-center"><span class="material-symbols-outlined absolute left-2 text-[15px] text-on-surface-variant">search</span><input class="w-full h-7 pl-7 pr-16 bg-surface-container-lowest border border-outline-variant/60 text-on-surface font-label-md text-label-md placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary-container" placeholder="[ / ] Search glacier, glacial lake, observation ID, warning, telemetry..." type="text"/><span class="absolute right-2 font-label-sm text-label-sm text-on-surface-variant/70 bg-surface-container border border-outline-variant/40 px-1">CMD+K</span></div></div><div class="flex items-center gap-space-sm shrink-0"><div class="hidden xl:flex items-center gap-space-sm border border-outline-variant/40 bg-surface-container-lowest px-space-sm py-0.5"><span class="font-label-sm text-label-sm text-on-surface-variant">DATA SYNC:</span><span class="font-label-sm text-label-sm text-secondary font-semibold">NASA HARMONY 2m ago (LIVE)</span><span class="text-outline-variant">|</span><span class="font-label-sm text-label-sm text-on-surface-variant">142ms</span><span class="text-outline-variant">|</span><span class="font-label-sm text-label-sm text-primary font-semibold">INGESTION: ACTIVE</span></div><div class="flex items-center gap-space-xs px-space-sm py-0.5 bg-error-container/20 border border-error/40 text-error"><span class="material-symbols-outlined text-[13px] animate-pulse">warning</span><span class="font-label-sm text-label-sm font-semibold">ALERTS: 7 (1 CRITICAL, 3 WARNING)</span></div><div class="hidden 2xl:flex items-center gap-space-xs border border-outline-variant/40 bg-surface-container-lowest px-space-sm py-0.5"><span class="font-label-sm text-label-sm text-on-surface-variant">ZULU:</span><span class="font-label-sm text-label-sm text-primary font-mono">UTC 2026-09-29 11:42:08Z</span></div><div class="flex items-center gap-space-xs border border-outline-variant/40 bg-surface-container-lowest px-space-sm py-0.5"><span class="font-label-sm text-label-sm text-on-surface">OP: DR. S. CHEN / ANALYST-1</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></header><main class="w-full pt-12 bg-background"><div class="flex flex-col w-full h-[calc(100vh-3rem)] overflow-hidden bg-background font-body-md text-on-surface select-none">
+<!-- TOP SUB-BAR: QUICK STATUS STRIP -->
+<div class="h-7 w-full bg-surface-container-lowest border-b border-outline-variant/30 flex items-center justify-between px-space-md shrink-0 text-label-sm font-label-sm">
+<div class="flex items-center gap-space-md">
+<span class="flex items-center gap-space-xs text-primary">
+<span class="w-1.5 h-1.5 bg-primary rounded-none animate-ping"></span>
+<span>WORKSPACE: KHUMBU_HIMAL_SECTOR_07</span>
+</span>
+<span class="text-outline-variant/60">/</span>
+<span class="text-on-surface-variant font-mono">UTM ZONE 45N [EPSG:32645]</span>
+<span class="text-outline-variant/60">/</span>
+<span class="text-secondary flex items-center gap-1 font-mono">
+<span class="w-1.5 h-1.5 bg-secondary inline-block"></span>SAR COHERENCE: OPTIMAL (γ 0.84)
+      </span>
+</div>
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-space-xs">
+<span class="text-on-surface-variant uppercase">PASS WINDOW:</span>
+<span class="text-on-surface font-mono">SENTINEL-1A T-00:41:19</span>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-high px-space-xs py-0.5 border border-outline-variant/40">
+<span class="text-tertiary">SURGE VECTOR ENGINE:</span>
+<span class="text-tertiary font-bold">ONLINE</span>
+</div>
+</div>
+</div>
+<!-- MAIN OPERATIONAL WORKSPACE: 68% / 32% SPLIT -->
+<div class="flex-1 flex w-full min-h-0 relative">
+<!-- LEFT & CENTER: MAP / EO CANVASES (68%) -->
+<div class="w-[68%] h-full flex flex-col relative border-r border-outline-variant/30 bg-surface-container-lowest overflow-hidden">
+<!-- MAP CONTROLS & HUD HEADER -->
+<div class="absolute top-2 left-2 right-2 z-20 flex items-center justify-between pointer-events-none">
+<!-- LAYER SELECTOR CHIP-BAR -->
+<div class="pointer-events-auto flex items-center bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/50 p-space-xs gap-1 shadow-lg">
+<button class="px-space-sm py-1 bg-primary text-on-primary font-label-sm text-label-sm font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">radar</span>
+<span>SAR INTENSITY</span>
+</button>
+<button class="px-space-sm py-1 bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[13px]">palette</span>
+<span>OPTICAL RGB</span>
+</button>
+<button class="px-space-sm py-1 bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[13px]">water</span>
+<span>LAKE DEPTH BATHY</span>
+</button>
+<button class="px-space-sm py-1 bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[13px]">filter_hdr</span>
+<span>CONTOURS (DEM)</span>
+</button>
+<button class="px-space-sm py-1 bg-surface-container hover:bg-surface-container-high text-secondary font-label-sm text-label-sm flex items-center gap-1 transition-colors">
+<span class="material-symbols-outlined text-[13px]">navigation</span>
+<span>VELOCITY VECTORS</span>
+</button>
+</div>
+<!-- TELEMETRY COORDINATES BADGE -->
+<div class="pointer-events-auto flex items-center gap-space-sm bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/50 px-space-md py-1 font-label-sm text-label-sm text-on-surface">
+<div class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[14px]">file_download_done</span>
+<span>27°59'17"N 86°55'31"E</span>
+</div>
+<span class="text-outline-variant">|</span>
+<span class="text-secondary font-mono">5,364m ASL</span>
+<span class="text-outline-variant">|</span>
+<span class="text-on-surface-variant font-mono">Z12.4</span>
+</div>
+</div>
+<!-- MAP VIEWPORT (SIMULATED TACTICAL SAT/SAR HYBRID WITH SVG VECTORS) -->
+<div class="relative w-full h-full bg-[#070b10] flex items-center justify-center overflow-hidden">
+<!-- Orthorectified Background Texture / Visual Representation -->
+<div class="absolute inset-0 opacity-40 mix-blend-luminosity bg-cover bg-center" data-alt="High altitude synthetic aperture radar satellite orthomosaic of Khumbu and Imja glaciers in the Himalayas, showing stark glacial tongues, lateral moraines, frozen crevasses, deep dark glacial lakes, high-contrast monochrome cryosphere topography with deep shadows and radar backscatter speckle" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB1GLnssw0fM63ZCd5pMjYZQmNqnVAfxvEA8XoeNbvPbw5_7ljtLVus8dlt92QTtNkiLIYm6zrMJgBY94Lj-GE_cNj2pDsOXiz-8WN8kH6IW4GkPFPY3MEIqIFmTVcH1T0tR_ikd6NMyIDwta9b6qOx-Wn07oYH1lKep0JTTpXPd05UsXJoiTWmtz_lKkTi9qAjkH7Sck6wHU_1N_n_OZfEXe_oVdi39Wg6zsxeGyiYtL4IrkYZeG0zbA')"></div>
+<!-- GRID RETICLE AND MAP OVERLAYS (SVG GRAPHICS) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none select-none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<!-- Coordinate Cross Grid Pattern -->
+<pattern height="100" id="coordGrid" patternunits="userSpaceOnUse" width="100">
+<path d="M 100 0 L 0 0 0 100" fill="none" stroke="#242c38" stroke-dasharray="2,6" stroke-width="0.75"></path>
+<circle cx="0" cy="0" fill="#3e484f" r="1.5"></circle>
+</pattern>
+<!-- Pulse ring animation for critical lake -->
+<radialgradient cx="50%" cy="50%" id="lakeDepthGrad" r="50%">
+<stop offset="0%" stop-color="#0284c7" stop-opacity="0.8"></stop>
+<stop offset="85%" stop-color="#0369a1" stop-opacity="0.5"></stop>
+<stop offset="100%" stop-color="#082f49" stop-opacity="0.9"></stop>
+</radialgradient>
+</defs>
+<rect fill="url(#coordGrid)" height="100%" opacity="0.65" width="100%"></rect>
+<!-- SATELLITE PASS GROUND TRACK (ICESat-2 Track 0429) -->
+<g opacity="0.85">
+<line stroke="#8ed5ff" stroke-dasharray="5,3" stroke-width="1.2" x1="8%" x2="88%" y1="0%" y2="100%"></line>
+<text class="font-label-sm text-[10px] tracking-widest uppercase" fill="#8ed5ff" x="76%" y="84%">ICESat-2 ATL06 GROUND TRACK [RGT 0429]</text>
+<circle cx="48%" cy="50%" fill="#8ed5ff" r="3"></circle>
+<circle cx="36%" cy="35%" fill="#8ed5ff" r="3"></circle>
+<circle cx="60%" cy="65%" fill="#8ed5ff" r="3"></circle>
+</g>
+<!-- SENTINEL-2 SWATH FOOTPRINT BOUNDARY -->
+<polygon fill="none" opacity="0.4" points="120,40 580,20 660,540 180,590" stroke="#4edea3" stroke-dasharray="8,4" stroke-width="1"></polygon>
+<text class="font-label-sm text-[9px] uppercase tracking-wider" fill="#4edea3" x="200" y="55">SWATH: S2B_MSIL2A_20260929T050649</text>
+<!-- GLACIER 1: KHUMBU GLACIER (WARNING STATE / ORANGE OUTLINE) -->
+<g class="cursor-pointer pointer-events-auto" id="glacier-khumbu-poly">
+<path d="M 280,140 Q 320,180 340,240 T 360,330 T 345,410 T 325,480 L 295,475 Q 310,400 315,310 T 290,210 Z" fill="#ff975d" fill-opacity="0.12" stroke="#ff975d" stroke-dasharray="4,2" stroke-width="1.5"></path>
+<!-- Velocity Vector Indicators -->
+<path d="M 320,240 L 325,270 M 325,270 L 322,263 M 325,270 L 329,264" stroke="#ffbf9e" stroke-width="1.5"></path>
+<path d="M 345,330 L 348,365 M 348,365 L 344,357 M 348,365 L 352,358" stroke="#ffbf9e" stroke-width="1.5"></path>
+<path d="M 330,410 L 326,440 M 326,440 L 323,433 M 326,440 L 329,434" stroke="#ffbf9e" stroke-width="1.5"></path>
+<!-- Glacial ponds (supraglacial) -->
+<ellipse cx="330" cy="360" fill="#0284c7" rx="9" ry="5" stroke="#38bdf8" stroke-width="1"></ellipse>
+<ellipse cx="322" cy="390" fill="#0284c7" rx="12" ry="7" stroke="#38bdf8" stroke-width="1"></ellipse>
+<text class="font-label-md text-[11px] font-semibold tracking-wider" fill="#ffbf9e" x="250" y="160">KHUMBU GLACIER [KG-04]</text>
+<text class="font-label-sm text-[9px]" fill="#bdc8d1" x="250" y="174">FLOW: 0.18 m/day | RETREAT: -14.2m/yr</text>
+</g>
+<!-- GLACIER 2: IMJA GLACIER & LAKE IMJA TSHO (CRITICAL STATE / CRIMSON OUTLINE + PULSE RING) -->
+<g class="cursor-pointer pointer-events-auto" id="glacier-imja-poly">
+<!-- Moraine & Tongue outline -->
+<path d="M 430,310 Q 490,320 540,305 T 620,330 T 600,380 L 480,395 T 420,360 Z" fill="#ffb4ab" fill-opacity="0.15" stroke="#ef4444" stroke-width="2"></path>
+<!-- Proglacial Lake Imja Tsho Body -->
+<path d="M 435,335 C 455,330 480,332 495,342 C 510,352 505,372 485,378 C 460,384 435,375 428,355 Z" fill="url(#lakeDepthGrad)" stroke="#ef4444" stroke-width="1.5"></path>
+<!-- Dynamic Expanding Contour Pulses -->
+<ellipse class="animate-pulse" cx="468" cy="355" fill="none" rx="42" ry="24" stroke="#ef4444" stroke-dasharray="3,3" stroke-width="1"></ellipse>
+<ellipse cx="468" cy="355" fill="none" opacity="0.6" rx="55" ry="32" stroke="#ef4444" stroke-dasharray="2,4" stroke-width="0.75"></ellipse>
+<!-- Warning Moraine Breach Danger Node -->
+<circle cx="426" cy="353" fill="#ef4444" r="5" stroke="#ffffff" stroke-width="1.5"></circle>
+<line stroke="#ef4444" stroke-width="1" x1="426" x2="380" y1="353" y2="310"></line>
+<text class="font-label-md text-[11px] font-bold tracking-widest" fill="#ffb4ab" x="460" y="295">IMJA TSHO [GL-2798-02]</text>
+<text class="font-label-sm text-[9px] font-semibold" fill="#ef4444" x="460" y="308">CRITICAL GLOF THREAT (LEVEL 4)</text>
+</g>
+<!-- GLACIER 3: NGOZUMPA GLACIER (EXPANSION WARNING) -->
+<g class="cursor-pointer pointer-events-auto" id="glacier-ngozumpa-poly">
+<path d="M 140,80 Q 165,140 170,220 T 160,320 L 130,310 Q 140,220 135,140 Z" fill="#ff975d" fill-opacity="0.1" stroke="#ff975d" stroke-dasharray="6,3" stroke-width="1.2"></path>
+<!-- Spill pond cluster -->
+<circle cx="155" cy="245" fill="#0284c7" r="7" stroke="#38bdf8" stroke-width="1"></circle>
+<circle cx="158" cy="270" fill="#0284c7" r="10" stroke="#38bdf8" stroke-width="1"></circle>
+<text class="font-label-sm text-[10px] font-semibold" fill="#ffbf9e" x="80" y="95">NGOZUMPA TONGUE</text>
+</g>
+<!-- GLACIER 4: TSHO ROLPA -->
+<g id="glacier-tshorolpa-poly">
+<ellipse cx="110" cy="440" fill="url(#lakeDepthGrad)" rx="35" ry="16" stroke="#ff975d" stroke-width="1.5"></ellipse>
+<text class="font-label-sm text-[10px]" fill="#ffbf9e" x="75" y="420">TSHO ROLPA (LAKE)</text>
+<text class="font-label-sm text-[8px] font-mono" fill="#bdc8d1" x="75" y="470">SUPRAGLACIAL COALESCENCE</text>
+</g>
+<!-- GLACIER 5: THORTHORMI -->
+<g id="glacier-thorthormi-poly">
+<path d="M 570,120 Q 610,135 640,170 T 630,220 L 590,200 Z" fill="#38bdf8" fill-opacity="0.08" stroke="#38bdf8" stroke-width="1.2"></path>
+<ellipse cx="615" cy="180" fill="#0284c7" rx="14" ry="8" stroke="#38bdf8" stroke-width="1"></ellipse>
+<text class="font-label-sm text-[10px]" fill="#8ed5ff" x="590" y="110">THORTHORMI</text>
+</g>
+<!-- RADAR SENSOR FOV RETICLE / CROSSBEAM -->
+<circle cx="50%" cy="50%" fill="none" opacity="0.3" r="180" stroke="#38bdf8" stroke-dasharray="4,8" stroke-width="0.5"></circle>
+<line opacity="0.6" stroke="#38bdf8" stroke-width="1" x1="50%" x2="50%" y1="46%" y2="54%"></line>
+<line opacity="0.6" stroke="#38bdf8" stroke-width="1" x1="48%" x2="52%" y1="50%" y2="50%"></line>
+</svg>
+<!-- FLOATING TACTICAL HUD CARD: SELECTED NODE (KHUMBU-04 / IMJA OVERVIEW) -->
+<div class="absolute bottom-16 left-4 z-20 w-80 bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/60 p-space-sm shadow-2xl">
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/30 mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="w-2 h-2 bg-error animate-ping"></span>
+<span class="font-label-md text-label-md font-bold text-on-surface">GLACIER-IMJA-TSHO [T-92]</span>
+</div>
+<span class="font-label-sm text-label-sm px-1 py-0.2 bg-error-container/40 text-error font-bold border border-error/50">LEVEL-4 RISK</span>
+</div>
+<div class="grid grid-cols-2 gap-space-xs font-label-sm text-label-sm mb-space-xs">
+<div class="bg-surface-container-low p-1 border border-outline-variant/20">
+<span class="text-on-surface-variant block text-[9px] uppercase">GLACIER AREA</span>
+<span class="text-on-surface font-mono text-label-md font-semibold">41.8 km²</span>
+<span class="text-error text-[10px] ml-1">(-1.65%)</span>
+</div>
+<div class="bg-surface-container-low p-1 border border-outline-variant/20">
+<span class="text-on-surface-variant block text-[9px] uppercase">PROGLACIAL VOL</span>
+<span class="text-primary font-mono text-label-md font-semibold">78.2M m³</span>
+<span class="text-error text-[10px] ml-1">(+42.0%)</span>
+</div>
+<div class="bg-surface-container-low p-1 border border-outline-variant/20">
+<span class="text-on-surface-variant block text-[9px] uppercase">MORAINE WALL DEF</span>
+<span class="text-error font-mono text-label-md font-semibold">+14.2 cm/yr</span>
+</div>
+<div class="bg-surface-container-low p-1 border border-outline-variant/20">
+<span class="text-on-surface-variant block text-[9px] uppercase">SEEPAGE COEFF</span>
+<span class="text-tertiary font-mono text-label-md font-semibold">0.44 k_fs</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 border-t border-outline-variant/20 text-label-sm font-label-sm">
+<span class="text-on-surface-variant font-mono">STATUS: RULE_04 ACTIVE</span>
+<div class="flex items-center gap-1">
+<button class="px-2 py-0.5 bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm border border-outline-variant/40">ANALYZE</button>
+<button class="px-2 py-0.5 bg-primary text-on-primary font-label-sm text-label-sm font-semibold">LOCK FOV</button>
+</div>
+</div>
+</div>
+<!-- MAP SCALE, NORTH ARROW, SATELLITE SENSOR OVERLAY -->
+<div class="absolute bottom-4 right-4 z-20 flex items-end gap-space-md pointer-events-none">
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 p-2 text-right font-label-sm text-label-sm">
+<div class="flex items-center justify-end gap-1 mb-1">
+<span class="text-on-surface-variant uppercase text-[9px]">GROUND RESOLUTION:</span>
+<span class="text-secondary font-mono">10m / PIXEL</span>
+</div>
+<div class="flex items-center justify-end gap-2">
+<span class="font-mono text-[9px] text-on-surface-variant">0</span>
+<div class="w-24 h-1.5 bg-surface-container-highest border border-outline-variant/60 relative">
+<div class="absolute left-0 top-0 bottom-0 w-12 bg-on-surface"></div>
+</div>
+<span class="font-mono text-[9px] text-on-surface-variant">2.0 KM</span>
+</div>
+</div>
+<!-- NORTH ARROW -->
+<div class="bg-surface-container-lowest/90 border border-outline-variant/50 w-8 h-10 flex flex-col items-center justify-center p-1">
+<span class="text-[9px] font-bold text-primary leading-none">N</span>
+<span class="material-symbols-outlined text-[16px] text-primary">navigation</span>
+</div>
+</div>
+<!-- TIME SCRUBBER TIMELINE CONTROLLER (BOTTOM OF MAP) -->
+<div class="absolute bottom-3 left-4 right-36 z-20 bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/50 px-space-md py-1.5 flex items-center gap-space-md">
+<button class="text-primary hover:text-primary-fixed flex items-center">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+</button>
+<div class="flex items-center gap-2 text-label-sm font-label-sm text-on-surface-variant whitespace-nowrap">
+<span class="text-primary font-mono font-semibold">2020</span>
+<span class="text-outline-variant">--</span>
+<span class="text-on-surface font-mono font-bold">2026.09 [CURRENT]</span>
+</div>
+<div class="relative flex-1 flex items-center">
+<input class="w-full h-1 bg-surface-container-highest appearance-none cursor-pointer accent-primary" max="2026" min="2020" step="0.1" type="range" value="2026"/>
+<!-- Keyframe Tick Markers -->
+<div class="absolute inset-x-0 flex justify-between pointer-events-none -top-1">
+<span class="w-0.5 h-3 bg-outline-variant/60"></span>
+<span class="w-0.5 h-2 bg-outline-variant/40"></span>
+<span class="w-0.5 h-2 bg-outline-variant/40"></span>
+<span class="w-0.5 h-3 bg-outline-variant/60"></span>
+<span class="w-0.5 h-2 bg-outline-variant/40"></span>
+<span class="w-0.5 h-2 bg-outline-variant/40"></span>
+<span class="w-0.5 h-3 bg-secondary"></span>
+</div>
+</div>
+<div class="flex items-center gap-1 font-label-sm text-label-sm">
+<span class="text-on-surface-variant text-[10px]">COMPARISON:</span>
+<span class="px-1 py-0.5 bg-surface-container-high border border-outline-variant/40 text-secondary font-mono">T-MINUS 24 MO</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT INTELLIGENCE PANEL (32% DENSE CRITICAL CONSOLE) -->
+<div class="w-[32%] h-full flex flex-col bg-surface-container-low border-l border-outline-variant/30 overflow-hidden">
+<!-- INTELLIGENCE PANEL TABS / STATUS -->
+<div class="h-9 bg-surface-container-lowest border-b border-outline-variant/40 px-space-md flex items-center justify-between shrink-0">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[16px]">crisis_alert</span>
+<span class="font-headline-md text-headline-md text-on-surface uppercase tracking-wide">INTELLIGENCE FEED</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="px-1.5 py-0.5 bg-error-container/30 text-error border border-error/40 font-label-sm text-label-sm font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-error inline-block"></span> 1 CRIT
+          </span>
+<span class="px-1.5 py-0.5 bg-tertiary-container/20 text-tertiary border border-tertiary/40 font-label-sm text-label-sm font-semibold">
+            3 WRN
+          </span>
+<span class="px-1.5 py-0.5 bg-surface-container-high text-on-surface-variant border border-outline-variant/50 font-label-sm text-label-sm">
+            3 WATCH
+          </span>
+</div>
+</div>
+<!-- SCROLLABLE BODY: WARNINGS + TELEMETRY EVENTS -->
+<div class="flex-1 flex flex-col overflow-y-auto divide-y divide-outline-variant/30">
+<!-- SECTION 1: ACTIVE WARNINGS (OBJECT-DRIVEN CARDS) -->
+<div class="p-space-md flex flex-col gap-space-sm bg-surface-container-lowest/50">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm font-bold text-on-surface-variant uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-error">warning</span>
+              ACTIVE CRYOSPHERE THREAT VECTORS (4)
+            </span>
+<span class="text-on-surface-variant font-label-sm text-label-sm">EVAL: REAL-TIME</span>
+</div>
+<!-- CARD 1: CRITICAL - IMJA GLACIER -->
+<div class="bg-surface-container border-l-2 border-l-error border border-outline-variant/40 p-space-sm flex flex-col gap-space-xs transition-colors hover:bg-surface-container-high">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="px-1 py-0.2 bg-error text-on-error font-label-sm text-label-sm font-bold">CRITICAL</span>
+<span class="font-headline-md text-headline-md text-on-surface">GLACIER IMJA (IMJA TSHO)</span>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm mt-0.5">MULTIPLE RISK THRESHOLDS BREACHED</span>
+</div>
+<span class="font-label-sm text-label-sm text-error font-mono">T -14m</span>
+</div>
+<!-- Specific breach metrics -->
+<div class="grid grid-cols-3 gap-1 my-1 bg-surface-container-lowest p-1.5 border border-outline-variant/30 font-label-sm text-label-sm">
+<div>
+<span class="text-on-surface-variant block text-[9px]">MORAINE DISPL</span>
+<span class="text-error font-mono font-semibold">+14 cm/yr</span>
+</div>
+<div>
+<span class="text-on-surface-variant block text-[9px]">LAKE EXPANSION</span>
+<span class="text-error font-mono font-semibold">+42.0% VOL</span>
+</div>
+<div>
+<span class="text-on-surface-variant block text-[9px]">ELEV DEFICIT</span>
+<span class="text-error font-mono font-semibold">-2.8m (ICESat)</span>
+</div>
+</div>
+<div class="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant pt-0.5">
+<span class="text-[10px] text-on-surface-variant/80">RECOMMENDED: GLOF Early Alert Broadcast Level-2</span>
+<button class="text-primary hover:underline font-mono text-[10px] flex items-center">
+<span>OPEN DISPATCH</span>
+<span class="material-symbols-outlined text-[12px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- CARD 2: WARNING - NGOZUMPA -->
+<div class="bg-surface-container border-l-2 border-l-tertiary-container border border-outline-variant/30 p-space-sm flex flex-col gap-space-xs hover:bg-surface-container-high transition-colors">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="px-1 py-0.2 bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">WARNING</span>
+<span class="font-headline-md text-headline-md text-on-surface">GLACIER NGOZUMPA</span>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Proglacial Lake Rapid Expansion Detected</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary font-mono">T -48m</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant mt-0.5">
+              Surface area expansion +87.5% relative to 2024 SAR coherence baseline. Moraine dam structural integrity: <span class="text-tertiary font-mono">MARGINAL (Factor 1.18)</span>.
+            </div>
+</div>
+<!-- CARD 3: WARNING - TSHO ROLPA -->
+<div class="bg-surface-container border-l-2 border-l-tertiary-container border border-outline-variant/30 p-space-sm flex flex-col gap-space-xs hover:bg-surface-container-high transition-colors">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="px-1 py-0.2 bg-tertiary-container text-on-tertiary-container font-label-sm text-label-sm font-bold">WARNING</span>
+<span class="font-headline-md text-headline-md text-on-surface">GLACIER TSHO ROLPA</span>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Supraglacial Pond Coalescence</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">T -1h 22m</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant">
+              Landsat-9 SWIR band 8 anomaly indicates coalescence of 6 micro-ponds into single continuous spill basin.
+            </div>
+</div>
+<!-- CARD 4: WATCH - THORTHORMI -->
+<div class="bg-surface-container border-l-2 border-l-outline border border-outline-variant/30 p-space-sm flex flex-col gap-space-xs hover:bg-surface-container-high transition-colors">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-1.5">
+<span class="px-1 py-0.2 bg-surface-container-highest text-on-surface font-label-sm text-label-sm font-medium">WATCH</span>
+<span class="font-headline-md text-headline-md text-on-surface">GLACIER THORTHORMI</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface-variant font-mono">T -3h 10m</span>
+</div>
+<div class="text-body-sm font-body-sm text-on-surface-variant">
+              Ice-cliff retreat rate accelerated to +1.2m/month. Subglacial drainage channel pressure sensors stable.
+            </div>
+</div>
+</div>
+<!-- SECTION 2: RECENT EVENT FEED (MONOSPACED TELEMETRY STREAM) -->
+<div class="flex-1 p-space-md flex flex-col gap-space-sm bg-surface-container-low min-h-0">
+<div class="flex items-center justify-between shrink-0">
+<span class="font-label-sm text-label-sm font-bold text-on-surface-variant uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-primary">dynamic_feed</span>
+              TELEMETRY & PIPELINE LOG STREAM
+            </span>
+<span class="text-secondary font-label-sm text-label-sm font-mono flex items-center gap-1">
+<span class="w-1.5 h-1.5 bg-secondary rounded-full animate-pulse"></span>STREAMING
+            </span>
+</div>
+<div class="flex-1 overflow-y-auto pr-1 flex flex-col gap-1 font-label-sm text-label-sm">
+<div class="p-1 bg-surface-container-lowest border border-outline-variant/20 flex items-start gap-2">
+<span class="text-primary font-mono shrink-0">11:38:12</span>
+<span class="px-1 py-0.2 bg-surface-container-high text-on-surface-variant text-[9px] font-mono shrink-0">USGS EROS</span>
+<div class="text-on-surface truncate">
+                Landsat-9 L2 Product Ingested <span class="text-outline-variant font-mono">(P140/R041)</span>
+</div>
+</div>
+<div class="p-1 bg-surface-container-lowest border border-outline-variant/20 flex items-start gap-2">
+<span class="text-primary font-mono shrink-0">11:24:05</span>
+<span class="px-1 py-0.2 bg-surface-container-high text-secondary text-[9px] font-mono shrink-0">CV ENGINE</span>
+<div class="text-on-surface truncate">
+                Lake segmentation mask generated: Imja Tsho <span class="text-secondary font-mono">[Conf 98.4%]</span>
+</div>
+</div>
+<div class="p-1 bg-surface-container-lowest border border-outline-variant/20 flex items-start gap-2">
+<span class="text-primary font-mono shrink-0">11:15:49</span>
+<span class="px-1 py-0.2 bg-surface-container-high text-tertiary text-[9px] font-mono shrink-0">PIPELINE</span>
+<div class="text-on-surface truncate">
+                Anomaly score computed: <span class="text-error font-mono">+3.42σ</span> above baseline
+              </div>
+</div>
+<div class="p-1 bg-error-container/10 border border-error/30 flex items-start gap-2">
+<span class="text-error font-mono shrink-0">10:48:22</span>
+<span class="px-1 py-0.2 bg-error text-on-error text-[9px] font-mono shrink-0">RISK EVAL</span>
+<div class="text-error font-semibold truncate">
+                Rule WRN-2026-0929-B elevated to CRITICAL
+              </div>
+</div>
+<div class="p-1 bg-surface-container-lowest border border-outline-variant/20 flex items-start gap-2">
+<span class="text-primary font-mono shrink-0">10:12:00</span>
+<span class="px-1 py-0.2 bg-surface-container-high text-primary text-[9px] font-mono shrink-0">HARMONY</span>
+<div class="text-on-surface truncate">
+                ICESat-2 ATL06 elevation tracks synced <span class="text-on-surface-variant font-mono">(214 pts)</span>
+</div>
+</div>
+<div class="p-1 bg-surface-container-lowest border border-outline-variant/20 flex items-start gap-2">
+<span class="text-primary font-mono shrink-0">09:55:18</span>
+<span class="px-1 py-0.2 bg-surface-container-high text-on-surface-variant text-[9px] font-mono shrink-0">SAR-CORE</span>
+<div class="text-on-surface truncate">
+                InSAR interferogram phase unwrap complete: Khumbu sector
+              </div>
+</div>
+<div class="p-1 bg-surface-container-lowest border border-outline-variant/20 flex items-start gap-2">
+<span class="text-primary font-mono shrink-0">09:30:02</span>
+<span class="px-1 py-0.2 bg-surface-container-high text-secondary text-[9px] font-mono shrink-0">SEISMIC</span>
+<div class="text-on-surface truncate">
+                Cryoseismic station NPT-02 recorded M1.2 basal slip event
+              </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- BOTTOM FLOATING / DOCKED GLOBAL TELEMETRY STRIP -->
+<footer class="h-8 bg-surface-container-lowest border-t border-outline-variant/40 flex items-center justify-between px-space-md shrink-0 text-label-sm font-label-sm text-on-surface-variant overflow-x-auto whitespace-nowrap">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-1">
+<span class="text-on-surface-variant uppercase text-[10px]">MONITORED GLACIERS:</span>
+<span class="text-on-surface font-mono font-bold">24 ACTIVE</span>
+</div>
+<span class="text-outline-variant/40">|</span>
+<div class="flex items-center gap-1">
+<span class="text-on-surface-variant uppercase text-[10px]">GLACIAL LAKES:</span>
+<span class="text-primary font-mono font-bold">41 TRACKED</span>
+</div>
+<span class="text-outline-variant/40">|</span>
+<div class="flex items-center gap-1">
+<span class="text-on-surface-variant uppercase text-[10px]">TOTAL AREA COVERED:</span>
+<span class="text-on-surface font-mono">1,842 km²</span>
+</div>
+<span class="text-outline-variant/40">|</span>
+<div class="flex items-center gap-1">
+<span class="text-on-surface-variant uppercase text-[10px]">SATELLITE PASSES (24H):</span>
+<span class="text-secondary font-mono font-bold">18 PASSES</span>
+</div>
+<span class="text-outline-variant/40">|</span>
+<div class="flex items-center gap-1">
+<span class="text-on-surface-variant uppercase text-[10px]">ACTIVE RISK ALERTS:</span>
+<span class="text-error font-mono font-bold">7</span>
+<span class="text-[9px] text-outline-variant">(1 CRIT / 3 WRN / 3 WATCH)</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md pl-4">
+<div class="flex items-center gap-1">
+<span class="text-on-surface-variant uppercase text-[10px]">LATEST NASA INGEST:</span>
+<span class="text-primary font-mono font-semibold">29 SEP 2026 11:36Z</span>
+</div>
+<span class="text-outline-variant/40">|</span>
+<div class="flex items-center gap-1">
+<span class="text-on-surface-variant uppercase text-[10px]">PIPELINE JOBS:</span>
+<span class="text-secondary font-mono">4 RUNNING</span>
+</div>
+<span class="text-outline-variant/40">|</span>
+<div class="flex items-center gap-1">
+<span class="text-on-surface-variant uppercase text-[10px]">NODE HEALTH:</span>
+<span class="text-secondary font-mono font-bold">OPTIMAL (100%)</span>
+</div>
+</div>
+</footer>
+</div></main></div></body></html>
