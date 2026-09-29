@@ -20,7 +20,7 @@ function ShellContent({ children }: { children: React.ReactNode }) {
         }`}
       >
         <Header />
-        <main className="w-full pt-12 flex-1 flex flex-col bg-background overflow-hidden">
+        <main className="w-full pt-[52px] flex-1 flex flex-col bg-[#090d16] overflow-hidden">
           {children}
         </main>
       </div>

@@ -18,6 +18,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: "overview", label: "Overview", icon: "dashboard", href: "/" },
   { id: "investigate", label: "Investigate", icon: "explore", href: "/investigate" },
   { id: "glof-modeling", label: "GLOF Modeling", icon: "schema", href: "/glof-modeling" },
+  { id: "dashboard", label: "Surveillance Hub", icon: "monitoring", href: "/dashboard" },
   { id: "glaciers", label: "Glaciers & Lakes", icon: "terrain", href: "/investigate" },
   { id: "observations", label: "Observations", icon: "satellite_alt", href: "/#observations" },
   {
@@ -25,8 +26,8 @@ const NAV_ITEMS: NavItem[] = [
     label: "Alerts & Events",
     icon: "crisis_alert",
     href: "/glof-modeling",
-    badge: "1 CRIT",
-    badgeClass: "bg-error/20 text-error border border-error/40 font-semibold",
+    badge: "1 High",
+    badgeClass: "bg-rose-500/20 text-rose-300 font-medium",
   },
   { id: "time-series", label: "Time Series", icon: "stacked_line_chart", href: "/#time-series" },
   { id: "pipeline-jobs", label: "Pipeline Jobs", icon: "sync_alt", href: "/#pipeline" },
@@ -55,7 +56,7 @@ export default function Sidebar() {
             <div className="flex items-center gap-space-sm overflow-hidden whitespace-nowrap">
               <span className="w-2 h-2 rounded-full bg-secondary animate-pulse shrink-0" />
               <span className="font-label-sm text-[11px] uppercase tracking-wider text-on-surface font-semibold truncate">
-                MISSION CONTROL
+                EARTH OBSERVATION
               </span>
             </div>
           )}
@@ -85,6 +86,8 @@ export default function Sidebar() {
                 ? pathname === "/investigate"
                 : item.href === "/glof-modeling"
                 ? pathname === "/glof-modeling"
+                : item.href === "/dashboard"
+                ? pathname === "/dashboard"
                 : false;
 
             return (
