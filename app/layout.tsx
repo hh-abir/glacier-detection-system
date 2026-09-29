@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import AppShell from "@/components/mission-control/AppShell";
 
 const geist = Geist({
   variable: "--font-geist",
@@ -39,7 +40,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col bg-background font-body-md text-on-surface">
-        {children}
+        <AppShell>{children}</AppShell>
       </body>
     </html>
   );

@@ -18,60 +18,60 @@ interface SettlementNode {
 const SETTLEMENTS: SettlementNode[] = [
   {
     id: "breach",
-    name: "Imja Tsho Breach Point",
+    name: "Teram Shehr / Siachen Ice Dam Breach",
     arrival: "T+0",
-    peakDepth: "18.5 m",
-    velocity: "12.4 m/s",
-    infra: "Terminal Moraine Dam Collapsed",
+    peakDepth: "24.2 m",
+    velocity: "14.8 m/s",
+    infra: "Subglacial Reservoir & Moraine Failure",
     evacPct: 100,
     status: "critical",
     x: 680,
     y: 60,
   },
   {
-    id: "dingboche",
-    name: "Dingboche Settlement",
-    arrival: "T+18 min",
-    peakDepth: "12.4 m",
-    velocity: "8.2 m/s",
-    infra: "2 Bridges Lost, 14 Lodges Flood Risk",
-    evacPct: 88,
+    id: "base_camp",
+    name: "Siachen Base Camp (Snout)",
+    arrival: "T+24 min",
+    peakDepth: "16.4 m",
+    velocity: "10.5 m/s",
+    infra: "Snout Helipads & Forward Logistics Depots",
+    evacPct: 92,
     status: "critical",
     x: 510,
     y: 150,
   },
   {
-    id: "pangboche",
-    name: "Pangboche Gompa Rim",
-    arrival: "T+42 min",
-    peakDepth: "9.1 m",
-    velocity: "6.8 m/s",
-    infra: "Lower Trail Severed, Gompa Safe",
-    evacPct: 62,
+    id: "panamik",
+    name: "Warshi & Panamik Settlement",
+    arrival: "T+1h 10m",
+    peakDepth: "10.8 m",
+    velocity: "7.6 m/s",
+    infra: "Upper Nubra Highway Cut, Thermal Basin Flooded",
+    evacPct: 76,
     status: "warning",
     x: 410,
     y: 240,
   },
   {
-    id: "phakding",
-    name: "Phakding Chasm",
-    arrival: "T+1h 15m",
-    peakDepth: "5.8 m",
-    velocity: "5.4 m/s",
-    infra: "Main Suspension Bridge High Stress",
-    evacPct: 74,
+    id: "sumur",
+    name: "Sumur Gompa & Nubra Confluence",
+    arrival: "T+2h 30m",
+    peakDepth: "6.4 m",
+    velocity: "5.2 m/s",
+    infra: "Nubra-Shyok Bailey Bridge High Hydrostatic Stress",
+    evacPct: 84,
     status: "advisory",
     x: 290,
     y: 320,
   },
   {
-    id: "lukla",
-    name: "Lukla Ghat Riverbed",
-    arrival: "T+1h 50m",
-    peakDepth: "4.2 m",
-    velocity: "4.1 m/s",
-    infra: "Hydro Intake Shut, Runways Unaffected",
-    evacPct: 95,
+    id: "diskit",
+    name: "Diskit Gorge & Shyok Valley Gateway",
+    arrival: "T+4h 15m",
+    peakDepth: "4.5 m",
+    velocity: "3.8 m/s",
+    infra: "Diskit Low-Lying Orchards, Khalsar Access Track",
+    evacPct: 96,
     status: "advisory",
     x: 160,
     y: 390,
@@ -159,19 +159,19 @@ export default function GlofModelingWorkspace() {
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
               <span className="font-headline-sm text-[15px] text-on-surface tracking-tight font-semibold">
-                Imja Tsho (Lake GL-2798-02)
+                Teram Shehr Subglacial Reservoir (GL-SIACHEN-04)
               </span>
               <span className="font-label-sm text-[10px] uppercase px-2 py-0.5 rounded bg-surface-container text-primary font-medium border border-outline-variant/40">
-                Khumbu Himal
+                Eastern Karakoram
               </span>
             </div>
             <div className="font-body-sm text-[11px] text-outline flex items-center gap-2 mt-0.5">
-              <span>Lat: 27.902° N, Long: 86.927° E</span>
+              <span>Lat: 35.420° N, Long: 77.100° E</span>
               <span>•</span>
-              <span>Elevation: 5,010m a.s.l.</span>
+              <span>Elevation: 4,780m a.s.l. (Snout: 3,620m)</span>
               <span>•</span>
               <span className="font-mono text-tertiary">
-                Model: HEC-RAS 2D + RAMMS v4.2
+                Model: HEC-RAS 2D + RAMMS Debris-Flow v4.2
               </span>
             </div>
           </div>
@@ -180,13 +180,13 @@ export default function GlofModelingWorkspace() {
             <div className="px-2.5 py-1 rounded bg-surface-container font-label-sm text-[10px] text-on-surface-variant border border-outline-variant/30">
               Trigger:{" "}
               <span className="text-tertiary font-medium">
-                500,000 m³ Hanging Ice Detachment
+                680,000 m³ Hanging Serac Detachment (Saltoro Flank)
               </span>
             </div>
             <div className="px-2.5 py-1 rounded bg-surface-container font-label-sm text-[10px] text-on-surface-variant border border-outline-variant/30">
               Sim ID:{" "}
               <span className="text-primary font-mono font-semibold">
-                SIM-2026-0929-H3
+                SIM-SIACHEN-2026-0930-K2
               </span>
             </div>
           </div>
@@ -548,7 +548,7 @@ export default function GlofModelingWorkspace() {
                 <span>•</span>
                 <span>ZOOM: {(zoom * 24000).toFixed(0)}</span>
                 <span>•</span>
-                <span className="text-on-surface">GRID: UTM 45R</span>
+                <span className="text-on-surface">GRID: UTM 43N</span>
               </div>
 
               <div className="flex items-center bg-surface-container-low/90 backdrop-blur-md border border-outline-variant/30 p-0.5 rounded-lg shadow-md">
@@ -795,12 +795,12 @@ export default function GlofModelingWorkspace() {
               <div className="flex items-center gap-3 text-[10px]">
                 <span className="text-outline">River Length Impact:</span>
                 <span className="font-mono text-[11px] font-bold text-on-surface">
-                  42.6 km
+                  68.4 km
                 </span>
                 <span className="h-3 w-px bg-outline-variant" />
-                <span className="text-outline">VDCs Impacted:</span>
+                <span className="text-outline">Nubra Sectors Impacted:</span>
                 <span className="font-mono text-[11px] font-bold text-error">
-                  14 Districts
+                  8 River Zones
                 </span>
               </div>
             </div>
@@ -822,25 +822,25 @@ export default function GlofModelingWorkspace() {
                 <span className="material-symbols-outlined text-[15px] text-error">
                   cable
                 </span>
-                <span className="text-on-surface">4 Suspension Bridges Severe Risk</span>
+                <span className="text-on-surface">3 Nubra Bailey Bridges High Risk</span>
               </div>
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-high border border-outline-variant/20">
                 <span className="material-symbols-outlined text-[15px] text-tertiary">
                   bolt
                 </span>
-                <span className="text-on-surface">Khumbu Micro-Hydro (500kW) Trip</span>
+                <span className="text-on-surface">Nubra Micro-Hydro (800kW) Trip</span>
               </div>
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-high border border-outline-variant/20">
                 <span className="material-symbols-outlined text-[15px] text-error">
-                  hotel
+                  nature_people
                 </span>
-                <span className="text-on-surface">12 Riverside Lodges Inundated</span>
+                <span className="text-on-surface">18 Valley Terraces & Orchards Flooded</span>
               </div>
               <div className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container-high border border-outline-variant/20">
                 <span className="material-symbols-outlined text-[15px] text-secondary">
-                  hiking
+                  shield
                 </span>
-                <span className="text-on-surface">320 Trekkers Tracked Live</span>
+                <span className="text-on-surface">540 Defense & Civil Personnel Tracked Live</span>
               </div>
             </div>
           </div>
@@ -880,7 +880,7 @@ export default function GlofModelingWorkspace() {
                       Valley VHF Sirens
                     </span>
                     <span className="text-[10px] text-outline">
-                      6 of 6 Audio Stacks Blaring
+                      8 of 8 Audio Stacks Blaring (Base Camp to Diskit)
                     </span>
                   </div>
                 </div>
@@ -904,10 +904,10 @@ export default function GlofModelingWorkspace() {
                   </span>
                   <div className="flex flex-col">
                     <span className="font-label-md text-[11px] text-on-surface font-semibold">
-                      Cell Broadcast (Ncell / NTC)
+                      Cell Broadcast (BSNL / Jio Defense Mesh)
                     </span>
                     <span className="text-[10px] text-outline">
-                      4,820 Geo-Fenced Push Alerts
+                      6,240 Geo-Fenced Push Alerts
                     </span>
                   </div>
                 </div>
@@ -931,10 +931,10 @@ export default function GlofModelingWorkspace() {
                   </span>
                   <div className="flex flex-col">
                     <span className="font-label-md text-[11px] text-on-surface font-semibold">
-                      Armed Police Force &amp; HRA
+                      LDRF &amp; Army Aviation Corps
                     </span>
                     <span className="text-[10px] text-outline">
-                      Namche &amp; Lukla Quick Reaction
+                      Diskit &amp; Leh Airbase Quick Reaction
                     </span>
                   </div>
                 </div>
@@ -968,65 +968,65 @@ export default function GlofModelingWorkspace() {
               </span>
             </div>
 
-            {/* Dingboche Progress */}
+            {/* Siachen Base Camp Transit */}
             <div className="p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1.5 font-label-md font-semibold text-[11px] text-on-surface">
-                  <span>Dingboche Settlement</span>
+                  <span>Siachen Base Camp (Snout)</span>
                   <span className="text-[10px] text-error font-mono font-normal">
-                    (4m to wave front)
+                    (10m to wave front)
                   </span>
                 </div>
                 <span className="font-mono text-secondary text-[11px] font-bold">
-                  88% (422/480)
+                  92% (442/480)
                 </span>
               </div>
               <div className="w-full bg-surface-container h-2 rounded-full overflow-hidden">
                 <div
                   className="bg-secondary h-full rounded-full shadow-[0_0_8px_rgba(78,222,163,0.5)]"
-                  style={{ width: "88%" }}
+                  style={{ width: "92%" }}
                 />
               </div>
               <div className="flex justify-between text-[9px] text-outline font-mono">
-                <span>Rerouted to Ridge Waypoint Alpha (5,120m)</span>
-                <span className="text-tertiary">58 Persons in transit</span>
+                <span>Relocated to High Terrace Pad Bravo (3,840m)</span>
+                <span className="text-tertiary">38 Personnel in transit</span>
               </div>
             </div>
 
-            {/* Pangboche Progress */}
+            {/* Panamik Corridor */}
             <div className="p-3 rounded-lg bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-1.5">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-1.5 font-label-md font-semibold text-[11px] text-on-surface">
-                  <span>Pangboche Corridor</span>
+                  <span>Warshi &amp; Panamik Corridor</span>
                   <span className="text-[10px] text-tertiary font-mono font-normal">
-                    (28m to wave front)
+                    (56m to wave front)
                   </span>
                 </div>
                 <span className="font-mono text-tertiary text-[11px] font-bold">
-                  62% (210/338)
+                  76% (257/338)
                 </span>
               </div>
               <div className="w-full bg-surface-container h-2 rounded-full overflow-hidden">
-                <div className="bg-tertiary h-full rounded-full" style={{ width: "62%" }} />
+                <div className="bg-tertiary h-full rounded-full" style={{ width: "76%" }} />
               </div>
               <div className="flex justify-between text-[9px] text-outline font-mono">
-                <span>Ascending toward Upper Gompa Tier</span>
-                <span className="text-outline">128 Pending clearance</span>
+                <span>Ascending toward Upper Valley Terrace Rim</span>
+                <span className="text-outline">81 Pending clearance</span>
               </div>
             </div>
 
-            {/* Trekking Garmin Tracker */}
+            {/* Defense & Civil Tracker */}
             <div className="p-2.5 rounded-lg bg-surface-container-lowest border border-outline-variant/20 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-primary text-[18px]">
                   satellite
                 </span>
                 <span className="font-label-sm text-[10px] text-on-surface">
-                  Garmin InReach / SPOT Beacons
+                  Civil &amp; Army GIS Satellite Beacons
                 </span>
               </div>
               <span className="font-mono text-[10px] text-secondary font-bold">
-                320/320 Geotracked
+                540/540 Geotracked
               </span>
             </div>
           </div>
@@ -1048,41 +1048,41 @@ export default function GlofModelingWorkspace() {
             <div className="flex-1 overflow-y-auto space-y-2 pr-1 font-mono text-[10px]">
               <div className="p-2 rounded bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-0.5">
                 <div className="flex justify-between text-outline">
-                  <span className="text-error font-semibold">14:28:02 NPT</span>
+                  <span className="text-error font-semibold">14:28:02 IST</span>
                   <span>RADAR CONFIRM</span>
                 </div>
                 <p className="text-on-surface">
-                  Sentinel-1 InSAR coherence drop confirms progressive crest slumping (-1.2m).
+                  Sentinel-1 InSAR coherence drop confirms progressive ice-dam crest slumping (-1.8m) at Teram Shehr.
                 </p>
               </div>
 
               <div className="p-2 rounded bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-0.5">
                 <div className="flex justify-between text-outline">
-                  <span className="text-tertiary font-semibold">14:24:18 NPT</span>
+                  <span className="text-tertiary font-semibold">14:24:18 IST</span>
                   <span>AUTO TRIGGER</span>
                 </div>
                 <p className="text-on-surface">
-                  Stage 4 Siren Protocol executed across Dingboche &amp; Tengboche masts.
+                  Stage 4 Siren Protocol executed across Siachen Snout &amp; Panamik acoustic arrays.
                 </p>
               </div>
 
               <div className="p-2 rounded bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-0.5">
                 <div className="flex justify-between text-outline">
-                  <span className="text-primary font-semibold">14:21:40 NPT</span>
+                  <span className="text-primary font-semibold">14:21:40 IST</span>
                   <span>CIVIL DEFENSE</span>
                 </div>
                 <p className="text-on-surface">
-                  Himalayan Rescue Association helicopter evacuation hold issued at Lukla airfield.
+                  Army Aviation Corps ALH Dhruv airborne evacuation hold issued at Thoise / Diskit airfields.
                 </p>
               </div>
 
               <div className="p-2 rounded bg-surface-container-lowest border border-outline-variant/20 flex flex-col gap-0.5">
                 <div className="flex justify-between text-outline">
-                  <span className="text-outline font-semibold">14:15:00 NPT</span>
+                  <span className="text-outline font-semibold">14:15:00 IST</span>
                   <span>SEISMIC DETECT</span>
                 </div>
                 <p className="text-on-surface-variant">
-                  Lhotse South Face broadband station detects 500k m³ rock/ice detachment acoustic signature.
+                  Saltoro Ridge seismic array detects 680k m³ serac collapse acoustic signature.
                 </p>
               </div>
             </div>

@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 export default function SubHeader() {
-  const [countdown, setCountdown] = useState(2479); // seconds
+  const [countdown, setCountdown] = useState(1459); // seconds
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -24,16 +24,20 @@ export default function SubHeader() {
       <div className="flex items-center gap-space-md">
         <span className="flex items-center gap-space-xs text-primary">
           <span className="w-1.5 h-1.5 bg-primary rounded-none animate-ping" />
-          <span>WORKSPACE: KHUMBU_HIMAL_SECTOR_07</span>
+          <span>WORKSPACE: SIACHEN_KARAKORAM_SECTOR_01</span>
         </span>
         <span className="text-outline-variant/60">/</span>
         <span className="text-on-surface-variant font-mono">
-          UTM ZONE 45N [EPSG:32645]
+          UTM ZONE 43N [EPSG:32643]
         </span>
         <span className="text-outline-variant/60">/</span>
         <span className="text-secondary flex items-center gap-1 font-mono">
           <span className="w-1.5 h-1.5 bg-secondary inline-block" />
-          SAR COHERENCE: OPTIMAL (γ 0.84)
+          InSAR COHERENCE: OPTIMAL (γ 0.89)
+        </span>
+        <span className="text-outline-variant/60 hidden md:inline">/</span>
+        <span className="text-primary font-mono hidden md:inline">
+          INDIRA COL TO NUBRA RIVERBED (76 KM TRANSECT)
         </span>
       </div>
 
@@ -41,12 +45,12 @@ export default function SubHeader() {
         <div className="flex items-center gap-space-xs">
           <span className="text-on-surface-variant uppercase">PASS WINDOW:</span>
           <span className="text-on-surface font-mono">
-            SENTINEL-1A {formatCountdown(countdown)}
+            SENTINEL-1B {formatCountdown(countdown)}
           </span>
         </div>
         <div className="flex items-center gap-space-xs bg-surface-container-high px-space-xs py-0.5 border border-outline-variant/40">
-          <span className="text-tertiary">SURGE VECTOR ENGINE:</span>
-          <span className="text-tertiary font-bold">ONLINE</span>
+          <span className="text-tertiary">KARAKORAM ANOMALY ENGINE:</span>
+          <span className="text-tertiary font-bold">MONITORING</span>
         </div>
       </div>
     </div>

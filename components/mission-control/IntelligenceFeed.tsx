@@ -17,13 +17,13 @@ const INITIAL_LOGS: TelemetryLog[] = [
     source: "USGS EROS",
     sourceClass: "text-on-surface-variant",
     text: "Landsat-9 L2 Product Ingested",
-    highlight: "(P140/R041)",
+    highlight: "(P148/R035)",
   },
   {
     time: "11:24:05",
     source: "CV ENGINE",
     sourceClass: "text-secondary",
-    text: "Lake segmentation mask generated: Imja Tsho",
+    text: "Lake segmentation mask generated: Teram Shehr",
     highlight: "[Conf 98.4%]",
   },
   {
@@ -51,13 +51,13 @@ const INITIAL_LOGS: TelemetryLog[] = [
     time: "09:55:18",
     source: "SAR-CORE",
     sourceClass: "text-on-surface-variant",
-    text: "InSAR interferogram phase unwrap complete: Khumbu sector",
+    text: "InSAR interferogram phase unwrap complete: Siachen sector",
   },
   {
     time: "09:30:02",
     source: "SEISMIC",
     sourceClass: "text-secondary",
-    text: "Cryoseismic station NPT-02 recorded M1.2 basal slip event",
+    text: "Cryoseismic station SIA-04 recorded M1.8 basal slip event",
   },
 ];
 
@@ -106,7 +106,7 @@ export default function IntelligenceFeed() {
             </span>
           </div>
 
-          {/* CARD 1: CRITICAL - IMJA GLACIER */}
+          {/* CARD 1: CRITICAL - SIACHEN GLACIER */}
           <div className="bg-surface-container border-l-2 border-l-error border border-outline-variant/40 p-space-sm flex flex-col gap-space-xs transition-colors hover:bg-surface-container-high">
             <div className="flex items-start justify-between">
               <div className="flex flex-col">
@@ -115,7 +115,7 @@ export default function IntelligenceFeed() {
                     CRITICAL
                   </span>
                   <span className="font-headline-md text-[12px] text-on-surface">
-                    GLACIER IMJA (IMJA TSHO)
+                    SIACHEN GLACIER (CENTRAL TRUNK)
                   </span>
                 </div>
                 <span className="text-on-surface-variant font-label-sm text-[10px] mt-0.5">
@@ -134,7 +134,7 @@ export default function IntelligenceFeed() {
                   MORAINE DISPL
                 </span>
                 <span className="text-error font-mono font-semibold">
-                  +14 cm/yr
+                  +18 cm/yr
                 </span>
               </div>
               <div>
@@ -150,14 +150,14 @@ export default function IntelligenceFeed() {
                   ELEV DEFICIT
                 </span>
                 <span className="text-error font-mono font-semibold">
-                  -2.8m (ICESat)
+                  -3.2m (ICESat)
                 </span>
               </div>
             </div>
 
             <div className="flex items-center justify-between text-label-sm font-label-sm text-on-surface-variant pt-0.5">
               <span className="text-[10px] text-on-surface-variant/80">
-                RECOMMENDED: GLOF Early Alert Broadcast Level-2
+                RECOMMENDED: GLOF &amp; Surge Early Alert Broadcast Level-2
               </span>
               <button
                 onClick={() => setDispatched(!dispatched)}
@@ -175,7 +175,7 @@ export default function IntelligenceFeed() {
             </div>
           </div>
 
-          {/* CARD 2: WARNING - NGOZUMPA */}
+          {/* CARD 2: WARNING - TERAM SHEHR */}
           <div className="bg-surface-container border-l-2 border-l-tertiary-container border border-outline-variant/30 p-space-sm flex flex-col gap-space-xs hover:bg-surface-container-high transition-colors">
             <div className="flex items-start justify-between">
               <div className="flex flex-col">
@@ -184,11 +184,11 @@ export default function IntelligenceFeed() {
                     WARNING
                   </span>
                   <span className="font-headline-md text-[12px] text-on-surface">
-                    GLACIER NGOZUMPA
+                    TERAM SHEHR TRIBUTARY SURGE
                   </span>
                 </div>
                 <span className="text-on-surface-variant font-label-sm text-[10px]">
-                  Proglacial Lake Rapid Expansion Detected
+                  Subglacial Reservoir Rapid Expansion Detected
                 </span>
               </div>
               <span className="font-label-sm text-[10px] text-tertiary font-mono">
@@ -196,13 +196,13 @@ export default function IntelligenceFeed() {
               </span>
             </div>
             <div className="text-body-sm font-body-sm text-[11px] text-on-surface-variant mt-0.5">
-              Surface area expansion +87.5% relative to 2024 SAR coherence
+              Surface velocity acceleration +112% relative to 2024 SAR coherence
               baseline. Moraine dam structural integrity:{" "}
-              <span className="text-tertiary font-mono">MARGINAL (Factor 1.18)</span>.
+              <span className="text-tertiary font-mono">MARGINAL (Factor 1.14)</span>.
             </div>
           </div>
 
-          {/* CARD 3: WARNING - TSHO ROLPA */}
+          {/* CARD 3: WARNING - SALTORO RIDGE */}
           <div className="bg-surface-container border-l-2 border-l-tertiary-container border border-outline-variant/30 p-space-sm flex flex-col gap-space-xs hover:bg-surface-container-high transition-colors">
             <div className="flex items-start justify-between">
               <div className="flex flex-col">
@@ -211,11 +211,11 @@ export default function IntelligenceFeed() {
                     WARNING
                   </span>
                   <span className="font-headline-md text-[12px] text-on-surface">
-                    GLACIER TSHO ROLPA
+                    SALTORO RIDGE SERAC WALL
                   </span>
                 </div>
                 <span className="text-on-surface-variant font-label-sm text-[10px]">
-                  Supraglacial Pond Coalescence
+                  Hanging Ice Cleavage &amp; Crevasse Spreading
                 </span>
               </div>
               <span className="font-label-sm text-[10px] text-on-surface-variant font-mono">
@@ -223,12 +223,12 @@ export default function IntelligenceFeed() {
               </span>
             </div>
             <div className="text-body-sm font-body-sm text-[11px] text-on-surface-variant">
-              Landsat-9 SWIR band 8 anomaly indicates coalescence of 6 micro-ponds
-              into single continuous spill basin.
+              Sentinel-1 DInSAR interferometry indicates 420,000 m³ hanging serac detachment risk
+              above Siachen middle trunk supply route.
             </div>
           </div>
 
-          {/* CARD 4: WATCH - THORTHORMI */}
+          {/* CARD 4: WATCH - CHONG KUMDAN */}
           <div className="bg-surface-container border-l-2 border-l-outline border border-outline-variant/30 p-space-sm flex flex-col gap-space-xs hover:bg-surface-container-high transition-colors">
             <div className="flex items-start justify-between">
               <div className="flex items-center gap-1.5">
@@ -236,7 +236,7 @@ export default function IntelligenceFeed() {
                   WATCH
                 </span>
                 <span className="font-headline-md text-[12px] text-on-surface">
-                  GLACIER THORTHORMI
+                  CHONG KUMDAN SHYOK ICE DAM
                 </span>
               </div>
               <span className="font-label-sm text-[10px] text-on-surface-variant font-mono">
@@ -244,7 +244,7 @@ export default function IntelligenceFeed() {
               </span>
             </div>
             <div className="text-body-sm font-body-sm text-[11px] text-on-surface-variant">
-              Ice-cliff retreat rate accelerated to +1.2m/month. Subglacial
+              Surge snout advance rate monitored at +1.4m/week. Subglacial
               drainage channel pressure sensors stable.
             </div>
           </div>

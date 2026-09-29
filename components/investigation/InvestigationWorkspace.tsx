@@ -20,79 +20,79 @@ interface TargetTriage {
 
 const TRIAGE_ITEMS: TargetTriage[] = [
   {
-    id: "imja",
-    name: "Imja Tsho",
-    code: "GL-2798-02",
+    id: "siachen_central",
+    name: "Siachen Central Crevasse Zone",
+    code: "SC-01-CENTRAL",
     severity: "crit",
     severityLabel: "CRITICAL",
-    metric: "+42% Growth",
-    description: "Dam factor safety margin reduced to 1.12. Rapid lateral seepage.",
-    area: "1.54",
-    areaChange: "+38.2%",
-    volume: "78.2",
-    deficit: "-2.8m (Sub-surface Piping)",
-    deficitPct: 84,
-    focalCoords: { x: 590, y: 410 },
+    metric: "+3.8m Crevasse Opening",
+    description: "Transverse crevasse field expansion detected via Sentinel-1 InSAR coherence loss.",
+    area: "712 km² (76km)",
+    areaChange: "+3.8% Surge",
+    volume: "340",
+    deficit: "High Basal Shear Stress (FS 1.08)",
+    deficitPct: 88,
+    focalCoords: { x: 420, y: 310 },
   },
   {
-    id: "ngozumpa",
-    name: "Ngozumpa Tongue",
-    code: "GL-1840-09",
+    id: "saltoro_avalanche",
+    name: "Saltoro West Ridge Ice Wall",
+    code: "SR-09-WALL",
+    severity: "crit",
+    severityLabel: "CRITICAL",
+    metric: "420,000 m³ Hanging Serac",
+    description: "Overhanging serac instability along Bilafond ridge. Acoustic cryoseismic signature elevated.",
+    area: "94.2",
+    areaChange: "-2.8%",
+    volume: "28.5",
+    deficit: "Impending Serac Calving Event",
+    deficitPct: 92,
+    focalCoords: { x: 260, y: 390 },
+  },
+  {
+    id: "teram_shehr",
+    name: "Teram Shehr Confluence",
+    code: "TS-03-JUNCTION",
     severity: "warn",
     severityLabel: "WARNING",
-    metric: "6 Ponds Merging",
-    description: "Supraglacial chain coalescing along medial depression.",
-    area: "2.18",
-    areaChange: "+24.5%",
-    volume: "45.1",
-    deficit: "-1.4m (Medial subsidence)",
-    deficitPct: 52,
-    focalCoords: { x: 230, y: 360 },
+    metric: "0.48 m/d Surge Thrust",
+    description: "Tributary ice surge forcing lateral displacement onto main Siachen trunk.",
+    area: "185.0",
+    areaChange: "+1.12%",
+    volume: "84.0",
+    deficit: "+12.2 cm/yr Moraine Deflection",
+    deficitPct: 65,
+    focalCoords: { x: 580, y: 220 },
   },
   {
-    id: "tsho_rolpa",
-    name: "Tsho Rolpa",
-    code: "GL-0931-14",
-    severity: "warn",
-    severityLabel: "WARNING",
-    metric: "0.44 k_fs",
-    description: "Seepage acceleration detected via SAR coherence loss.",
-    area: "1.65",
-    areaChange: "+16.8%",
-    volume: "85.6",
-    deficit: "-1.9m (Moraine erosion)",
-    deficitPct: 61,
-    focalCoords: { x: 180, y: 550 },
-  },
-  {
-    id: "thorthormi",
-    name: "Thorthormi Glacier",
-    code: "GL-0210-88",
+    id: "indira_col",
+    name: "Indira Col Accumulation Head",
+    code: "IC-00-HEAD",
     severity: "watch",
     severityLabel: "WATCH",
-    metric: "+1.2m/mo retreat",
-    description: "Ice-cliff subaerial thermal notch calving active.",
-    area: "0.94",
-    areaChange: "+8.1%",
-    volume: "22.4",
-    deficit: "-0.8m (Stable freeboard)",
-    deficitPct: 35,
-    focalCoords: { x: 740, y: 220 },
+    metric: "5,753m Firn Balance",
+    description: "ICESat-2 ATL06 photon elevation transect confirms steady accumulation basin.",
+    area: "48.6",
+    areaChange: "+0.4%",
+    volume: "52.0",
+    deficit: "Permafrost Stable",
+    deficitPct: 25,
+    focalCoords: { x: 265, y: 65 },
   },
   {
-    id: "khumbu",
-    name: "Khumbu Main Tongue",
-    code: "KG-04-A",
+    id: "nubra_snout",
+    name: "Nubra Terminal Moraine Snout",
+    code: "NB-01-SNOUT",
     severity: "normal",
     severityLabel: "NORMAL",
-    metric: "0.18 m/d",
-    description: "Debris-covered ablation zone consistent with annual cycle.",
-    area: "3.40",
-    areaChange: "-0.9%",
-    volume: "112.0",
-    deficit: "Nominal (Safe)",
+    metric: "3,620m a.s.l.",
+    description: "Subglacial melt outflow into Nubra River within seasonal hydro bounds.",
+    area: "14.2",
+    areaChange: "-0.2%",
+    volume: "8.4",
+    deficit: "Nominal Discharge Flow",
     deficitPct: 15,
-    focalCoords: { x: 410, y: 290 },
+    focalCoords: { x: 340, y: 565 },
   },
 ];
 
@@ -105,15 +105,15 @@ export default function InvestigationWorkspace() {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  // Real-time cursor coordinates
+  // Real-time cursor coordinates in Siachen (35°N, 77°E)
   const [cursorCoords, setCursorCoords] = useState<{
     lat: string;
     lon: string;
     elev: string;
   }>({
-    lat: `27°59'17"N`,
-    lon: `86°55'31"E`,
-    elev: `5,364m ASL`,
+    lat: `35°28'15"N`,
+    lon: `77°06'10"E`,
+    elev: `5,420m ASL`,
   });
 
   // Measuring Tool State
@@ -122,7 +122,7 @@ export default function InvestigationWorkspace() {
 
   // Split Swipe Comparison Tool State
   const [comparisonMode, setComparisonMode] = useState<string>("split");
-  const [splitPos, setSplitPos] = useState<number>(50); // percentage
+  const [splitPos, setSplitPos] = useState<number>(50);
 
   // Spectral Mode State
   const [spectralMode, setSpectralMode] = useState<string>("optical");
@@ -143,8 +143,8 @@ export default function InvestigationWorkspace() {
   const [layerGlaciers, setLayerGlaciers] = useState<boolean>(true);
   const [opacityGlaciers, setOpacityGlaciers] = useState<number>(85);
 
-  const [layerLakes, setLayerLakes] = useState<boolean>(true);
-  const [opacityLakes, setOpacityLakes] = useState<number>(100);
+  const [layerCrevasses, setLayerCrevasses] = useState<boolean>(true);
+  const [opacityCrevasses, setOpacityCrevasses] = useState<number>(100);
 
   const [layerInSAR, setLayerInSAR] = useState<boolean>(true);
   const [opacityInSAR, setOpacityInSAR] = useState<number>(65);
@@ -182,9 +182,9 @@ export default function InvestigationWorkspace() {
     const relX = (e.clientX - rect.left) / rect.width;
     const relY = (e.clientY - rect.top) / rect.height;
 
-    const latDeg = 28.02 - relY * 0.08;
-    const lonDeg = 86.88 + relX * 0.09;
-    const calculatedElev = Math.round(4900 + (1 - relY) * 1250);
+    const latDeg = 35.58 - relY * 0.42;
+    const lonDeg = 76.85 + relX * 0.45;
+    const calculatedElev = Math.round(3620 + (1 - relY) * 2133);
 
     const latMin = Math.floor((latDeg % 1) * 60);
     const latSec = Math.floor((((latDeg % 1) * 60) % 1) * 60);
@@ -192,8 +192,8 @@ export default function InvestigationWorkspace() {
     const lonSec = Math.floor((((lonDeg % 1) * 60) % 1) * 60);
 
     setCursorCoords({
-      lat: `27°${latMin.toString().padStart(2, "0")}'${latSec.toString().padStart(2, "0")}"N`,
-      lon: `86°${lonMin.toString().padStart(2, "0")}'${lonSec.toString().padStart(2, "0")}"E`,
+      lat: `35°${latMin.toString().padStart(2, "0")}'${latSec.toString().padStart(2, "0")}"N`,
+      lon: `77°${lonMin.toString().padStart(2, "0")}'${lonSec.toString().padStart(2, "0")}"E`,
       elev: `${calculatedElev.toLocaleString()}m ASL`,
     });
   };
@@ -224,15 +224,13 @@ export default function InvestigationWorkspace() {
     setIsDragging(false);
   };
 
-  // Wheel Zoom
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     e.preventDefault();
     const zoomFactor = e.deltaY < 0 ? 1.15 : 0.87;
     setZoom((prev) => Math.min(Math.max(prev * zoomFactor, 0.75), 4.5));
   };
 
-  // Focus on a glacier
-  const focusOnGlacier = (item: TargetTriage) => {
+  const focusOnTarget = (item: TargetTriage) => {
     setSelectedTarget(item);
     setIsHudOpen(true);
 
@@ -256,18 +254,16 @@ export default function InvestigationWorkspace() {
     setIsMeasuring(false);
   };
 
-  // Calculate distance between measure points
   const calculateDistance = () => {
     if (measurePoints.length < 2) return null;
     const p1 = measurePoints[0];
     const p2 = measurePoints[1];
-    const dx = (p2.x - p1.x) * 12.5; // meters per SVG unit estimate
-    const dy = (p2.y - p1.y) * 12.5;
+    const dx = (p2.x - p1.x) * 76; // meters per SVG unit estimate on 76km scale
+    const dy = (p2.y - p1.y) * 76;
     const distMeters = Math.round(Math.sqrt(dx * dx + dy * dy));
     return distMeters >= 1000 ? `${(distMeters / 1000).toFixed(2)} km` : `${distMeters} m`;
   };
 
-  // Dynamic filter string for spectral modes
   const getSpectralFilter = () => {
     switch (spectralMode) {
       case "sar":
@@ -291,7 +287,7 @@ export default function InvestigationWorkspace() {
 
   return (
     <div className="relative w-full h-[calc(100vh-3rem)] overflow-hidden select-none bg-surface-container-lowest">
-      {/* 1. PRIMARY FULLSCREEN GEOSPATIAL MAP CANVAS (PAN & ZOOM ENABLED) */}
+      {/* 1. PRIMARY MAP CANVAS */}
       <div
         ref={mapContainerRef}
         onMouseDown={handleMouseDown}
@@ -306,14 +302,13 @@ export default function InvestigationWorkspace() {
             : "cursor-grab"
         }`}
       >
-        {/* Transform Container */}
         <div
           className="relative w-full h-full origin-center transition-transform duration-75 ease-out"
           style={{
             transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
           }}
         >
-          {/* Base Layer: Orthorectified Sat Base Layer */}
+          {/* Base Layer */}
           <div
             className="absolute inset-0 w-full h-full bg-cover bg-center transition-all duration-500"
             style={{
@@ -322,7 +317,7 @@ export default function InvestigationWorkspace() {
             }}
           />
 
-          {/* Split Swipe Comparison Mode Overlay */}
+          {/* Split Swipe Comparison */}
           {comparisonMode === "split" && (
             <div
               className="absolute inset-0 overflow-hidden border-r-2 border-secondary shadow-[0_0_15px_rgba(78,222,163,0.5)] pointer-events-none"
@@ -336,16 +331,15 @@ export default function InvestigationWorkspace() {
                 }}
               />
               <div className="absolute top-16 left-4 px-2 py-0.5 bg-surface-container-lowest/90 border border-outline-variant/50 text-secondary font-mono text-[9px] uppercase">
-                EPOCH: 2020 HISTORICAL COHERENCE
+                SIACHEN RADAR BASELINE: OCT 2021
               </div>
             </div>
           )}
 
-          {/* Multi-spectral Shaders */}
           <div className="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/80 pointer-events-none" />
           <div className="absolute inset-0 bg-radial from-transparent via-surface-container-lowest/30 to-surface-container-lowest/90 pointer-events-none" />
 
-          {/* GEOSPATIAL VECTOR OVERLAYS (SVG) */}
+          {/* GEOSPATIAL VECTOR OVERLAYS (SIACHEN 76KM TRANSECT) */}
           <svg
             className="absolute inset-0 w-full h-full pointer-events-auto"
             viewBox="0 0 1000 800"
@@ -357,16 +351,14 @@ export default function InvestigationWorkspace() {
                 <feGaussianBlur stdDeviation="3.5" result="blur" />
                 <feComposite in="SourceGraphic" in2="blur" operator="over" />
               </filter>
-
               <filter id="glow-red" x="-25%" y="-25%" width="150%" height="150%">
                 <feGaussianBlur stdDeviation="4.5" result="blur" />
                 <feComposite in="SourceGraphic" in2="blur" operator="over" />
               </filter>
-
-              <linearGradient id="insar-fringe" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.4" />
-                <stop offset="50%" stopColor="#4edea3" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.45" />
+              <linearGradient id="siachenGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#c4e7ff" stopOpacity="0.4" />
+                <stop offset="60%" stopColor="#7bd0ff" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.15" />
               </linearGradient>
             </defs>
 
@@ -381,118 +373,92 @@ export default function InvestigationWorkspace() {
               <line x1="0" y1="75%" x2="100%" y2="75%" />
             </g>
 
-            {/* Layer 1: Khumbu Glacier Polygon */}
+            {/* Siachen Main Serpentine Ribbon */}
             {layerGlaciers && (
               <g
                 opacity={opacityGlaciers / 100}
                 className="transition-opacity cursor-pointer group"
-                onClick={() => focusOnGlacier(TRIAGE_ITEMS[4])}
-                onMouseEnter={() => setHoveredGlacier("Khumbu Glacier")}
+                onClick={() => focusOnTarget(TRIAGE_ITEMS[0])}
+                onMouseEnter={() => setHoveredGlacier("Siachen Central Trunk")}
                 onMouseLeave={() => setHoveredGlacier(null)}
               >
-                <polygon
-                  points="320,110 440,160 510,290 470,390 390,470 330,420 380,290 310,200"
-                  fill="#7bd0ff"
-                  fillOpacity={hoveredGlacier === "Khumbu Glacier" ? "0.18" : "0.08"}
-                  stroke="#7bd0ff"
-                  strokeWidth={hoveredGlacier === "Khumbu Glacier" ? "2" : "1.2"}
-                  strokeDasharray="6 4"
+                <path
+                  d="M 320,80 Q 380,160 420,240 T 480,380 T 520,520 T 460,650 T 390,750 L 340,740 Q 420,630 450,510 T 400,360 T 350,230 T 290,90 Z"
+                  fill="url(#siachenGrad)"
+                  stroke="#8ed5ff"
+                  strokeWidth="2.2"
                 />
-                <path d="M 370 210 L 410 250" stroke="#7bd0ff" strokeWidth="1.5" strokeLinecap="round" />
-                <polygon points="414,254 404,250 410,244" fill="#7bd0ff" />
-                <path d="M 430 300 L 445 350" stroke="#7bd0ff" strokeWidth="1.5" strokeLinecap="round" />
-                <polygon points="447,356 440,348 449,346" fill="#7bd0ff" />
-                <text x="350" y="270" fill="#7bd0ff" className="font-mono text-[10px] font-semibold">
-                  KHUMBU [KG-04-A]
+
+                <circle cx="305" cy="85" r="5" fill="#ffffff" stroke="#00354a" strokeWidth="2" />
+                <text x="240" y="75" fill="#c4e7ff" className="font-mono text-[10px] font-bold">
+                  INDIRA COL [5,753m]
+                </text>
+
+                <circle cx="365" cy="745" r="5" fill="#38bdf8" />
+                <text x="380" y="750" fill="#38bdf8" className="font-mono text-[10px] font-bold">
+                  NUBRA RIVER SNOUT [3,620m]
                 </text>
               </g>
             )}
 
-            {/* Layer 2: Ngozumpa InSAR Fringe */}
+            {/* Saltoro Ridge Crevasse Hazard Zone */}
+            {layerCrevasses && (
+              <g
+                opacity={opacityCrevasses / 100}
+                className="transition-opacity cursor-pointer group"
+                onClick={() => focusOnTarget(TRIAGE_ITEMS[1])}
+                onMouseEnter={() => setHoveredGlacier("Saltoro West Ridge Ice Wall")}
+                onMouseLeave={() => setHoveredGlacier(null)}
+              >
+                <path
+                  d="M 220,380 Q 280,420 340,460 T 440,490 L 430,520 Q 330,500 260,460 T 190,400 Z"
+                  fill="#ffb4ab"
+                  fillOpacity="0.3"
+                  stroke="#ef4444"
+                  strokeWidth="2.5"
+                  filter="url(#glow-red)"
+                />
+                <circle cx="260" cy="390" r="6" fill="#ef4444" className="animate-ping" />
+                <text x="180" y="470" fill="#ffb4ab" className="font-mono text-[11px] font-bold tracking-wider">
+                  SALTORO CREVASSE ZONE [SR-09]
+                </text>
+              </g>
+            )}
+
+            {/* Teram Shehr Confluence */}
             {layerInSAR && (
               <g
                 opacity={opacityInSAR / 100}
                 className="transition-opacity cursor-pointer group"
-                onClick={() => focusOnGlacier(TRIAGE_ITEMS[1])}
-                onMouseEnter={() => setHoveredGlacier("Ngozumpa Tongue")}
+                onClick={() => focusOnTarget(TRIAGE_ITEMS[2])}
+                onMouseEnter={() => setHoveredGlacier("Teram Shehr Confluence")}
                 onMouseLeave={() => setHoveredGlacier(null)}
               >
-                <polygon
-                  points="180,240 250,290 280,410 240,490 190,430 210,340"
-                  fill="url(#insar-fringe)"
-                  stroke="#4edea3"
-                  strokeWidth={hoveredGlacier === "Ngozumpa Tongue" ? "2.2" : "1.2"}
+                <path
+                  d="M 780,240 Q 690,270 590,310 T 480,380 L 460,350 Q 570,290 670,250 T 760,220 Z"
+                  fill="#38bdf8"
+                  fillOpacity="0.25"
+                  stroke="#38bdf8"
+                  strokeWidth="1.8"
                 />
-                <text x="180" y="360" fill="#4edea3" className="font-mono text-[10px] font-semibold">
-                  NGOZUMPA TONGUE
+                <text x="640" y="270" fill="#38bdf8" className="font-mono text-[10px] font-semibold">
+                  TERAM SHEHR TRIBUTARY
                 </text>
               </g>
             )}
 
-            {/* Layer 3: ICESat-2 Transect */}
+            {/* ICESat-2 Karakoram Transect */}
             {layerICESat && (
               <g opacity={opacityICESat / 100} className="transition-opacity pointer-events-none">
-                <line
-                  x1="140"
-                  y1="60"
-                  x2="890"
-                  y2="710"
-                  stroke="#38bdf8"
-                  strokeWidth="1.2"
-                  strokeDasharray="5 5"
-                />
-                <circle cx="568" cy="445" r="4" fill="#8ed5ff" filter="url(#glow-cyan)" />
-                <circle cx="568" cy="445" r="9" fill="none" stroke="#38bdf8" strokeWidth="1" opacity="0.6" />
-                <text x="700" y="580" fill="#38bdf8" className="font-mono text-[9px] uppercase tracking-wider">
-                  ICESat-2 ATL06 TRANSECT
+                <line x1="180" y1="20" x2="820" y2="760" stroke="#38bdf8" strokeWidth="1.5" strokeDasharray="6 4" />
+                <circle cx="480" cy="380" r="4.5" fill="#8ed5ff" filter="url(#glow-cyan)" />
+                <text x="680" y="650" fill="#38bdf8" className="font-mono text-[9px] uppercase tracking-wider">
+                  ICESat-2 ATL06 [TRACK #0721]
                 </text>
               </g>
             )}
 
-            {/* Breach Hazard Zone Path */}
-            <path
-              d="M 640 430 Q 690 490 730 580 T 820 740"
-              fill="none"
-              stroke="#ffb4ab"
-              strokeWidth="2"
-              strokeDasharray="4 6"
-              opacity="0.9"
-              filter="url(#glow-red)"
-            />
-
-            {/* Layer 4: IMJA TSHO Lake GL-2798-02 */}
-            {layerLakes && (
-              <g
-                opacity={opacityLakes / 100}
-                className="transition-opacity cursor-pointer group"
-                onClick={() => focusOnGlacier(TRIAGE_ITEMS[0])}
-                onMouseEnter={() => setHoveredGlacier("Imja Tsho")}
-                onMouseLeave={() => setHoveredGlacier(null)}
-              >
-                <polygon
-                  points="520,380 580,365 650,395 675,440 645,465 590,455 530,425"
-                  fill="#93000a"
-                  fillOpacity={hoveredGlacier === "Imja Tsho" ? "0.45" : "0.32"}
-                  stroke="#ffb4ab"
-                  strokeWidth={hoveredGlacier === "Imja Tsho" ? "3" : "2.2"}
-                  filter="url(#glow-red)"
-                />
-                <polygon
-                  points="535,390 580,378 630,402 645,435 625,450 580,442 540,415"
-                  fill="none"
-                  stroke="#ffddb8"
-                  strokeWidth="1.2"
-                  strokeDasharray="3 3"
-                  opacity="0.75"
-                />
-                <circle cx="590" cy="410" r="5" fill="#ef4444" className="animate-ping" />
-                <text x="540" y="350" fill="#ffb4ab" className="font-mono text-[11px] font-bold tracking-widest">
-                  IMJA TSHO [GL-2798-02]
-                </text>
-              </g>
-            )}
-
-            {/* Measurement Ruler Vector Overlay */}
+            {/* Measurement Line */}
             {isMeasuring && measurePoints.length > 0 && (
               <g className="pointer-events-none">
                 {measurePoints.map((pt, i) => (
@@ -510,9 +476,9 @@ export default function InvestigationWorkspace() {
                       strokeDasharray="4 4"
                     />
                     <rect
-                      x={(measurePoints[0].x + measurePoints[1].x) / 2 - 35}
+                      x={(measurePoints[0].x + measurePoints[1].x) / 2 - 40}
                       y={(measurePoints[0].y + measurePoints[1].y) / 2 - 16}
-                      width="70"
+                      width="80"
                       height="20"
                       rx="4"
                       fill="#0a0e14"
@@ -538,11 +504,11 @@ export default function InvestigationWorkspace() {
         {/* Dynamic Hover Tooltip */}
         {hoveredGlacier && (
           <div className="absolute pointer-events-none px-2.5 py-1 bg-surface-container-lowest/90 backdrop-blur-md border border-primary text-primary font-mono text-[11px] rounded shadow-lg top-16 left-1/2 -translate-x-1/2 z-30">
-            FOCAL TARGET: {hoveredGlacier} [CLICK TO INSPECT]
+            SIACHEN SECTOR: {hoveredGlacier} [CLICK TO INSPECT]
           </div>
         )}
 
-        {/* 2. INTERACTIVE SELECTED OBJECT HUD POPOVER */}
+        {/* 2. OBJECT HUD POPOVER */}
         {isHudOpen && (
           <div className="absolute left-[38%] top-[18%] w-96 bg-surface-container/95 backdrop-blur-xl rounded-xl shadow-2xl p-space-md z-30 transition-all border border-outline-variant/40">
             <div className="absolute -top-px left-6 right-6 h-px bg-gradient-to-r from-transparent via-error to-transparent" />
@@ -552,14 +518,14 @@ export default function InvestigationWorkspace() {
                 <div className="flex items-center gap-space-xs">
                   <span className="w-2 h-2 rounded-full bg-error animate-ping" />
                   <span className="font-label-md text-[10px] text-error uppercase tracking-wider font-semibold">
-                    {selectedTarget.severityLabel} RISK • GLOF Stage 2
+                    {selectedTarget.severityLabel} RISK • SIACHEN RADAR
                   </span>
                 </div>
                 <h2 className="font-headline-sm text-[15px] text-on-surface font-semibold tracking-tight mt-0.5">
                   {selectedTarget.name} ({selectedTarget.code})
                 </h2>
                 <span className="font-body-sm text-[11px] text-outline">
-                  Khumbu-Himal • Lhotse Shar Proglacial Sector
+                  Karakoram Range • Nubra Basin Drainage
                 </span>
               </div>
               <button
@@ -570,45 +536,43 @@ export default function InvestigationWorkspace() {
               </button>
             </div>
 
-            {/* Quick Metrics Grid */}
             <div className="grid grid-cols-2 gap-space-xs mb-space-md">
               <div className="bg-surface-container-low p-space-sm rounded-lg flex flex-col">
                 <span className="font-label-sm text-[9px] text-outline uppercase tracking-wider">
                   Surface Area
                 </span>
                 <div className="flex items-baseline gap-1 mt-0.5">
-                  <span className="text-[18px] font-bold font-mono text-on-surface">
+                  <span className="text-[17px] font-bold font-mono text-on-surface">
                     {selectedTarget.area}
                   </span>
-                  <span className="text-[11px] text-outline">km²</span>
-                  <span className="font-label-sm text-[10px] text-error ml-auto font-semibold">
+                  <span className="font-label-sm text-[10px] text-tertiary ml-auto font-semibold">
                     {selectedTarget.areaChange}
                   </span>
                 </div>
                 <span className="font-label-sm text-[9px] text-outline/80">
-                  vs. Sep 2020 baseline
+                  76km Transect Spine
                 </span>
               </div>
 
               <div className="bg-surface-container-low p-space-sm rounded-lg flex flex-col">
                 <span className="font-label-sm text-[9px] text-outline uppercase tracking-wider">
-                  Water Volume
+                  Ice Mass Volume
                 </span>
                 <div className="flex items-baseline gap-1 mt-0.5">
-                  <span className="text-[18px] font-bold font-mono text-on-surface">
+                  <span className="text-[17px] font-bold font-mono text-on-surface">
                     {selectedTarget.volume}
                   </span>
-                  <span className="text-[11px] text-outline">M m³</span>
+                  <span className="text-[11px] text-outline">B m³</span>
                 </div>
-                <span className="font-label-sm text-[9px] text-tertiary">
-                  Bathymetry modeled
+                <span className="font-label-sm text-[9px] text-secondary">
+                  GPR modeled
                 </span>
               </div>
 
               <div className="bg-surface-container-low p-space-sm rounded-lg flex flex-col col-span-2">
                 <div className="flex items-center justify-between">
                   <span className="font-label-sm text-[9px] text-outline uppercase tracking-wider">
-                    Moraine Freeboard Deficit
+                    Structural Crevasse Risk
                   </span>
                   <span className="font-label-sm text-[10px] font-semibold text-error">
                     {selectedTarget.deficit}
@@ -631,7 +595,7 @@ export default function InvestigationWorkspace() {
                 <span className="material-symbols-outlined text-[15px] text-primary">
                   satellite_alt
                 </span>
-                <span>Landsat-9 L2 / ICESat-2</span>
+                <span>Sentinel-1B InSAR / ICESat-2</span>
               </div>
               <span className="text-on-surface-variant font-mono">
                 Today 11:38 UTC (Live)
@@ -643,13 +607,13 @@ export default function InvestigationWorkspace() {
                 <span className="material-symbols-outlined text-[14px]">
                   view_in_ar
                 </span>
-                Spectrometry
+                GPR Sounding
               </button>
               <button className="flex items-center justify-center gap-1 py-1.5 px-2 bg-surface-variant text-on-surface rounded-lg font-label-sm text-[10px] font-medium hover:bg-surface-bright transition-colors">
                 <span className="material-symbols-outlined text-[14px]">
                   stacked_line_chart
                 </span>
-                Moraine Slice
+                Crevasse Slice
               </button>
               <button className="flex items-center justify-center gap-1 py-1.5 px-2 bg-surface-variant text-on-surface rounded-lg font-label-sm text-[10px] font-medium hover:bg-surface-bright transition-colors">
                 <span className="material-symbols-outlined text-[14px]">
@@ -661,13 +625,12 @@ export default function InvestigationWorkspace() {
           </div>
         )}
 
-        {/* 3. MAP HUD FLOATING TOP TOOLBAR */}
+        {/* 3. MAP HUD TOP TOOLBAR */}
         <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-3 z-20 max-w-[95%]">
-          {/* Spectral Mode Pill Switcher */}
           <div className="flex items-center p-1 bg-surface-container/90 backdrop-blur-xl rounded-xl shadow-xl border border-outline-variant/30">
             {[
               { id: "sar", label: "SAR Coherence", icon: "radar" },
-              { id: "optical", label: "Optical RGB", icon: "satellite" },
+              { id: "optical", label: "True Color", icon: "satellite" },
               { id: "dem", label: "Elevation DEM", icon: "terrain" },
               { id: "insar", label: "InSAR Fringe", icon: "waves" },
               { id: "thermal", label: "Thermal IR", icon: "thermostat" },
@@ -689,7 +652,6 @@ export default function InvestigationWorkspace() {
             ))}
           </div>
 
-          {/* Cartographic Utilities & Measurement Tool */}
           <div className="flex items-center p-1 bg-surface-container/90 backdrop-blur-xl rounded-xl shadow-xl border border-outline-variant/30">
             <button
               onClick={() => {
@@ -701,7 +663,7 @@ export default function InvestigationWorkspace() {
                   ? "bg-secondary text-on-secondary font-bold"
                   : "text-on-surface-variant hover:text-on-surface hover:bg-surface-variant"
               }`}
-              title={isMeasuring ? "Measuring Active: Click 2 points" : "Measure Distance"}
+              title={isMeasuring ? "Measuring Active: Click 2 points" : "Measure 76km Transect Distance"}
             >
               <span className="material-symbols-outlined text-[18px]">
                 straighten
@@ -737,7 +699,7 @@ export default function InvestigationWorkspace() {
           </div>
         </div>
 
-        {/* 4. BOTTOM-LEFT TELEMETRY STATUS HUD (LIVE DYNAMIC COORDINATES) */}
+        {/* 4. BOTTOM-LEFT TELEMETRY STATUS HUD */}
         <div className="absolute bottom-24 left-6 flex items-center gap-4 bg-surface-container/90 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-xl z-20 border border-outline-variant/30">
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
@@ -769,13 +731,13 @@ export default function InvestigationWorkspace() {
               <div className="absolute -top-1 right-0 w-0.5 h-2 bg-on-surface" />
             </div>
             <span className="font-label-sm text-[9px] text-outline mt-0.5">
-              {Math.round(500 / zoom)} m
+              {Math.round(2000 / zoom)} m
             </span>
           </div>
         </div>
       </div>
 
-      {/* 5. LEFT FLOATING DRAWER: LAYERS & SENSORS */}
+      {/* 5. LEFT DRAWER: LAYERS & SENSORS */}
       {isLeftDrawerOpen && (
         <aside className="absolute left-6 top-4 bottom-24 w-80 bg-surface-container/95 backdrop-blur-2xl rounded-2xl shadow-2xl flex flex-col z-20 overflow-hidden border border-outline-variant/30">
           <div className="p-space-md flex items-center justify-between bg-surface-container-high/60 shrink-0">
@@ -785,10 +747,10 @@ export default function InvestigationWorkspace() {
               </span>
               <div className="flex flex-col">
                 <h3 className="font-headline-sm text-[13px] text-on-surface font-medium leading-none">
-                  Layers &amp; Sensors
+                  Siachen Radar Layers
                 </h3>
                 <span className="font-label-sm text-[10px] text-outline mt-0.5">
-                  Cryospheric Feeds Active
+                  Karakoram Sentinel-1B Feeds
                 </span>
               </div>
             </div>
@@ -796,7 +758,7 @@ export default function InvestigationWorkspace() {
               <button
                 onClick={() => {
                   setOpacityGlaciers(85);
-                  setOpacityLakes(100);
+                  setOpacityCrevasses(100);
                   setOpacityInSAR(65);
                   setOpacityICESat(90);
                 }}
@@ -830,7 +792,7 @@ export default function InvestigationWorkspace() {
                 </span>
               </div>
 
-              {/* Layer 1: Glaciers */}
+              {/* Layer 1: Siachen Trunk */}
               <div className="p-space-sm bg-surface-container-low rounded-xl flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <label className="flex items-center gap-2 cursor-pointer">
@@ -841,11 +803,11 @@ export default function InvestigationWorkspace() {
                       className="w-4 h-4 rounded bg-surface-container-highest text-primary-container focus:ring-0 cursor-pointer"
                     />
                     <span className="font-body-md text-[11px] text-on-surface font-medium">
-                      Glaciers &amp; Ice Margins
+                      Siachen 76km Spine
                     </span>
                   </label>
                   <span className="font-label-sm text-[9px] text-outline font-mono">
-                    24 poly
+                    712 km²
                   </span>
                 </div>
                 <div className="flex items-center gap-3 pl-6">
@@ -866,22 +828,22 @@ export default function InvestigationWorkspace() {
                 </div>
               </div>
 
-              {/* Layer 2: Glacial Lakes */}
+              {/* Layer 2: Crevasse Radar */}
               <div className="p-space-sm bg-surface-container-low rounded-xl flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="checkbox"
-                      checked={layerLakes}
-                      onChange={(e) => setLayerLakes(e.target.checked)}
-                      className="w-4 h-4 rounded bg-surface-container-highest text-primary-container focus:ring-0 cursor-pointer"
+                      checked={layerCrevasses}
+                      onChange={(e) => setLayerCrevasses(e.target.checked)}
+                      className="w-4 h-4 rounded bg-surface-container-highest text-error focus:ring-0 cursor-pointer"
                     />
                     <span className="font-body-md text-[11px] text-on-surface font-medium">
-                      Glacial Lakes &amp; Ponds
+                      Transverse Crevasse Fields
                     </span>
                   </label>
                   <span className="font-label-sm text-[9px] px-1.5 py-0.5 rounded bg-error/15 text-error font-medium">
-                    5 Expanding
+                    28 Fields
                   </span>
                 </div>
                 <div className="flex items-center gap-3 pl-6">
@@ -892,17 +854,17 @@ export default function InvestigationWorkspace() {
                     type="range"
                     min="0"
                     max="100"
-                    value={opacityLakes}
-                    onChange={(e) => setOpacityLakes(Number(e.target.value))}
-                    className="w-full h-1 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-primary-container"
+                    value={opacityCrevasses}
+                    onChange={(e) => setOpacityCrevasses(Number(e.target.value))}
+                    className="w-full h-1 bg-surface-variant rounded-lg appearance-none cursor-pointer accent-error"
                   />
                   <span className="font-label-sm text-[9px] text-outline font-mono w-7 text-right">
-                    {opacityLakes}%
+                    {opacityCrevasses}%
                   </span>
                 </div>
               </div>
 
-              {/* Layer 3: InSAR */}
+              {/* Layer 3: Tributary InSAR */}
               <div className="p-space-sm bg-surface-container-low rounded-xl flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <label className="flex items-center gap-2 cursor-pointer">
@@ -913,11 +875,11 @@ export default function InvestigationWorkspace() {
                       className="w-4 h-4 rounded bg-surface-container-highest text-primary-container focus:ring-0 cursor-pointer"
                     />
                     <span className="font-body-md text-[11px] text-on-surface font-medium">
-                      InSAR Moraine Creep
+                      Teram Shehr Tributary Flow
                     </span>
                   </label>
-                  <span className="font-label-sm text-[9px] text-tertiary font-mono">
-                    +14cm/yr
+                  <span className="font-label-sm text-[9px] text-secondary font-mono">
+                    0.48 m/d
                   </span>
                 </div>
                 <div className="flex items-center gap-3 pl-6">
@@ -953,7 +915,7 @@ export default function InvestigationWorkspace() {
                     </span>
                   </label>
                   <span className="font-label-sm text-[9px] text-secondary font-mono">
-                    #0929
+                    #0721
                   </span>
                 </div>
                 <div className="flex items-center gap-3 pl-6">
@@ -973,42 +935,22 @@ export default function InvestigationWorkspace() {
                   </span>
                 </div>
               </div>
-
-              {/* Layer 5: DEM */}
-              <div className="p-space-sm bg-surface-container-low/50 rounded-xl flex flex-col gap-1 opacity-70 hover:opacity-100 transition-opacity">
-                <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={layerDEM}
-                      onChange={(e) => setLayerDEM(e.target.checked)}
-                      className="w-4 h-4 rounded bg-surface-container-highest text-primary-container focus:ring-0 cursor-pointer"
-                    />
-                    <span className="font-body-md text-[11px] text-on-surface">
-                      Slope Gradient &amp; DEM Contours
-                    </span>
-                  </label>
-                  <span className="font-label-sm text-[9px] text-outline font-mono">
-                    50m
-                  </span>
-                </div>
-              </div>
             </div>
 
             {/* Constellation Mesh */}
             <div className="flex flex-col gap-space-sm">
               <div className="flex items-center justify-between">
                 <span className="font-label-md text-[10px] text-outline uppercase tracking-wider">
-                  EO Constellation
+                  Karakoram Constellation
                 </span>
                 <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
               </div>
               <div className="space-y-1.5">
                 {[
-                  { name: "Landsat-9 OLI-2", desc: "30m Optical/SWIR", time: "2m ago", active: true },
-                  { name: "Sentinel-1A", desc: "10m C-SAR Coherence", time: "48m ago", active: true },
+                  { name: "Sentinel-1B C-SAR", desc: "10m InSAR Coherence", time: "18m ago", active: true },
+                  { name: "TerraSAR-X High-Res", desc: "1m Spotlight Strip", time: "34m ago", active: true },
                   { name: "ICESat-2 ATLAS", desc: "0.7m Photons (ATL06)", time: "1h ago", active: true },
-                  { name: "Copernicus GLO-30", desc: "Static Topography", time: "Baseline", active: false },
+                  { name: "Cartosat-3 Optical", desc: "0.28m Super-Res", time: "Live Pass", active: true },
                 ].map((sensor) => (
                   <div key={sensor.name} className="p-2 rounded-lg bg-surface-container-low flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -1037,7 +979,7 @@ export default function InvestigationWorkspace() {
         </button>
       )}
 
-      {/* 6. RIGHT FLOATING DRAWER: TARGET TRIAGE & QUEUE */}
+      {/* 6. RIGHT DRAWER: TRIAGE QUEUE */}
       {isRightDrawerOpen && (
         <aside className="absolute right-6 top-4 bottom-24 w-88 bg-surface-container/95 backdrop-blur-2xl rounded-2xl shadow-2xl flex flex-col z-20 overflow-hidden border border-outline-variant/30">
           <div className="p-space-md flex items-center justify-between bg-surface-container-high/60 shrink-0">
@@ -1047,10 +989,10 @@ export default function InvestigationWorkspace() {
               </span>
               <div className="flex flex-col">
                 <h3 className="font-headline-sm text-[13px] text-on-surface font-medium leading-none">
-                  Target Triage &amp; Queue
+                  Siachen Hazard Triage
                 </h3>
                 <span className="font-label-sm text-[10px] text-outline mt-0.5">
-                  5 Anomalies Monitored
+                  5 Karakoram Sectors Monitored
                 </span>
               </div>
             </div>
@@ -1079,8 +1021,8 @@ export default function InvestigationWorkspace() {
             <div className="grid grid-cols-4 gap-1.5">
               {[
                 { id: "all", label: "All (5)" },
-                { id: "crit", label: "Crit (1)" },
-                { id: "warn", label: "Warn (2)" },
+                { id: "crit", label: "Crit (2)" },
+                { id: "warn", label: "Warn (1)" },
                 { id: "watch", label: "Watch (1)" },
               ].map((filter) => (
                 <button
@@ -1098,14 +1040,14 @@ export default function InvestigationWorkspace() {
             </div>
 
             <div className="flex flex-wrap gap-1.5 pt-1">
+              <span className="px-2 py-0.5 rounded-full bg-error/20 text-error font-label-sm text-[9px] cursor-pointer hover:bg-error/30 font-medium">
+                Crevasse Opening
+              </span>
               <span className="px-2 py-0.5 rounded-full bg-primary-container/20 text-primary font-label-sm text-[9px] cursor-pointer hover:bg-primary-container/30">
-                Lake Expansion
+                Surge Waves
               </span>
               <span className="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-[9px] cursor-pointer hover:bg-surface-bright">
-                Moraine Creep
-              </span>
-              <span className="px-2 py-0.5 rounded-full bg-surface-container-highest text-on-surface-variant font-label-sm text-[9px] cursor-pointer hover:bg-surface-bright">
-                Pond Coalescence
+                Ice Avalanches
               </span>
             </div>
           </div>
@@ -1116,7 +1058,7 @@ export default function InvestigationWorkspace() {
               return (
                 <div
                   key={item.id}
-                  onClick={() => focusOnGlacier(item)}
+                  onClick={() => focusOnTarget(item)}
                   className={`p-3 rounded-xl flex flex-col gap-1 cursor-pointer transition-all ${
                     isSelected
                       ? "bg-error/15 ring-1 ring-error/50"
@@ -1193,7 +1135,7 @@ export default function InvestigationWorkspace() {
         </button>
       )}
 
-      {/* 7. BOTTOM INTERACTIVE TIMELINE & HISTORICAL SCRUBBER */}
+      {/* 7. BOTTOM SCRUBBER */}
       <footer className="absolute bottom-4 left-6 right-6 h-18 bg-surface-container/95 backdrop-blur-2xl rounded-2xl shadow-2xl px-space-lg flex items-center justify-between z-20 border border-outline-variant/30">
         <div className="flex items-center gap-4 shrink-0">
           <button
@@ -1214,17 +1156,16 @@ export default function InvestigationWorkspace() {
               </span>
             </div>
             <span className="font-label-sm text-[10px] text-outline font-mono">
-              11:38 UTC • SWATH 041/140
+              11:38 UTC • SIACHEN SWATH 0721
             </span>
           </div>
 
           <div className="w-px h-8 bg-surface-variant hidden md:block" />
 
-          {/* Comparative Mode Switcher */}
           <div className="hidden lg:flex items-center p-1 bg-surface-container-low rounded-xl">
             {[
-              { id: "split", label: "Split Swipe (T-12 Mo)" },
-              { id: "heatmap", label: "Change Heatmap" },
+              { id: "split", label: "Split Swipe (2021 Baseline)" },
+              { id: "heatmap", label: "Surge Heatmap" },
               { id: "insar", label: "InSAR Pairs" },
             ].map((mode) => (
               <button
@@ -1242,10 +1183,8 @@ export default function InvestigationWorkspace() {
           </div>
         </div>
 
-        {/* Timeline Scrubber Axis */}
         <div className="flex-1 max-w-2xl mx-8 flex flex-col justify-center gap-1.5">
           <div className="relative w-full flex items-center">
-            {/* Scrubber Track */}
             <div
               onClick={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
@@ -1260,7 +1199,6 @@ export default function InvestigationWorkspace() {
                 style={{ width: `${scrubberProgress}%` }}
               />
 
-              {/* Milestones */}
               <div
                 onClick={(e) => {
                   e.stopPropagation();
@@ -1268,7 +1206,7 @@ export default function InvestigationWorkspace() {
                   setSplitPos(20);
                 }}
                 className="absolute -top-1 left-[20%] w-3.5 h-3.5 rounded-full bg-surface-container ring-2 ring-tertiary cursor-pointer hover:scale-125 transition-transform"
-                title="Oct 2021: Moraine Slump"
+                title="Oct 2021: Karakoram Anomaly Surge"
               />
               <div
                 onClick={(e) => {
@@ -1276,8 +1214,8 @@ export default function InvestigationWorkspace() {
                   setScrubberProgress(65);
                   setSplitPos(65);
                 }}
-                className="absolute -top-1 left-[65%] w-3.5 h-3.5 rounded-full bg-surface-container ring-2 ring-tertiary cursor-pointer hover:scale-125 transition-transform"
-                title="Jun 2024: Lake Expansion Surge"
+                className="absolute -top-1 left-[65%] w-3.5 h-3.5 rounded-full bg-surface-container ring-2 ring-error cursor-pointer hover:scale-125 transition-transform"
+                title="Jun 2024: Saltoro Crevasse Widening"
               />
               <div
                 className="absolute -top-1.5 -ml-2 w-4 h-4 rounded-full bg-primary-container shadow-[0_0_12px_rgba(56,189,248,0.8)] cursor-pointer"
@@ -1288,16 +1226,15 @@ export default function InvestigationWorkspace() {
 
           <div className="flex items-center justify-between text-outline font-label-sm text-[9px] font-mono">
             <span>JAN 2020</span>
-            <span className="text-tertiary">OCT 2021 [SLUMP]</span>
+            <span className="text-tertiary">OCT 2021 [SURGE]</span>
             <span>JAN 2023</span>
-            <span className="text-tertiary">JUN 2024 [SURGE]</span>
-            <span className="text-error font-semibold">
-              SEP 2026 [LIVE BREACH RISK]
+            <span className="text-error">JUN 2024 [CREVASSE BREACH]</span>
+            <span className="text-secondary font-semibold">
+              SEP 2026 [LIVE SIACHEN RADAR]
             </span>
           </div>
         </div>
 
-        {/* Speed Controls */}
         <div className="flex items-center gap-2 shrink-0">
           <div className="flex items-center bg-surface-container-low rounded-xl p-1">
             {["1x", "4x", "12x"].map((speed) => (

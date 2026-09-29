@@ -19,50 +19,65 @@ interface GlacierData {
 }
 
 const GLACIERS: Record<string, GlacierData> = {
-  imja: {
-    id: "imja",
-    name: "GLACIER-IMJA-TSHO",
-    code: "[T-92]",
-    riskLevel: "LEVEL-4 RISK",
-    riskClass: "bg-error-container/40 text-error border-error/50",
-    area: "41.8 km²",
-    areaChange: "(-1.65%)",
-    proglacialVol: "78.2M m³",
-    volChange: "(+42.0%)",
-    moraineDef: "+14.2 cm/yr",
-    seepageCoeff: "0.44 k_fs",
-    status: "RULE_04 ACTIVE",
-    focalPoint: { x: 470, y: 350 },
-  },
-  khumbu: {
-    id: "khumbu",
-    name: "KHUMBU GLACIER",
-    code: "[KG-04]",
-    riskLevel: "LEVEL-2 WARNING",
-    riskClass: "bg-tertiary-container/30 text-tertiary border-tertiary/50",
-    area: "68.4 km²",
-    areaChange: "(-0.92%)",
-    proglacialVol: "14.5M m³",
-    volChange: "(+12.4%)",
-    moraineDef: "+6.8 cm/yr",
-    seepageCoeff: "0.28 k_fs",
-    status: "SURVEILLANCE EXPANDED",
-    focalPoint: { x: 330, y: 320 },
-  },
-  ngozumpa: {
-    id: "ngozumpa",
-    name: "NGOZUMPA TONGUE",
-    code: "[NG-18]",
-    riskLevel: "LEVEL-3 ALERT",
+  siachen_trunk: {
+    id: "siachen_trunk",
+    name: "SIACHEN MAIN TRUNK",
+    code: "[SC-01]",
+    riskLevel: "LEVEL-3 SURGE WATCH",
     riskClass: "bg-tertiary-container/40 text-tertiary border-tertiary/60",
-    area: "82.1 km²",
-    areaChange: "(-2.10%)",
-    proglacialVol: "52.8M m³",
-    volChange: "(+28.7%)",
-    moraineDef: "+11.1 cm/yr",
-    seepageCoeff: "0.39 k_fs",
-    status: "POND COALESCENCE OBSERVED",
-    focalPoint: { x: 150, y: 220 },
+    area: "712 km² (76km)",
+    areaChange: "(-0.45%)",
+    proglacialVol: "340B m³",
+    volChange: "(+3.8% Surge)",
+    moraineDef: "+8.4 cm/yr",
+    seepageCoeff: "0.19 k_fs",
+    status: "CENTRAL CREVASSE SURGE ACTIVE",
+    focalPoint: { x: 420, y: 310 },
+  },
+  teram_shehr: {
+    id: "teram_shehr",
+    name: "TERAM SHEHR TRIBUTARY",
+    code: "[TS-03]",
+    riskLevel: "LEVEL-2 FAST FLOW",
+    riskClass: "bg-primary-container/30 text-primary border-primary/50",
+    area: "185 km²",
+    areaChange: "(+1.12%)",
+    proglacialVol: "84B m³",
+    volChange: "(+8.4%)",
+    moraineDef: "+12.2 cm/yr",
+    seepageCoeff: "0.22 k_fs",
+    status: "CONFLUENCE THRUST DETECTED",
+    focalPoint: { x: 580, y: 220 },
+  },
+  saltoro_ridge: {
+    id: "saltoro_ridge",
+    name: "SALTORO CREVASSE ZONE",
+    code: "[SR-09]",
+    riskLevel: "LEVEL-4 AVALANCHE DANGER",
+    riskClass: "bg-error-container/40 text-error border-error/50",
+    area: "94 km²",
+    areaChange: "(-2.80%)",
+    proglacialVol: "28B m³",
+    volChange: "(-4.2%)",
+    moraineDef: "+24.5 cm/yr",
+    seepageCoeff: "0.58 k_fs",
+    status: "EXTREME BASAL SLIP DETECTED",
+    focalPoint: { x: 260, y: 390 },
+  },
+  bilafond_la: {
+    id: "bilafond_la",
+    name: "BILAFOND LA GLACIER",
+    code: "[BL-04]",
+    riskLevel: "LEVEL-2 SADDLE COLD ICE",
+    riskClass: "bg-secondary-container/30 text-secondary border-secondary/50",
+    area: "62 km²",
+    areaChange: "(0.00%)",
+    proglacialVol: "19B m³",
+    volChange: "(Stable)",
+    moraineDef: "+4.1 cm/yr",
+    seepageCoeff: "0.12 k_fs",
+    status: "PERMAFROST STABLE",
+    focalPoint: { x: 210, y: 220 },
   },
 };
 
@@ -75,11 +90,11 @@ export default function MapWorkspace() {
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
 
-  // Live mouse coordinates
+  // Live mouse coordinates in Siachen region (35°N, 77°E)
   const [coords, setCoords] = useState<{ lat: string; lon: string; elev: string }>({
-    lat: `27°59'17"N`,
-    lon: `86°55'31"E`,
-    elev: `5,364m ASL`,
+    lat: `35°25'12"N`,
+    lon: `77°06'30"E`,
+    elev: `5,420m ASL`,
   });
 
   const [activeLayers, setActiveLayers] = useState<string[]>([
@@ -87,7 +102,7 @@ export default function MapWorkspace() {
     "vectors",
   ]);
   const [selectedGlacier, setSelectedGlacier] = useState<GlacierData>(
-    GLACIERS.imja
+    GLACIERS.siachen_trunk
   );
   const [timelineVal, setTimelineVal] = useState<number>(2026.7);
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
@@ -132,9 +147,10 @@ export default function MapWorkspace() {
     const relX = (e.clientX - rect.left) / rect.width;
     const relY = (e.clientY - rect.top) / rect.height;
 
-    const latDeg = 28.01 - relY * 0.06;
-    const lonDeg = 86.89 + relX * 0.08;
-    const calcElev = Math.round(5100 + (1 - relY) * 980);
+    // Siachen latitude (35.1 to 35.6 N) and longitude (76.8 to 77.3 E)
+    const latDeg = 35.58 - relY * 0.42;
+    const lonDeg = 76.85 + relX * 0.45;
+    const calcElev = Math.round(3620 + (1 - relY) * 2133); // 3620m snout to 5753m Indira col
 
     const latMin = Math.floor((latDeg % 1) * 60);
     const latSec = Math.floor((((latDeg % 1) * 60) % 1) * 60);
@@ -142,15 +158,13 @@ export default function MapWorkspace() {
     const lonSec = Math.floor((((lonDeg % 1) * 60) % 1) * 60);
 
     setCoords({
-      lat: `27°${latMin.toString().padStart(2, "0")}'${latSec.toString().padStart(2, "0")}"N`,
-      lon: `86°${lonMin.toString().padStart(2, "0")}'${lonSec.toString().padStart(2, "0")}"E`,
+      lat: `35°${latMin.toString().padStart(2, "0")}'${latSec.toString().padStart(2, "0")}"N`,
+      lon: `77°${lonMin.toString().padStart(2, "0")}'${lonSec.toString().padStart(2, "0")}"E`,
       elev: `${calcElev.toLocaleString()}m ASL`,
     });
   };
 
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
+  const handleMouseUp = () => setIsDragging(false);
 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -193,7 +207,7 @@ export default function MapWorkspace() {
             }`}
           >
             <span className="material-symbols-outlined text-[13px]">radar</span>
-            <span>SAR INTENSITY</span>
+            <span>SIACHEN SAR INTERFEROMETRY</span>
           </button>
 
           <button
@@ -205,31 +219,19 @@ export default function MapWorkspace() {
             }`}
           >
             <span className="material-symbols-outlined text-[13px]">palette</span>
-            <span>OPTICAL RGB</span>
+            <span>TRUE COLOR ORTHO</span>
           </button>
 
           <button
-            onClick={() => toggleLayer("bathy")}
+            onClick={() => toggleLayer("crevasses")}
             className={`px-space-sm py-1 font-label-sm text-[10px] flex items-center gap-1 transition-colors ${
-              activeLayers.includes("bathy")
-                ? "bg-primary text-on-primary font-semibold"
-                : "bg-surface-container hover:bg-surface-container-high text-on-surface-variant"
+              activeLayers.includes("crevasses")
+                ? "bg-error text-white font-semibold"
+                : "bg-surface-container hover:bg-surface-container-high text-error"
             }`}
           >
-            <span className="material-symbols-outlined text-[13px]">water</span>
-            <span>LAKE DEPTH BATHY</span>
-          </button>
-
-          <button
-            onClick={() => toggleLayer("dem")}
-            className={`px-space-sm py-1 font-label-sm text-[10px] flex items-center gap-1 transition-colors ${
-              activeLayers.includes("dem")
-                ? "bg-primary text-on-primary font-semibold"
-                : "bg-surface-container hover:bg-surface-container-high text-on-surface-variant"
-            }`}
-          >
-            <span className="material-symbols-outlined text-[13px]">filter_hdr</span>
-            <span>CONTOURS (DEM)</span>
+            <span className="material-symbols-outlined text-[13px]">warning</span>
+            <span>CREVASSE FIELD RADAR</span>
           </button>
 
           <button
@@ -241,7 +243,7 @@ export default function MapWorkspace() {
             }`}
           >
             <span className="material-symbols-outlined text-[13px]">navigation</span>
-            <span>VELOCITY VECTORS</span>
+            <span>FLOW VELOCITY VECTORS</span>
           </button>
         </div>
 
@@ -288,36 +290,35 @@ export default function MapWorkspace() {
         </div>
       </div>
 
-      {/* MAP VIEWPORT (PAN & ZOOM CONTAINER) */}
+      {/* MAP VIEWPORT */}
       <div
         ref={mapContainerRef}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onWheel={handleWheel}
-        className={`relative w-full h-full bg-[#070b10] flex items-center justify-center overflow-hidden ${
+        className={`relative w-full h-full bg-[#060a10] flex items-center justify-center overflow-hidden ${
           isDragging ? "cursor-grabbing" : "cursor-grab"
         }`}
       >
-        {/* Transformable Canvas Group */}
         <div
           className="relative w-full h-full origin-center transition-transform duration-75 ease-out"
           style={{
             transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
           }}
         >
-          {/* Orthorectified Background Texture */}
+          {/* High-Altitude Glaciated Karakoram Satellite Texture */}
           <div
-            className="absolute inset-0 opacity-40 mix-blend-luminosity bg-cover bg-center transition-all duration-700"
+            className="absolute inset-0 opacity-45 mix-blend-luminosity bg-cover bg-center transition-all duration-700"
             style={{
-              backgroundImage: `url('/images/khumbu-sat.jpg')`,
+              backgroundImage: `url('/images/imja-lake-sat.jpg')`,
               filter: activeLayers.includes("sar")
-                ? "grayscale(100%) contrast(150%)"
+                ? "grayscale(100%) contrast(165%) brightness(90%)"
                 : "none",
             }}
           />
 
-          {/* SVG Vector Layer */}
+          {/* SVG Vector Layer: 76KM SIACHEN TRANSECT */}
           <svg
             className="absolute inset-0 w-full h-full select-none"
             viewBox="0 0 800 600"
@@ -334,252 +335,220 @@ export default function MapWorkspace() {
                 <path
                   d="M 100 0 L 0 0 0 100"
                   fill="none"
-                  stroke="#242c38"
+                  stroke="#1c2533"
                   strokeWidth="0.75"
                   strokeDasharray="2,6"
                 />
-                <circle cx="0" cy="0" r="1.5" fill="#3e484f" />
+                <circle cx="0" cy="0" r="1.5" fill="#323e4f" />
               </pattern>
 
-              <radialGradient id="lakeDepthGrad" cx="50%" cy="50%" r="50%">
-                <stop offset="0%" stopColor="#0284c7" stopOpacity="0.8" />
-                <stop offset="85%" stopColor="#0369a1" stopOpacity="0.5" />
-                <stop offset="100%" stopColor="#082f49" stopOpacity="0.9" />
-              </radialGradient>
+              <linearGradient id="siachenIceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#c4e7ff" stopOpacity="0.35" />
+                <stop offset="50%" stopColor="#7bd0ff" stopOpacity="0.25" />
+                <stop offset="100%" stopColor="#38bdf8" stopOpacity="0.15" />
+              </linearGradient>
+
+              <linearGradient id="crevasseHazardGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#ef4444" stopOpacity="0.7" />
+                <stop offset="100%" stopColor="#f97316" stopOpacity="0.4" />
+              </linearGradient>
             </defs>
 
-            {/* Coordinate Cross Grid */}
             <rect width="100%" height="100%" fill="url(#coordGrid)" opacity="0.65" />
 
-            {/* Satellite Ground Track */}
+            {/* ICESat-2 ATL06 Karakoram Transect Line */}
             <g opacity="0.85">
               <line
-                x1="60"
+                x1="120"
                 y1="0"
-                x2="720"
+                x2="680"
                 y2="600"
-                stroke="#8ed5ff"
+                stroke="#38bdf8"
                 strokeWidth="1.2"
-                strokeDasharray="5,3"
+                strokeDasharray="6,4"
               />
               <text
-                x="520"
-                y="510"
-                fill="#8ed5ff"
+                x="510"
+                y="520"
+                fill="#38bdf8"
                 className="font-label-sm text-[9px] tracking-widest uppercase font-mono"
               >
-                ICESat-2 ATL06 GROUND TRACK [RGT 0429]
+                ICESat-2 ATL06 KARAKORAM TRANSECT [RGT 0721]
               </text>
-              <circle cx="380" cy="300" r="3" fill="#8ed5ff" />
-              <circle cx="280" cy="210" r="3" fill="#8ed5ff" />
-              <circle cx="480" cy="390" r="3" fill="#8ed5ff" />
+              <circle cx="380" cy="280" r="3.5" fill="#38bdf8" />
+              <circle cx="280" cy="170" r="3.5" fill="#38bdf8" />
+              <circle cx="480" cy="390" r="3.5" fill="#38bdf8" />
             </g>
 
-            {/* Sentinel-2 Swath */}
+            {/* SATELLITE PASS BOUNDARY */}
             <polygon
-              points="120,40 580,20 660,540 180,590"
+              points="80,20 620,10 740,560 140,580"
               fill="none"
               stroke="#4edea3"
               strokeWidth="1"
               strokeDasharray="8,4"
-              opacity="0.4"
+              opacity="0.35"
             />
             <text
-              x="200"
-              y="55"
+              x="160"
+              y="40"
               fill="#4edea3"
               className="font-label-sm text-[9px] uppercase tracking-wider font-mono"
             >
-              SWATH: S2B_MSIL2A_20260929T050649
+              SENTINEL-1B C-SAR SWATH: S1B_IW_SLC__1SDV_SIACHEN
             </text>
 
-            {/* Glacier 1: Khumbu Glacier */}
+            {/* GLACIER 1: SIACHEN MAIN TRUNK (76 KM SERPENTINE ICE HIGHWAY) */}
             <g
-              id="glacier-khumbu-poly"
-              onClick={() => focusGlacier(GLACIERS.khumbu)}
-              onMouseEnter={() => setHoveredGlacier("Khumbu Glacier")}
+              id="glacier-siachen-poly"
+              onClick={() => focusGlacier(GLACIERS.siachen_trunk)}
+              onMouseEnter={() => setHoveredGlacier("Siachen Main Trunk (76 km)")}
               onMouseLeave={() => setHoveredGlacier(null)}
               className="cursor-pointer group"
             >
+              {/* Grand Serpentine Main Glacier Ribbon */}
               <path
-                d="M 280,140 Q 320,180 340,240 T 360,330 T 345,410 T 325,480 L 295,475 Q 310,400 315,310 T 290,210 Z"
-                fill="#ff975d"
-                fillOpacity={selectedGlacier.id === "khumbu" ? "0.25" : "0.12"}
-                stroke="#ff975d"
-                strokeWidth={selectedGlacier.id === "khumbu" ? "2.5" : "1.5"}
-                strokeDasharray="4,2"
+                d="M 280,60 Q 330,120 370,190 T 430,290 T 460,390 T 420,490 T 360,570 L 320,560 Q 370,480 395,385 T 345,280 T 300,180 T 250,70 Z"
+                fill="url(#siachenIceGradient)"
+                stroke="#8ed5ff"
+                strokeWidth={selectedGlacier.id === "siachen_trunk" ? "2.8" : "1.8"}
                 className="transition-all"
               />
+
+              {/* Medial Moraine Ribbons running down the length */}
+              <path
+                d="M 265,65 Q 315,125 355,185 T 412,285 T 438,388 T 392,488 T 340,565"
+                fill="none"
+                stroke="#3e484f"
+                strokeWidth="1"
+                strokeDasharray="6,3"
+                opacity="0.7"
+              />
+
+              {/* Flow Velocity Arrows */}
               {activeLayers.includes("vectors") && (
                 <g className="transition-opacity">
-                  <path
-                    d="M 320,240 L 325,270 M 325,270 L 322,263 M 325,270 L 329,264"
-                    stroke="#ffbf9e"
-                    strokeWidth="1.5"
-                  />
-                  <path
-                    d="M 345,330 L 348,365 M 348,365 L 344,357 M 348,365 L 352,358"
-                    stroke="#ffbf9e"
-                    strokeWidth="1.5"
-                  />
-                  <path
-                    d="M 330,410 L 326,440 M 326,440 L 323,433 M 326,440 L 329,434"
-                    stroke="#ffbf9e"
-                    strokeWidth="1.5"
-                  />
+                  <path d="M 335,140 L 350,175 M 350,175 L 344,168 M 350,175 L 354,169" stroke="#7bd0ff" strokeWidth="1.5" />
+                  <path d="M 390,240 L 410,278 M 410,278 L 403,272 M 410,278 L 413,270" stroke="#7bd0ff" strokeWidth="1.5" />
+                  <path d="M 435,340 L 438,380 M 438,380 L 433,372 M 438,380 L 442,373" stroke="#7bd0ff" strokeWidth="1.5" />
+                  <path d="M 425,430 L 400,470 M 400,470 L 401,462 M 400,470 L 408,465" stroke="#7bd0ff" strokeWidth="1.5" />
                 </g>
               )}
-              <ellipse
-                cx="330"
-                cy="360"
-                rx="9"
-                ry="5"
-                fill="#0284c7"
-                stroke="#38bdf8"
-                strokeWidth="1"
-              />
-              <ellipse
-                cx="322"
-                cy="390"
-                rx="12"
-                ry="7"
-                fill="#0284c7"
-                stroke="#38bdf8"
-                strokeWidth="1"
-              />
-              <text
-                x="250"
-                y="160"
-                fill="#ffbf9e"
-                className="font-label-md text-[11px] font-semibold tracking-wider font-mono"
-              >
-                KHUMBU GLACIER [KG-04]
+
+              {/* Indira Col Accumulation Source Marker */}
+              <circle cx="265" cy="65" r="4.5" fill="#c4e7ff" stroke="#00354a" strokeWidth="1.5" />
+              <text x="210" y="55" fill="#c4e7ff" className="font-mono text-[10px] font-bold">
+                INDIRA COL [5,753m]
               </text>
-              <text
-                x="250"
-                y="174"
-                fill="#bdc8d1"
-                className="font-label-sm text-[9px] font-mono"
-              >
-                FLOW: 0.18 m/day | RETREAT: -14.2m/yr
+
+              {/* Siachen Main Trunk Label */}
+              <text x="430" y="270" fill="#8ed5ff" className="font-mono text-[11px] font-bold tracking-wider">
+                SIACHEN MAIN TRUNK [SC-01]
+              </text>
+              <text x="430" y="284" fill="#bdc8d1" className="font-mono text-[9px]">
+                76 KM LENGTH | FLOW: 0.34 m/day | AREA: 712 km²
+              </text>
+
+              {/* Snout Nubra Outflow Marker */}
+              <circle cx="340" cy="565" r="4" fill="#38bdf8" />
+              <text x="355" y="570" fill="#38bdf8" className="font-mono text-[9px] font-semibold">
+                SNOUT / NUBRA RIVERBED [3,620m]
               </text>
             </g>
 
-            {/* Glacier 2: Imja Glacier & Lake Imja Tsho */}
+            {/* GLACIER 2: TERAM SHEHR EASTERN TRIBUTARY */}
             <g
-              id="glacier-imja-poly"
-              onClick={() => focusGlacier(GLACIERS.imja)}
-              onMouseEnter={() => setHoveredGlacier("Imja Tsho")}
+              id="glacier-teram-shehr"
+              onClick={() => focusGlacier(GLACIERS.teram_shehr)}
+              onMouseEnter={() => setHoveredGlacier("Teram Shehr Glacier")}
               onMouseLeave={() => setHoveredGlacier(null)}
               className="cursor-pointer group"
             >
               <path
-                d="M 430,310 Q 490,320 540,305 T 620,330 T 600,380 L 480,395 T 420,360 Z"
-                fill="#ffb4ab"
-                fillOpacity={selectedGlacier.id === "imja" ? "0.28" : "0.15"}
-                stroke="#ef4444"
-                strokeWidth={selectedGlacier.id === "imja" ? "3" : "2"}
-                className="transition-all"
+                d="M 680,180 Q 610,210 520,240 T 430,290 L 415,270 Q 510,225 590,195 T 660,165 Z"
+                fill="#38bdf8"
+                fillOpacity={selectedGlacier.id === "teram_shehr" ? "0.3" : "0.15"}
+                stroke="#38bdf8"
+                strokeWidth={selectedGlacier.id === "teram_shehr" ? "2.5" : "1.4"}
               />
-              <path
-                d="M 435,335 C 455,330 480,332 495,342 C 510,352 505,372 485,378 C 460,384 435,375 428,355 Z"
-                fill="url(#lakeDepthGrad)"
-                stroke="#ef4444"
-                strokeWidth="1.5"
-              />
-              <ellipse
-                cx="468"
-                cy="355"
-                rx="42"
-                ry="24"
-                fill="none"
-                stroke="#ef4444"
-                strokeWidth="1"
-                strokeDasharray="3,3"
-                className="animate-pulse"
-              />
-              <circle
-                cx="426"
-                cy="353"
-                r="5"
-                fill="#ef4444"
-                stroke="#ffffff"
-                strokeWidth="1.5"
-              />
-              <text
-                x="460"
-                y="295"
-                fill="#ffb4ab"
-                className="font-label-md text-[11px] font-bold tracking-widest font-mono"
-              >
-                IMJA TSHO [GL-2798-02]
-              </text>
-              <text
-                x="460"
-                y="308"
-                fill="#ef4444"
-                className="font-label-sm text-[9px] font-semibold font-mono"
-              >
-                CRITICAL GLOF THREAT (LEVEL 4)
+              <text x="540" y="210" fill="#38bdf8" className="font-mono text-[10px] font-semibold">
+                TERAM SHEHR TRIBUTARY [TS-03]
               </text>
             </g>
 
-            {/* Glacier 3: Ngozumpa */}
+            {/* GLACIER 3: SALTORO RIDGE & CREVASSE FIELD */}
             <g
-              id="glacier-ngozumpa-poly"
-              onClick={() => focusGlacier(GLACIERS.ngozumpa)}
-              onMouseEnter={() => setHoveredGlacier("Ngozumpa Tongue")}
+              id="glacier-saltoro"
+              onClick={() => focusGlacier(GLACIERS.saltoro_ridge)}
+              onMouseEnter={() => setHoveredGlacier("Saltoro Ridge & Crevasse Zone")}
               onMouseLeave={() => setHoveredGlacier(null)}
               className="cursor-pointer group"
             >
               <path
-                d="M 140,80 Q 165,140 170,220 T 160,320 L 130,310 Q 140,220 135,140 Z"
-                fill="#ff975d"
-                fillOpacity={selectedGlacier.id === "ngozumpa" ? "0.22" : "0.1"}
-                stroke="#ff975d"
-                strokeWidth={selectedGlacier.id === "ngozumpa" ? "2.5" : "1.2"}
-                strokeDasharray="6,3"
+                d="M 180,320 Q 230,350 280,380 T 360,400 L 350,420 Q 270,410 210,380 T 160,340 Z"
+                fill="#ffb4ab"
+                fillOpacity={selectedGlacier.id === "saltoro_ridge" ? "0.35" : "0.18"}
+                stroke="#ef4444"
+                strokeWidth={selectedGlacier.id === "saltoro_ridge" ? "2.8" : "1.8"}
               />
-              <circle cx="155" cy="245" r="7" fill="#0284c7" stroke="#38bdf8" strokeWidth="1" />
-              <circle cx="158" cy="270" r="10" fill="#0284c7" stroke="#38bdf8" strokeWidth="1" />
-              <text
-                x="80"
-                y="95"
-                fill="#ffbf9e"
-                className="font-label-sm text-[10px] font-semibold font-mono"
-              >
-                NGOZUMPA TONGUE
+
+              {/* Crevasse Hazard Hatch Lines */}
+              <g stroke="#ef4444" strokeWidth="1.2">
+                <line x1="240" y1="360" x2="255" y2="380" />
+                <line x1="265" y1="370" x2="280" y2="390" />
+                <line x1="290" y1="380" x2="305" y2="400" />
+                <line x1="315" y1="385" x2="330" y2="405" />
+              </g>
+
+              <circle cx="260" cy="385" r="5" fill="#ef4444" className="animate-ping" />
+              <text x="180" y="440" fill="#ffb4ab" className="font-mono text-[10px] font-bold">
+                SALTORO CREVASSE ZONE [SR-09]
+              </text>
+              <text x="180" y="454" fill="#ef4444" className="font-mono text-[9px] font-semibold">
+                LEVEL-4 AVALANCHE &amp; FRACTURE THREAT
               </text>
             </g>
 
-            {/* Radar FOV Reticle */}
-            <circle
-              cx="400"
-              cy="300"
-              r="180"
-              fill="none"
-              stroke="#38bdf8"
-              strokeWidth="0.5"
-              strokeDasharray="4,8"
-              opacity="0.3"
-            />
-            <line x1="400" y1="270" x2="400" y2="330" stroke="#38bdf8" strokeWidth="1" opacity="0.6" />
-            <line x1="370" y1="300" x2="430" y2="300" stroke="#38bdf8" strokeWidth="1" opacity="0.6" />
+            {/* GLACIER 4: BILAFOND LA */}
+            <g
+              id="glacier-bilafond"
+              onClick={() => focusGlacier(GLACIERS.bilafond_la)}
+              onMouseEnter={() => setHoveredGlacier("Bilafond La Glacier Saddle")}
+              onMouseLeave={() => setHoveredGlacier(null)}
+              className="cursor-pointer group"
+            >
+              <path
+                d="M 150,190 Q 210,210 260,230 L 250,250 Q 200,230 140,210 Z"
+                fill="#4edea3"
+                fillOpacity="0.18"
+                stroke="#4edea3"
+                strokeWidth="1.2"
+                strokeDasharray="4,2"
+              />
+              <text x="130" y="180" fill="#4edea3" className="font-mono text-[10px] font-semibold">
+                BILAFOND LA SADDLE [BL-04]
+              </text>
+            </g>
+
+            {/* Radar Crosshairs */}
+            <circle cx="400" cy="300" r="180" fill="none" stroke="#38bdf8" strokeWidth="0.5" strokeDasharray="4,8" opacity="0.25" />
+            <line x1="400" y1="270" x2="400" y2="330" stroke="#38bdf8" strokeWidth="1" opacity="0.5" />
+            <line x1="370" y1="300" x2="430" y2="300" stroke="#38bdf8" strokeWidth="1" opacity="0.5" />
           </svg>
         </div>
 
         {/* Hover label */}
         {hoveredGlacier && (
-          <div className="absolute pointer-events-none px-2 py-0.5 bg-surface-container-lowest/90 border border-primary text-primary font-mono text-[10px] rounded top-14 left-1/2 -translate-x-1/2 z-30">
-            TARGET: {hoveredGlacier} [CLICK TO LOCK]
+          <div className="absolute pointer-events-none px-2.5 py-1 bg-surface-container-lowest/95 border border-primary text-primary font-mono text-[11px] rounded top-14 left-1/2 -translate-x-1/2 z-30 shadow-lg">
+            SIACHEN SECTOR: {hoveredGlacier} [CLICK TO LOCK FOV]
           </div>
         )}
 
-        {/* FLOATING TACTICAL HUD CARD */}
-        <div className="absolute bottom-16 left-4 z-20 w-80 bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/60 p-space-sm shadow-2xl">
+        {/* FLOATING TACTICAL HUD CARD FOR SIACHEN TARGET */}
+        <div className="absolute bottom-16 left-4 z-20 w-84 bg-surface-container-lowest/95 backdrop-blur-md border border-outline-variant/60 p-space-sm shadow-2xl">
           <div className="flex items-center justify-between pb-space-xs border-b border-outline-variant/30 mb-space-xs">
             <div className="flex items-center gap-space-xs">
-              <span className="w-2 h-2 bg-error animate-ping" />
+              <span className="w-2 h-2 bg-secondary animate-ping" />
               <span className="font-label-md text-[11px] font-bold text-on-surface">
                 {selectedGlacier.name} {selectedGlacier.code}
               </span>
@@ -592,41 +561,41 @@ export default function MapWorkspace() {
           </div>
 
           <div className="grid grid-cols-2 gap-space-xs font-label-sm text-[10px] mb-space-xs">
-            <div className="bg-surface-container-low p-1 border border-outline-variant/20">
+            <div className="bg-surface-container-low p-1.5 border border-outline-variant/20 rounded">
               <span className="text-on-surface-variant block text-[9px] uppercase">
-                GLACIER AREA
+                TOTAL ICE COVER
               </span>
               <span className="text-on-surface font-mono text-[11px] font-semibold">
                 {selectedGlacier.area}
               </span>
-              <span className="text-error text-[10px] ml-1">
+              <span className="text-secondary text-[10px] ml-1">
                 {selectedGlacier.areaChange}
               </span>
             </div>
-            <div className="bg-surface-container-low p-1 border border-outline-variant/20">
+            <div className="bg-surface-container-low p-1.5 border border-outline-variant/20 rounded">
               <span className="text-on-surface-variant block text-[9px] uppercase">
-                PROGLACIAL VOL
+                ICE MASS VOLUME
               </span>
               <span className="text-primary font-mono text-[11px] font-semibold">
                 {selectedGlacier.proglacialVol}
               </span>
-              <span className="text-error text-[10px] ml-1">
+              <span className="text-tertiary text-[10px] ml-1">
                 {selectedGlacier.volChange}
               </span>
             </div>
-            <div className="bg-surface-container-low p-1 border border-outline-variant/20">
+            <div className="bg-surface-container-low p-1.5 border border-outline-variant/20 rounded">
               <span className="text-on-surface-variant block text-[9px] uppercase">
-                MORAINE WALL DEF
+                MORAINE CREEP
               </span>
-              <span className="text-error font-mono text-[11px] font-semibold">
+              <span className="text-tertiary font-mono text-[11px] font-semibold">
                 {selectedGlacier.moraineDef}
               </span>
             </div>
-            <div className="bg-surface-container-low p-1 border border-outline-variant/20">
+            <div className="bg-surface-container-low p-1.5 border border-outline-variant/20 rounded">
               <span className="text-on-surface-variant block text-[9px] uppercase">
-                SEEPAGE COEFF
+                SUBGLACIAL DRAINAGE
               </span>
-              <span className="text-tertiary font-mono text-[11px] font-semibold">
+              <span className="text-secondary font-mono text-[11px] font-semibold">
                 {selectedGlacier.seepageCoeff}
               </span>
             </div>
@@ -670,7 +639,7 @@ export default function MapWorkspace() {
                 <div className="absolute left-0 top-0 bottom-0 w-12 bg-on-surface" />
               </div>
               <span className="font-mono text-[9px] text-on-surface-variant">
-                {(2.0 / zoom).toFixed(1)} KM
+                {(5.0 / zoom).toFixed(1)} KM
               </span>
             </div>
           </div>
@@ -724,9 +693,9 @@ export default function MapWorkspace() {
           </div>
 
           <div className="flex items-center gap-1 font-label-sm text-[10px]">
-            <span className="text-on-surface-variant text-[9px]">COMPARISON:</span>
+            <span className="text-on-surface-variant text-[9px]">SIACHEN SURGE CYCLE:</span>
             <span className="px-1 py-0.5 bg-surface-container-high border border-outline-variant/40 text-secondary font-mono">
-              T-MINUS 24 MO
+              KARAKORAM ANOMALY ACTIVE
             </span>
           </div>
         </div>
