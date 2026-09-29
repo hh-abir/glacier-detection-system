@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Glacier Monitor • Mission Control</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+            },
+            surface: {
+              base: '#080c14',
+              card: '#0f172a',
+              panel: '#0d1322',
+              hover: '#1e293b',
+              muted: '#1e293b',
+              border: '#1e293b'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Space Grotesk', 'monospace'],
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #334155; }
+  </style>
+<meta content="web_dashboard" name="shell-type"/></head>
+<body class="bg-[#080c14] font-sans text-slate-200 antialiased h-screen flex flex-col overflow-hidden selection:bg-sky-500/20 selection:text-sky-300">
+<!-- TOP APP BAR -->
+<header class="h-16 px-6 bg-[#0c1220]/95 backdrop-blur-md border-b border-slate-800/90 flex items-center justify-between z-40 shrink-0">
+<div class="flex items-center gap-6">
+<!-- Logo & System Title -->
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center bg-sky-950/60 border border-sky-500/30 shadow-inner shadow-sky-500/20">
+<img alt="Glacier Monitor Logo" class="w-7 h-7 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VX6oXUD-BUse6DP40OgzWvygDUy4WMfc21Efrbu8Y9qVOGzV5qZktUkEYxru9mN_BIwKQb6RnACD0jQRacD6M9VV_1x_-zaOfeN51mJmYmpIxKPnYuD-11S5G0rY226C9tsfgVPS-R_1hVMySqpFaMJGCFRgr_u0y4o2vBMyVKnaASzWEs35rrNE9TsjUbiE-sc7wCCiAs6Nk_gGR9Sc-nicLM94EmBUyB77Z46G1nZ2FP0rWv9e4CxBkF"/>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-base tracking-tight text-white">Glacier Monitor</span>
+<span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/30 font-medium">v2.8 EO</span>
+</div>
+<span class="text-xs text-slate-400 font-normal">Earth Observation &amp; Early Warning</span>
+</div>
+</div>
+<div class="h-5 w-px bg-slate-800"></div>
+<!-- Region Selector -->
+<button class="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-slate-900/90 border border-slate-800 hover:border-slate-700 text-sm text-slate-200 transition-all hover:bg-slate-800/50">
+<span class="material-symbols-outlined text-[17px] text-sky-400">landscape</span>
+<span class="font-medium text-xs">Khumbu-Himal Region</span>
+<span class="text-[11px] font-mono text-emerald-400 font-normal">27.98° N, 86.92° E</span>
+<span class="material-symbols-outlined text-[16px] text-slate-400 ml-0.5">expand_more</span>
+</button>
+</div>
+<!-- Center Search Bar -->
+<div class="flex-1 max-w-md mx-8">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-[18px] text-slate-400">search</span>
+<input class="w-full h-9 pl-10 pr-12 rounded-lg bg-slate-950/90 border border-slate-800 focus:border-sky-500/70 focus:ring-1 focus:ring-sky-500/40 text-xs text-slate-200 placeholder:text-slate-500 transition-all" placeholder="Search glaciers, proglacial lakes, observations or alerts..." type="text"/>
+<kbd class="absolute right-3 px-1.5 py-0.5 rounded bg-slate-800 border border-slate-700 text-[10px] font-mono text-slate-400">⌘K</kbd>
+</div>
+</div>
+<!-- Right Controls & Status -->
+<div class="flex items-center gap-4">
+<!-- Sync Status Pill -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900/90 border border-slate-800 text-xs shadow-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="text-slate-200 font-medium">NASA Harmony</span>
+<span class="text-slate-500">•</span>
+<span class="text-slate-400 text-[11px]">Synced 2m ago</span>
+</div>
+<!-- Alert Indicator -->
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/15 border border-rose-500/40 text-rose-300 text-xs font-medium shadow-sm shadow-rose-950/40">
+<span class="material-symbols-outlined text-[16px] text-rose-400">crisis_alert</span>
+<span>1 Critical Alert</span>
+</div>
+<div class="h-5 w-px bg-slate-800"></div>
+<!-- Operator Profile -->
+<div class="flex items-center gap-2.5 pl-1 cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white text-xs font-semibold shadow-md ring-1 ring-sky-500/30">
+          SC
+        </div>
+<div class="hidden lg:flex flex-col text-left">
+<span class="text-xs font-medium text-slate-200">Dr. S. Chen</span>
+<span class="text-[10px] text-slate-400">Lead Cryo Analyst</span>
+</div>
+</div>
+</div>
+</header>
+<!-- BODY SHELL -->
+<div class="flex-1 flex overflow-hidden">
+<!-- LEFT SIDEBAR NAVIGATION -->
+<aside class="w-60 bg-[#0c1220] border-r border-slate-800/90 flex flex-col justify-between py-4 select-none shrink-0 z-30">
+<div class="flex flex-col gap-6 px-3">
+<!-- Main Menu -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/30 font-medium text-sm transition-all shadow-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span>Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+<span>Investigate</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">terrain</span>
+<span>Glaciers &amp; Lakes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">satellite_alt</span>
+<span>Observations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">crisis_alert</span>
+<span>Alerts &amp; Warnings</span>
+<span class="ml-auto text-[11px] font-mono px-1.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 font-semibold border border-rose-500/30">4</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">schema</span>
+<span>GLOF Modeling</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">stacked_line_chart</span>
+<span>Elevation Profiles</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/50 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">sync_alt</span>
+<span>Pipeline Jobs</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Card & System Metrics -->
+<div class="px-3 flex flex-col gap-3">
+<div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 shadow-sm">
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="text-slate-300 font-medium">Earth Observation Mesh</span>
+<span class="font-mono text-emerald-400 font-semibold">99.8%</span>
+</div>
+<div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mb-2">
+<div class="bg-emerald-400 h-full w-[99.8%] rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]"></div>
+</div>
+<div class="flex items-center gap-1.5 text-[11px] text-slate-400">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span>ICESat-2 • Landsat-9 • S1-A</span>
+</div>
+</div>
+<div class="flex items-center justify-between px-2 pt-1 text-slate-400 text-xs">
+<button class="flex items-center gap-1.5 hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[16px]">settings</span>
+<span>Settings</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[16px]">help</span>
+<span>Docs</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- MAIN DASHBOARD CONTENT AREA -->
+<main class="flex-1 flex flex-col overflow-hidden relative bg-[#080c14]"><div class="flex flex-col w-full h-full overflow-hidden text-on-surface bg-background">
+<!-- TOP CONTEXT HUD & MISSION STRIP -->
+<section class="shrink-0 px-6 py-3.5 bg-surface-container-low flex flex-col xl:flex-row items-start xl:items-center justify-between gap-4 shadow-md z-20">
+<div class="flex flex-wrap items-center gap-4">
+<div class="flex items-center gap-2.5 bg-error-container/30 px-3 py-1.5 rounded-lg shadow-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-error animate-ping"></span>
+<span class="font-label-md text-error tracking-wider uppercase">STAGE 4 CRITICAL DISPATCH</span>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-on-surface tracking-tight font-semibold">Imja Tsho (Lake GL-2798-02)</span>
+<span class="font-label-sm uppercase px-2 py-0.5 rounded bg-surface-container text-primary font-medium">Khumbu Himal</span>
+</div>
+<span class="font-body-sm text-outline flex items-center gap-2">
+<span>Lat: 27.902° N, Long: 86.927° E</span>
+<span>•</span>
+<span>Elevation: 5,010m a.s.l.</span>
+<span>•</span>
+<span class="font-mono text-tertiary">Model: HEC-RAS 2D + RAMMS v4.2</span>
+</span>
+</div>
+</div>
+<div class="hidden 2xl:flex items-center gap-2 pl-4">
+<div class="px-2.5 py-1 rounded bg-surface-container font-label-sm text-on-surface-variant">
+          Trigger: <span class="text-tertiary font-medium">500,000 m³ Hanging Ice Detachment</span>
+</div>
+<div class="px-2.5 py-1 rounded bg-surface-container font-label-sm text-on-surface-variant">
+          Sim ID: <span class="text-primary font-mono">SIM-2026-0929-H3</span>
+</div>
+</div>
+</div>
+<!-- Quick Action Triggers -->
+<div class="flex items-center gap-2.5 self-end xl:self-auto shrink-0">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-label-md transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">casino</span>
+<span>Run Monte Carlo (N=500)</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface text-label-md transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-tertiary">description</span>
+<span>Civil Defense SITREP</span>
+</button>
+<button class="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-primary-container text-on-primary font-label-md shadow-md hover:brightness-110 transition-all font-semibold">
+<span class="material-symbols-outlined text-[18px]">cell_tower</span>
+<span>Broadcast Console (Live)</span>
+</button>
+</div>
+</section>
+<!-- WORKSPACE 3-PANEL BENTO -->
+<div class="flex-1 flex overflow-hidden p-3 gap-3">
+<!-- LEFT PANEL: Breach Dynamics & Hydrographic Telemetry -->
+<aside class="w-[340px] 2xl:w-[380px] shrink-0 flex flex-col gap-3 overflow-y-auto pr-1">
+<!-- Moraine Stability & Freeboard Block -->
+<div class="p-4 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-3.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">landslide</span>
+<span class="font-label-md uppercase tracking-wider text-on-surface">Moraine Dam Integrity</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-error-container/40 text-error font-label-sm font-semibold">Overtopping Imm.</span>
+</div>
+<!-- Telemetry Numbers -->
+<div class="grid grid-cols-2 gap-2">
+<div class="p-2.5 rounded-lg bg-surface-container-lowest flex flex-col">
+<span class="font-label-sm text-outline uppercase">Freeboard Deficit</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-telemetry-value text-error font-bold">-2.85</span>
+<span class="font-body-sm text-outline">m</span>
+</div>
+<span class="font-label-sm text-error/80 mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">trending_down</span> -0.42 m/hr
+            </span>
+</div>
+<div class="p-2.5 rounded-lg bg-surface-container-lowest flex flex-col">
+<span class="font-label-sm text-outline uppercase">Seepage Velocity</span>
+<div class="flex items-baseline gap-1 mt-0.5">
+<span class="font-telemetry-value text-tertiary font-bold">14.2</span>
+<span class="font-body-sm text-outline">cm/h</span>
+</div>
+<span class="font-label-sm text-tertiary mt-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]">warning</span> Piping Breach Prob 91%
+            </span>
+</div>
+</div>
+<!-- Hydrostatic Pore Pressure Gauge SVG -->
+<div class="p-3 rounded-lg bg-surface-container-lowest flex flex-col gap-1.5">
+<div class="flex justify-between items-center text-label-sm">
+<span class="text-outline uppercase">Internal Core Pore Pressure</span>
+<span class="font-mono text-error font-semibold">418 kPa (Crit: 380)</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-error h-full rounded-full transition-all duration-500" style="width: 88%"></div>
+</div>
+<div class="flex justify-between text-[9px] font-mono text-outline">
+<span>Nominal: 120 kPa</span>
+<span>Trigger Threshold: 380 kPa</span>
+</div>
+</div>
+</div>
+<!-- Hydrograph Chart Module -->
+<div class="p-4 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">water</span>
+<span class="font-label-md uppercase tracking-wider text-on-surface">Breach Discharge Hydrograph</span>
+</div>
+<span class="font-mono text-label-sm text-primary font-bold">Q_max: 15,400 m³/s</span>
+</div>
+<!-- Hydrograph Inline SVG -->
+<div class="h-36 w-full rounded-lg bg-surface-container-lowest p-2 relative flex flex-col justify-end">
+<svg class="w-full h-24 overflow-visible" preserveaspectratio="none" viewbox="0 0 300 100">
+<!-- Gridlines -->
+<line stroke="#3e484f" stroke-dasharray="2,2" stroke-width="0.7" x1="0" x2="300" y1="20" y2="20"></line>
+<line stroke="#3e484f" stroke-dasharray="2,2" stroke-width="0.7" x1="0" x2="300" y1="50" y2="50"></line>
+<line stroke="#3e484f" stroke-dasharray="2,2" stroke-width="0.7" x1="0" x2="300" y1="80" y2="80"></line>
+<!-- Shaded Area -->
+<polygon fill="#ffb4ab" fill-opacity="0.15" points="0,95 20,93 45,86 70,68 95,24 110,12 125,28 150,55 190,75 240,88 300,94 300,95"></polygon>
+<!-- Main Wave Line -->
+<polyline fill="none" points="0,95 20,93 45,86 70,68 95,24 110,12 125,28 150,55 190,75 240,88 300,94" stroke="#ffb4ab" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<!-- Peak Marker -->
+<circle cx="110" cy="12" fill="#ffb4ab" r="4.5"></circle>
+<circle cx="110" cy="12" fill="#690005" r="2"></circle>
+</svg>
+<!-- Annotations inside chart -->
+<div class="absolute top-2 left-3 font-mono text-[10px] text-error font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+            Peak Flood Pulse: T+32 min
+          </div>
+<div class="flex justify-between font-mono text-[9px] text-outline pt-1">
+<span>T+0</span>
+<span>T+30m</span>
+<span>T+1h</span>
+<span>T+2h</span>
+<span>T+4h</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 text-label-sm">
+<div class="p-2 rounded bg-surface-container flex flex-col">
+<span class="text-outline">Total Evac Volume</span>
+<span class="font-mono text-on-surface font-semibold text-body-md">41.8M m³</span>
+</div>
+<div class="p-2 rounded bg-surface-container flex flex-col">
+<span class="text-outline">Sediment Bulking</span>
+<span class="font-mono text-tertiary font-semibold text-body-md">1.42x Factor</span>
+</div>
+</div>
+</div>
+<!-- Breach Geometry Simulation Controls -->
+<div class="p-4 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-3">
+<span class="font-label-md uppercase tracking-wider text-on-surface flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">tune</span>
+          Breach Model Parameters
+        </span>
+<div class="space-y-2.5">
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-sm">
+<span class="text-on-surface-variant">Breach Width Growth</span>
+<span class="font-mono text-primary font-medium">85.4 m (in 45m)</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full" style="width: 72%"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-sm">
+<span class="text-on-surface-variant">Impulse Wave Height</span>
+<span class="font-mono text-tertiary font-medium">14.6 m Overtopping</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 82%"></div>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex justify-between font-label-sm">
+<span class="text-on-surface-variant">Total Reservoir Storage</span>
+<span class="font-mono text-on-surface font-medium">78.2 × 10⁶ m³</span>
+</div>
+<div class="w-full bg-surface-container h-1.5 rounded-full overflow-hidden">
+<div class="bg-surface-tint h-full rounded-full" style="width: 90%"></div>
+</div>
+</div>
+</div>
+</div>
+</aside>
+<!-- CENTER PANEL: Interactive Downstream Inundation HUD & Valley Transect Map -->
+<main class="flex-1 flex flex-col gap-3 min-w-0">
+<!-- Geospatial Viewport -->
+<div class="relative flex-1 rounded-xl bg-surface-container-lowest overflow-hidden shadow-lg flex flex-col">
+<!-- Live Terrain Map Area with Synthetic Radar/Raster Rendering -->
+<div class="relative w-full h-full bg-cover bg-center" data-location="Imja Glacial Lake, Khumbu Himal, Nepal" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC1JyDj39nec8_BhhOno2_SuXxZA33zFy3B_9hqfVqpbAvTh2wLWwdl8olZ3zOskLGseS3aOmLkUOSZZ4rrIIf2xbffTPYf3TK1TbAbz7mM1pZb30Kbg4v2ZVrnVQycNGNJDyVxUvTXDJEi2Wur9PQQEsLhVhZ-y-UOoiZcd24iSGZBanPLch857Ojj8Aqm2qVZrmKkF9GWG1hFVZZrMfsploUaDhVLSu2V_PLberHVxtq3CzY5pfcX1g')">
+<!-- Translucent High-Contrast Tactical HUD Scrim -->
+<div class="absolute inset-0 bg-background/50 backdrop-blur-[2px]"></div>
+<!-- Top-Left Floating Tactical Layer Toggles -->
+<div class="absolute top-4 left-4 z-10 flex flex-wrap items-center gap-1.5 bg-surface-container-low/90 backdrop-blur-md p-1.5 rounded-xl shadow-md">
+<button class="px-2.5 py-1 rounded-lg bg-primary-container text-on-primary font-label-sm font-semibold flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[15px]">water_voc</span>
+<span>Peak Inundation Depth</span>
+</button>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">speed</span>
+<span>Flow Velocity Vectors</span>
+</button>
+<button class="px-2.5 py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">wrong_location</span>
+<span>Sediment Deposition</span>
+</button>
+<button class="px-2.5 py-1 rounded-lg bg-secondary/15 text-secondary font-label-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">transfer_within_a_station</span>
+<span>Evac Routes (Active)</span>
+</button>
+</div>
+<!-- Map Coordinate & Scale HUD overlay -->
+<div class="absolute top-4 right-4 z-10 flex items-center gap-3 bg-surface-container-low/90 backdrop-blur-md px-3 py-1.5 rounded-xl text-label-sm font-mono text-outline shadow-md">
+<span class="text-secondary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+              RAMMS 2D SOLVER: ACTIVE
+            </span>
+<span>•</span>
+<span>ZOOM: 1:24,000</span>
+<span>•</span>
+<span class="text-on-surface">GRID: UTM 45R</span>
+</div>
+<!-- Synthetic Inundation Hazard Vector Overlay (SVG Map Canvas) -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" preserveaspectratio="none" viewbox="0 0 800 500">
+<defs>
+<!-- High hazard flow gradient -->
+<lineargradient id="floodGrad" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#ffb4ab" stop-opacity="0.8"></stop>
+<stop offset="35%" stop-color="#f59e0b" stop-opacity="0.65"></stop>
+<stop offset="70%" stop-color="#7bd0ff" stop-opacity="0.5"></stop>
+<stop offset="100%" stop-color="#38bdf8" stop-opacity="0.3"></stop>
+</lineargradient>
+</defs>
+<!-- Valley River Corridor S-Curve Inundation Swath -->
+<path d="M 680,60 Q 560,90 510,150 T 410,240 T 290,320 T 160,390 T 70,470" fill="none" stroke="url(#floodGrad)" stroke-linecap="round" stroke-width="48"></path>
+<path d="M 680,60 Q 560,90 510,150 T 410,240 T 290,320 T 160,390 T 70,470" fill="none" stroke="#ffb4ab" stroke-linecap="round" stroke-opacity="0.9" stroke-width="14"></path>
+<!-- Flow Velocity Direction Particle Arrows -->
+<g fill="none" stroke="#dfe2ee" stroke-dasharray="8,14" stroke-width="2">
+<path d="M 660,65 Q 550,95 500,155 T 400,245 T 280,325 T 150,395 T 60,475"></path>
+</g>
+<!-- Isochrone Wave Front Contours -->
+<!-- T+18min Dingboche -->
+<circle cx="510" cy="150" fill="none" r="32" stroke="#ffb4ab" stroke-dasharray="4,4" stroke-width="1.5"></circle>
+<!-- T+42min Pangboche -->
+<circle cx="410" cy="240" fill="none" r="28" stroke="#ffc174" stroke-dasharray="4,4" stroke-width="1.5"></circle>
+<!-- T+1h 15m Phakding -->
+<circle cx="290" cy="320" fill="none" r="24" stroke="#7bd0ff" stroke-dasharray="4,4" stroke-width="1.5"></circle>
+<!-- T+1h 50m Lukla Transect -->
+<circle cx="160" cy="390" fill="none" r="20" stroke="#38bdf8" stroke-dasharray="4,4" stroke-width="1.5"></circle>
+</svg>
+<!-- Interactive Node Marker 1: Imja Breach Outflow -->
+<div class="absolute top-[10%] right-[14%] flex flex-col items-center pointer-events-auto cursor-pointer group">
+<div class="px-2.5 py-1 rounded bg-error-container text-on-error-container font-mono text-[11px] font-bold shadow-lg flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[14px] text-error">crisis_alert</span>
+              IMJA TSHO BREACH (T+0)
+            </div>
+<div class="w-3 h-3 bg-error rotate-45 mt-0.5 animate-bounce"></div>
+</div>
+<!-- Interactive Node Marker 2: Dingboche Settlement -->
+<div class="absolute top-[28%] right-[32%] flex flex-col items-start pointer-events-auto bg-surface-container-high/90 backdrop-blur-md p-2.5 rounded-lg shadow-xl max-w-[210px]">
+<div class="flex items-center justify-between w-full mb-1">
+<span class="font-label-md font-bold text-on-surface">Dingboche Valley</span>
+<span class="px-1.5 py-0.2 rounded bg-error/20 text-error font-mono text-[10px]">T + 18 min</span>
+</div>
+<div class="grid grid-cols-2 gap-x-3 gap-y-0.5 text-[11px] font-mono text-outline">
+<span>Peak Depth:</span>
+<span class="text-error font-bold text-right">12.4 m</span>
+<span>Velocity:</span>
+<span class="text-on-surface font-bold text-right">8.2 m/s</span>
+<span>Infra Impact:</span>
+<span class="text-tertiary font-bold text-right">2 Bridges Lost</span>
+</div>
+</div>
+<!-- Interactive Node Marker 3: Pangboche -->
+<div class="absolute top-[46%] right-[45%] flex flex-col items-start pointer-events-auto bg-surface-container-high/90 backdrop-blur-md p-2 rounded-lg shadow-xl">
+<div class="flex items-center gap-2 mb-0.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<span class="font-label-md font-semibold text-on-surface">Pangboche Gompa Rim</span>
+<span class="text-[10px] font-mono text-tertiary font-medium">T + 42 min</span>
+</div>
+<span class="text-[11px] font-mono text-outline">Wave Depth: <strong class="text-on-surface">9.1m</strong> | Vel: 6.8 m/s</span>
+</div>
+<!-- Interactive Node Marker 4: Phakding Bridge & Camp -->
+<div class="absolute top-[62%] left-[32%] flex flex-col items-start pointer-events-auto bg-surface-container-high/90 backdrop-blur-md p-2 rounded-lg shadow-xl">
+<div class="flex items-center gap-2 mb-0.5">
+<span class="w-2 h-2 rounded-full bg-surface-tint"></span>
+<span class="font-label-md font-semibold text-on-surface">Phakding Chasm</span>
+<span class="text-[10px] font-mono text-primary font-medium">T + 1h 15m</span>
+</div>
+<span class="text-[11px] font-mono text-outline">Wave Depth: <strong class="text-on-surface">5.8m</strong> | Suspension Bridge At Risk</span>
+</div>
+<!-- Interactive Node Marker 5: Lukla Terminal Gorge -->
+<div class="absolute bottom-[16%] left-[18%] flex flex-col items-start pointer-events-auto bg-surface-container-high/90 backdrop-blur-md p-2 rounded-lg shadow-xl">
+<div class="flex items-center gap-2 mb-0.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="font-label-md font-semibold text-on-surface">Lukla Ghat Riverbed</span>
+<span class="text-[10px] font-mono text-primary font-medium">T + 1h 50m</span>
+</div>
+<span class="text-[11px] font-mono text-outline">Wave Depth: <strong class="text-on-surface">4.2m</strong> | Hydro Intake Shut</span>
+</div>
+<!-- Bottom Floating Map Legend & Risk Metrics -->
+<div class="absolute bottom-3 left-3 right-3 z-10 flex flex-wrap items-center justify-between gap-3 bg-surface-container-low/95 backdrop-blur-md px-4 py-2.5 rounded-xl shadow-lg">
+<div class="flex items-center gap-5">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded bg-error"></span>
+<span class="font-label-sm text-on-surface">High Hazard (&gt; 8m Depth)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded bg-tertiary"></span>
+<span class="font-label-sm text-on-surface">Moderate (3-8m Depth)</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded bg-primary"></span>
+<span class="font-label-sm text-on-surface">Low Hazard (&lt; 3m Depth)</span>
+</div>
+<div class="hidden sm:flex items-center gap-2">
+<span class="w-3 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-label-sm text-secondary">Alpine Safe Route</span>
+</div>
+</div>
+<!-- Inundation Profile Summary Badges -->
+<div class="flex items-center gap-3">
+<span class="font-label-sm text-outline">River Length Impact:</span>
+<span class="font-mono text-label-md font-bold text-on-surface">42.6 km</span>
+<span class="h-3 w-px bg-outline-variant"></span>
+<span class="font-label-sm text-outline">VDCs Impacted:</span>
+<span class="font-mono text-label-md font-bold text-error">14 Districts</span>
+</div>
+</div>
+</div>
+<!-- Infrastructure Impact Horizontal Strip -->
+<div class="shrink-0 p-3 bg-surface-container flex items-center justify-between gap-4 overflow-x-auto text-label-sm">
+<div class="flex items-center gap-2 shrink-0">
+<span class="material-symbols-outlined text-error text-[18px]">emergency</span>
+<span class="font-semibold text-on-surface uppercase">Critical Asset Threat Matrix:</span>
+</div>
+<div class="flex items-center gap-4 shrink-0">
+<div class="flex items-center gap-2 px-2.5 py-1 rounded bg-surface-container-high">
+<span class="material-symbols-outlined text-[16px] text-error">video_file</span>
+<span class="text-on-surface">4 Suspension Bridges Severe Risk</span>
+</div>
+<div class="flex items-center gap-2 px-2.5 py-1 rounded bg-surface-container-high">
+<span class="material-symbols-outlined text-[16px] text-tertiary">bolt</span>
+<span class="text-on-surface">Khumbu Micro-Hydro (500kW) Trip</span>
+</div>
+<div class="flex items-center gap-2 px-2.5 py-1 rounded bg-surface-container-high">
+<span class="material-symbols-outlined text-[16px] text-error">hotel</span>
+<span class="text-on-surface">12 Riverside Lodges Inundation Zone</span>
+</div>
+<div class="flex items-center gap-2 px-2.5 py-1 rounded bg-surface-container-high">
+<span class="material-symbols-outlined text-[16px] text-secondary">hiking</span>
+<span class="text-on-surface">320 Trekkers Tracked Live</span>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- RIGHT PANEL: Early Warning Automation & Civil Defense Dispatch -->
+<aside class="w-[360px] 2xl:w-[410px] shrink-0 flex flex-col gap-3 overflow-y-auto pl-1">
+<!-- Broadcast Protocol Tier Card -->
+<div class="p-4 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[20px]">cloud_upload</span>
+<span class="font-label-md uppercase tracking-wider text-on-surface">Multi-Channel Dissemination</span>
+</div>
+<span class="font-mono text-label-sm px-2 py-0.5 rounded bg-secondary/15 text-secondary font-semibold">100% ONLINE</span>
+</div>
+<!-- Notification Channels Grid -->
+<div class="space-y-2">
+<!-- VHF Sirens -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-error text-[18px] animate-pulse">campaign</span>
+<div class="flex flex-col">
+<span class="font-label-md text-on-surface font-semibold">Valley VHF Sirens</span>
+<span class="text-label-sm text-outline">6 of 6 Audio Stacks Blaring</span>
+</div>
+</div>
+<span class="font-mono text-label-sm text-secondary font-semibold">ACTIVE</span>
+</div>
+<!-- GSM / CBS Push -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-primary text-[18px]">sms</span>
+<div class="flex flex-col">
+<span class="font-label-md text-on-surface font-semibold">Cell Broadcast (Ncell / NTC)</span>
+<span class="text-label-sm text-outline">4,820 Geo-Fenced Push Alerts</span>
+</div>
+</div>
+<span class="font-mono text-label-sm text-secondary font-semibold">98.4% ACK</span>
+</div>
+<!-- First Responders Net -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<span class="material-symbols-outlined text-tertiary text-[18px]">security</span>
+<div class="flex flex-col">
+<span class="font-label-md text-on-surface font-semibold">Armed Police Force &amp; HRA</span>
+<span class="text-label-sm text-outline">Namche &amp; Lukla Quick Reaction</span>
+</div>
+</div>
+<span class="font-mono text-label-sm text-primary font-semibold">DISPATCHED</span>
+</div>
+</div>
+</div>
+<!-- Live Evacuation Progress Monitors -->
+<div class="p-4 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">transfer_within_a_station</span>
+<span class="font-label-md uppercase tracking-wider text-on-surface">Evacuation Waypoint Status</span>
+</div>
+<span class="font-label-sm text-outline font-mono">T+00:14:22 ELAPSED</span>
+</div>
+<!-- Dingboche Evacuation Progress -->
+<div class="p-3 rounded-lg bg-surface-container-lowest flex flex-col gap-1.5">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-1.5 font-label-md font-semibold text-on-surface">
+<span>Dingboche Settlement</span>
+<span class="text-[10px] text-error font-mono font-normal">(4m to wave front)</span>
+</div>
+<span class="font-mono text-secondary text-label-sm font-bold">88% (422/480)</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full rounded-full" style="width: 88%"></div>
+</div>
+<div class="flex justify-between text-[10px] text-outline font-mono">
+<span>Rerouted to Ridge Waypoint Alpha (5,120m)</span>
+<span class="text-tertiary">58 Persons in transit</span>
+</div>
+</div>
+<!-- Pangboche Evacuation Progress -->
+<div class="p-3 rounded-lg bg-surface-container-lowest flex flex-col gap-1.5">
+<div class="flex justify-between items-center">
+<div class="flex items-center gap-1.5 font-label-md font-semibold text-on-surface">
+<span>Pangboche Corridor</span>
+<span class="text-[10px] text-tertiary font-mono font-normal">(28m to wave front)</span>
+</div>
+<span class="font-mono text-tertiary text-label-sm font-bold">62% (210/338)</span>
+</div>
+<div class="w-full bg-surface-container h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary h-full rounded-full" style="width: 62%"></div>
+</div>
+<div class="flex justify-between text-[10px] text-outline font-mono">
+<span>Ascending toward Upper Gompa Tier</span>
+<span class="text-outline">128 Pending clearance</span>
+</div>
+</div>
+<!-- Trekking Corridor Garmin/InReach Mesh -->
+<div class="p-2.5 rounded-lg bg-surface-container-lowest flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[18px]">satellite</span>
+<span class="font-label-sm text-on-surface">Garmin InReach / SPOT Beacons</span>
+</div>
+<span class="font-mono text-label-sm text-secondary font-bold">320/320 Geotracked</span>
+</div>
+</div>
+<!-- Mission Control Chronological Incident Log -->
+<div class="flex-1 p-4 rounded-xl bg-surface-container-low shadow-sm flex flex-col gap-2.5 min-h-[220px]">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-outline text-[18px]">history</span>
+<span class="font-label-md uppercase tracking-wider text-on-surface">Real-Time Incident Stream</span>
+</div>
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+</div>
+<div class="flex-1 overflow-y-auto space-y-2 pr-1 font-mono text-[11px]">
+<div class="p-2 rounded bg-surface-container-lowest flex flex-col gap-0.5">
+<div class="flex justify-between text-outline">
+<span class="text-error font-semibold">14:28:02 NPT</span>
+<span>RADAR CONFIRM</span>
+</div>
+<p class="text-on-surface">Sentinel-1 InSAR coherence drop confirms progressive crest slumping (-1.2m).</p>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest flex flex-col gap-0.5">
+<div class="flex justify-between text-outline">
+<span class="text-tertiary font-semibold">14:24:18 NPT</span>
+<span>AUTO TRIGGER</span>
+</div>
+<p class="text-on-surface">Stage 4 Siren Protocol executed across Dingboche &amp; Tengboche masts.</p>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest flex flex-col gap-0.5">
+<div class="flex justify-between text-outline">
+<span class="text-primary font-semibold">14:21:40 NPT</span>
+<span>CIVIL DEFENSE</span>
+</div>
+<p class="text-on-surface">Himalayan Rescue Association helicopter evacuation hold issued at Lukla airfield.</p>
+</div>
+<div class="p-2 rounded bg-surface-container-lowest flex flex-col gap-0.5">
+<div class="flex justify-between text-outline">
+<span class="text-outline font-semibold">14:15:00 NPT</span>
+<span>SEISMIC DETECT</span>
+</div>
+<p class="text-on-surface-variant">Lhotse South Face broadband station detects 500k m³ rock/ice detachment acoustic signature.</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div></main>
+</div>
+</body></html>

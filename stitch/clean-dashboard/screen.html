@@ -1,0 +1,486 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Glacier Monitor • Mission Control</title>
+<style>
+    @layer base {
+      html, body { margin: 0; padding: 0; }
+      body { overscroll-behavior: none; }
+    }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #262f40; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #374459; }
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+            },
+            surface: {
+              base: '#0b0f19',
+              card: '#111827',
+              hover: '#1a2234',
+              muted: '#1e293b',
+              border: '#1e293b'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['Space Grotesk', 'monospace'],
+          }
+        }
+      }
+    };
+  </script>
+</head>
+<body class="bg-surface-base font-sans text-slate-200 antialiased h-screen flex flex-col overflow-hidden selection:bg-sky-500/20 selection:text-sky-300">
+<!-- TOP APP BAR -->
+<header class="h-16 px-6 bg-surface-card/80 backdrop-blur-md border-b border-slate-800/80 flex items-center justify-between z-40 shrink-0">
+<div class="flex items-center gap-6">
+<!-- Logo & System Title -->
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center bg-sky-950/40 border border-sky-500/30 shadow-inner shadow-sky-500/10">
+<img alt="Glacier Monitor Logo" class="w-7 h-7 object-contain" src="https://lh3.googleusercontent.com/aida/AEtjO1VX6oXUD-BUse6DP40OgzWvygDUy4WMfc21Efrbu8Y9qVOGzV5qZktUkEYxru9mN_BIwKQb6RnACD0jQRacD6M9VV_1x_-zaOfeN51mJmYmpIxKPnYuD-11S5G0rY226C9tsfgVPS-R_1hVMySqpFaMJGCFRgr_u0y4o2vBMyVKnaASzWEs35rrNE9TsjUbiE-sc7wCCiAs6Nk_gGR9Sc-nicLM94EmBUyB77Z46G1nZ2FP0rWv9e4CxBkF">
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-mono font-bold text-base tracking-tight text-white">Glacier Monitor</span>
+<span class="text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20 font-medium">v2.8 EO</span>
+</div>
+<span class="text-xs text-slate-400 font-normal">Earth Observation &amp; Early Warning</span>
+</div>
+</div>
+<div class="h-5 w-px bg-slate-800"></div>
+<!-- Region Selector -->
+<button class="flex items-center gap-2.5 px-3 py-1.5 rounded-lg bg-surface-base/60 border border-slate-800 hover:border-slate-700 text-sm text-slate-200 transition-all hover:bg-slate-800/40">
+<span class="material-symbols-outlined text-[17px] text-sky-400">landscape</span>
+<span class="font-medium text-xs">Khumbu-Himal Region</span>
+<span class="text-[11px] font-mono text-emerald-400 font-normal">27.98° N, 86.92° E</span>
+<span class="material-symbols-outlined text-[16px] text-slate-400 ml-0.5">expand_more</span>
+</button>
+</div>
+<!-- Center Search Bar -->
+<div class="flex-1 max-w-md mx-8">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3.5 text-[18px] text-slate-400">search</span>
+<input class="w-full h-9 pl-10 pr-12 rounded-lg bg-surface-base/80 border border-slate-800 focus:border-sky-500/70 focus:ring-1 focus:ring-sky-500/40 text-xs text-slate-200 placeholder:text-slate-500 transition-all" placeholder="Search glaciers, proglacial lakes, observations or alerts..." type="text">
+<kbd class="absolute right-3 px-1.5 py-0.5 rounded bg-slate-800/80 border border-slate-700/60 text-[10px] font-mono text-slate-400">⌘K</kbd>
+</div>
+</div>
+<!-- Right Controls & Status -->
+<div class="flex items-center gap-4">
+<!-- Sync Status Pill -->
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="text-slate-300 font-medium">NASA Harmony</span>
+<span class="text-slate-500">•</span>
+<span class="text-slate-400 text-[11px]">Synced 2m ago</span>
+</div>
+<!-- Alert Indicator -->
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] text-rose-400">crisis_alert</span>
+<span class="">1 Critical Alert</span>
+</div>
+<div class="h-5 w-px bg-slate-800"></div>
+<!-- Operator Profile -->
+<div class="flex items-center gap-2.5 pl-1 cursor-pointer">
+<div class="w-8 h-8 rounded-full bg-gradient-to-tr from-sky-600 to-indigo-500 flex items-center justify-center text-white text-xs font-semibold shadow-md">
+          SC
+        </div>
+<div class="hidden lg:flex flex-col text-left">
+<span class="text-xs font-medium text-slate-200">Dr. S. Chen</span>
+<span class="text-[10px] text-slate-400">Lead Cryo Analyst</span>
+</div>
+</div>
+</div>
+</header>
+<!-- BODY SHELL -->
+<div class="flex-1 flex overflow-hidden">
+<!-- LEFT SIDEBAR NAVIGATION -->
+<aside class="w-60 bg-surface-card border-r border-slate-800/80 flex flex-col justify-between py-4 select-none shrink-0">
+<div class="flex flex-col gap-6 px-3">
+<!-- Main Menu -->
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-sky-500/10 text-sky-400 border border-sky-500/20 font-medium text-sm transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="">Overview</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+<span class="">Investigate</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">terrain</span>
+<span class="">Glaciers &amp; Lakes</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">satellite_alt</span>
+<span class="">Observations</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">crisis_alert</span>
+<span class="">Alerts &amp; Warnings</span>
+<span class="ml-auto text-[11px] font-mono px-1.5 py-0.2 rounded-full bg-rose-500/20 text-rose-300 font-semibold">4</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">schema</span>
+<span class="">GLOF Modeling</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">stacked_line_chart</span>
+<span class="">Elevation Profiles</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/40 text-sm font-medium transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">sync_alt</span>
+<span class="">Pipeline Jobs</span>
+</a>
+</nav>
+</div>
+<!-- Bottom Card & System Metrics -->
+<div class="px-3 flex flex-col gap-3">
+<div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800">
+<div class="flex items-center justify-between text-xs mb-2">
+<span class="text-slate-400 font-medium">Earth Observation Mesh</span>
+<span class="font-mono text-emerald-400 font-semibold">99.8%</span>
+</div>
+<div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mb-2">
+<div class="bg-emerald-400 h-full w-[99.8%] rounded-full"></div>
+</div>
+<div class="flex items-center gap-1.5 text-[11px] text-slate-400">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+<span class="">ICESat-2 • Landsat-9 • S1-A</span>
+</div>
+</div>
+<div class="flex items-center justify-between px-2 pt-1 text-slate-400 text-xs">
+<button class="flex items-center gap-1.5 hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[16px]">settings</span>
+<span class="">Settings</span>
+</button>
+<button class="flex items-center gap-1.5 hover:text-slate-200 transition-colors">
+<span class="material-symbols-outlined text-[16px]">help</span>
+<span class="">Docs</span>
+</button>
+</div>
+</div>
+</aside>
+<!-- MAIN DASHBOARD CONTENT AREA -->
+<main class="flex-1 flex flex-col overflow-y-auto p-6 gap-6 bg-surface-base">
+<!-- TOP METRIC CARDS (4-COLUMN CLEAN KPI ROW) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4 shrink-0"><!-- Module 1: Glaciers Under Surveillance -->
+
+
+<!-- Module 2: Glacial Basins & Lakes -->
+</div>
+<!-- MAIN SPLIT WORKSPACE: MAP (68%) & INTELLIGENCE ALERTS (32%) -->
+<div class="flex-1 grid grid-cols-1 xl:grid-cols-12 gap-6 min-h-[560px]">
+<!-- LEFT: CLEAN GEOSPATIAL MAP VIEW (COL-SPAN-8) -->
+<div class="xl:col-span-8 flex flex-col rounded-2xl bg-surface-card border border-slate-800 overflow-hidden relative shadow-lg">
+<!-- Floating Map Top Control Bar -->
+<div class="absolute top-4 left-4 right-4 z-20 flex items-center justify-between pointer-events-none">
+<!-- Layer Switcher Pills -->
+<div class="pointer-events-auto flex items-center p-1 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700/60 shadow-lg gap-1">
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500 text-white text-xs font-medium shadow-sm transition-all">
+<span class="material-symbols-outlined text-[15px]">radar</span>
+<span class="">SAR Coherence</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-xs font-medium transition-all">
+<span class="material-symbols-outlined text-[15px]">satellite_alt</span>
+<span class="">Optical RGB</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 text-xs font-medium transition-all">
+<span class="material-symbols-outlined text-[15px]">layers</span>
+<span class="">Elevation DEM</span>
+</button>
+</div>
+<!-- Map View Tools -->
+<div class="pointer-events-auto flex items-center gap-2">
+<div class="flex items-center px-3 py-1.5 rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700/60 shadow-lg text-xs font-mono text-slate-300">
+<span class="text-sky-400 mr-2 font-medium">Khumbu Sector 07</span>
+<span class="text-slate-500 mr-2">|</span>
+<span class="">5,364m ASL</span>
+</div>
+<div class="flex items-center rounded-xl bg-slate-900/90 backdrop-blur-md border border-slate-700/60 shadow-lg p-1 text-slate-300">
+<button class="w-7 h-7 flex items-center justify-center hover:bg-slate-800 rounded-lg text-slate-300 hover:text-white" title="Zoom In">
+<span class="material-symbols-outlined text-[18px]">add</span>
+</button>
+<button class="w-7 h-7 flex items-center justify-center hover:bg-slate-800 rounded-lg text-slate-300 hover:text-white" title="Zoom Out">
+<span class="material-symbols-outlined text-[18px]">remove</span>
+</button>
+<div class="w-px h-4 bg-slate-700 mx-0.5"></div>
+<button class="w-7 h-7 flex items-center justify-center hover:bg-slate-800 rounded-lg text-slate-300 hover:text-white" title="Reset View">
+<span class="material-symbols-outlined text-[18px]">center_focus_strong</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Interactive Satellite Canvas -->
+<div class="relative w-full flex-1 min-h-[380px] bg-slate-950 flex items-center justify-center overflow-hidden">
+<!-- Satellite Orthomosaic Texture -->
+<div class="absolute inset-0 opacity-45 mix-blend-luminosity bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuB1GLnssw0fM63ZCd5pMjYZQmNqnVAfxvEA8XoeNbvPbw5_7ljtLVus8dlt92QTtNkiLIYm6zrMJgBY94Lj-GE_cNj2pDsOXiz-8WN8kH6IW4GkPFPY3MEIqIFmTVcH1T0tR_ikd6NMyIDwta9b6qOx-Wn07oYH1lKep0JTTpXPd05UsXJoiTWmtz_lKkTi9qAjkH7Sck6wHU_1N_n_OZfEXe_oVdi39Wg6zsxeGyiYtL4IrkYZeG0zbA');">
+</div>
+<!-- Soft Radial Vignette for Depth -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-card via-transparent to-transparent opacity-80 pointer-events-none"></div>
+<!-- Modern Crisp Vector Overlay SVG -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="xMidYMid slice" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="imjaGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#0284c7" stop-opacity="0.85"></stop>
+<stop offset="100%" stop-color="#0369a1" stop-opacity="0.4"></stop>
+</linearGradient>
+<linearGradient id="khumbuGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#38bdf8" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#38bdf8" stop-opacity="0.05"></stop>
+</linearGradient>
+</defs>
+<!-- Subtle Ground Track -->
+<line opacity="0.35" stroke="#38bdf8" stroke-dasharray="4,6" stroke-width="1.2" x1="80" x2="720" y1="20" y2="480"></line>
+<text fill="#38bdf8" font-family="Space Grotesk" font-size="10" opacity="0.6" x="600" y="420">ICESat-2 ATL06 Track</text>
+<!-- KHUMBU GLACIER OUTLINE -->
+<g class="pointer-events-auto cursor-pointer group">
+<path class="transition-all duration-300 group-hover:stroke-sky-300 group-hover:fill-opacity-40" d="M 330,80 Q 370,160 380,240 T 360,340 T 325,430 L 290,420 Q 320,330 330,240 T 300,100 Z" fill="url(#khumbuGrad)" stroke="#38bdf8" stroke-dasharray="6,4" stroke-width="1.8"></path>
+<!-- Flow Direction Arrows -->
+<path d="M 345,210 L 348,245 M 348,245 L 343,238 M 348,245 L 353,238" stroke="#38bdf8" stroke-linecap="round" stroke-width="2"></path>
+<path d="M 350,300 L 346,335 M 346,335 L 341,328 M 346,335 L 351,328" stroke="#38bdf8" stroke-linecap="round" stroke-width="2"></path>
+<!-- Pinned Node Marker: Khumbu -->
+<circle cx="340" cy="180" fill="#38bdf8" r="4"></circle>
+<circle cx="340" cy="180" fill="none" opacity="0.5" r="10" stroke="#38bdf8" stroke-width="1.2"></circle>
+</g>
+<!-- IMJA GLACIER & LAKE IMJA TSHO (CRITICAL NODE) -->
+<g class="pointer-events-auto cursor-pointer group">
+<!-- Moraine Boundary -->
+<path d="M 450,230 Q 530,240 590,220 T 660,260 T 630,315 L 500,320 T 440,280 Z" fill="#f43f5e" fill-opacity="0.1" stroke="#f43f5e" stroke-dasharray="4,4" stroke-width="1.5"></path>
+<!-- Proglacial Lake Body -->
+<path d="M 465,255 C 490,245 520,248 540,262 C 555,275 545,298 520,304 C 490,310 460,300 455,278 Z" fill="url(#imjaGradient)" stroke="#0ea5e9" stroke-width="1.8"></path>
+<!-- Pulsing Warning Beacon at Moraine Dam -->
+<circle cx="455" cy="275" fill="#f43f5e" r="5"></circle>
+<circle class="animate-ping" cx="455" cy="275" fill="none" opacity="0.8" r="14" stroke="#f43f5e" stroke-width="1.5"></circle>
+<circle cx="455" cy="275" fill="none" opacity="0.4" r="24" stroke="#f43f5e" stroke-dasharray="3,3" stroke-width="1"></circle>
+</g>
+<!-- NGOZUMPA TONGUE -->
+<g class="pointer-events-auto cursor-pointer">
+<path d="M 170,100 Q 190,160 195,230 T 185,320 L 160,310 Q 170,230 165,150 Z" fill="#f59e0b" fill-opacity="0.12" stroke="#f59e0b" stroke-dasharray="5,4" stroke-width="1.5"></path>
+<ellipse cx="180" cy="250" fill="#0284c7" rx="9" ry="6" stroke="#38bdf8" stroke-width="1"></ellipse>
+<circle cx="182" cy="180" fill="#f59e0b" r="4"></circle>
+</g>
+</svg>
+<!-- Sleek Minimal Site Labels (Clean Modern Badges) -->
+<div class="absolute left-[20%] top-[40%] pointer-events-auto cursor-pointer group">
+<div class="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-900/90 backdrop-blur-md border border-amber-500/40 shadow-md">
+<span class="w-2 h-2 rounded-full bg-amber-400"></span>
+<span class="text-xs font-medium text-slate-200">Ngozumpa Tongue</span>
+<span class="text-[10px] font-mono text-amber-400">+87.5% Pond Growth</span>
+</div>
+</div>
+<div class="absolute left-[38%] top-[24%] pointer-events-auto cursor-pointer group">
+<div class="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-900/90 backdrop-blur-md border border-sky-500/40 shadow-md">
+<span class="w-2 h-2 rounded-full bg-sky-400"></span>
+<span class="text-xs font-medium text-slate-200">Khumbu Glacier [KG-04]</span>
+<span class="text-[10px] font-mono text-slate-400">Flow: 0.18 m/d</span>
+</div>
+</div>
+<!-- Priority Floating Card for Selected Critical Node (Imja Tsho) -->
+<div class="absolute right-6 bottom-20 z-20 w-72 rounded-xl bg-slate-900/95 backdrop-blur-md border border-slate-700/80 p-4 shadow-xl">
+<div class="flex items-center justify-between pb-2 border-b border-slate-800">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-rose-500 animate-pulse"></span>
+<span class="font-medium text-xs text-white">Imja Tsho [GL-2798]</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-semibold font-mono">CRITICAL RISK</span>
+</div>
+<div class="grid grid-cols-2 gap-2 mt-3 mb-3">
+<div class="p-2 rounded-lg bg-slate-950/60 border border-slate-800/80">
+<span class="text-[10px] text-slate-400 block uppercase">Lake Volume</span>
+<span class="text-xs font-mono font-bold text-white">78.2M m³</span>
+<span class="text-[10px] font-mono text-rose-400 ml-1">(+42.0%)</span>
+</div>
+<div class="p-2 rounded-lg bg-slate-950/60 border border-slate-800/80">
+<span class="text-[10px] text-slate-400 block uppercase">Moraine Deficit</span>
+<span class="text-xs font-mono font-bold text-rose-400">-2.8m</span>
+<span class="text-[10px] text-slate-400 ml-1">ICESat</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex-1 py-1.5 rounded-lg bg-sky-500 hover:bg-sky-400 text-white text-xs font-medium transition-all shadow-sm">
+                  Investigate Lake
+                </button>
+<button class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition-all">
+                  3D DEM
+                </button>
+</div>
+</div>
+</div>
+<!-- Bottom Time-Scrubber Timeline Strip -->
+<div class="px-5 py-3.5 bg-slate-900/90 border-t border-slate-800 flex items-center gap-4 z-20 shrink-0">
+<!-- Play Button -->
+<button class="w-8 h-8 rounded-full bg-sky-500/20 hover:bg-sky-500/30 border border-sky-500/40 text-sky-400 flex items-center justify-center transition-all shadow-sm">
+<span class="material-symbols-outlined text-[18px]">play_arrow</span>
+</button>
+<!-- Date Range Labels -->
+<div class="flex items-center gap-2 text-xs font-mono">
+<span class="text-slate-400">Jan 2024</span>
+<span class="text-slate-600">/</span>
+<span class="text-sky-300 font-semibold">Sep 2026 (Live)</span>
+</div>
+<!-- Scrubber Slider -->
+<div class="flex-1 relative flex items-center">
+<input class="w-full h-1.5 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-sky-400" max="2026.8" min="2024" step="0.1" type="range" value="2026.8">
+<!-- Tick Markers -->
+<div class="absolute inset-x-0 flex justify-between pointer-events-none -top-1 px-1">
+<span class="w-1 h-3 bg-slate-700 rounded-full"></span>
+<span class="w-1 h-2 bg-slate-700 rounded-full"></span>
+<span class="w-1 h-3 bg-slate-700 rounded-full"></span>
+<span class="w-1 h-2 bg-slate-700 rounded-full"></span>
+<span class="w-1 h-3 bg-sky-400 rounded-full"></span>
+</div>
+</div>
+<!-- Comparison Pill Switch -->
+<div class="flex items-center gap-1 bg-surface-base px-1.5 py-1 rounded-lg border border-slate-800 text-xs font-mono">
+<span class="text-slate-400 px-1 text-[11px]">Compare:</span>
+<button class="px-2 py-0.5 rounded bg-slate-800 text-slate-200 text-[11px] font-medium">T-12 Mo</button>
+<button class="px-2 py-0.5 rounded text-slate-400 hover:text-slate-200 text-[11px]">Baseline '20</button>
+</div>
+</div>
+</div>
+<!-- RIGHT: INTELLIGENCE & ALERT COLUMN (COL-SPAN-4) -->
+<div class="xl:col-span-4 flex flex-col gap-5 overflow-hidden">
+<!-- ACTIVE ALERTS SECTION (CLEAN CARDS) -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-rose-400">crisis_alert</span>
+<span class="font-mono text-sm font-semibold text-white">Active Alerts &amp; Threats</span>
+</div>
+<span class="text-xs font-mono text-slate-400">4 Active Sites</span>
+</div>
+<!-- Card 1: Critical - Imja Tsho -->
+<div class="p-4 rounded-xl bg-surface-card border border-rose-500/40 hover:border-rose-500/70 transition-all flex flex-col gap-2.5 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 bottom-0 w-1 bg-rose-500"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 text-[10px] font-mono font-bold">CRITICAL</span>
+<span class="text-sm font-semibold text-white">Glacier Imja (Imja Tsho)</span>
+</div>
+<span class="text-xs font-mono text-slate-400">14m ago</span>
+</div>
+<p class="text-xs text-slate-300 leading-relaxed">
+                Multiple moraine integrity thresholds exceeded. Proglacial volume reached historical high.
+              </p>
+<!-- Bullet Stats Grid -->
+<div class="grid grid-cols-2 gap-2 my-1">
+<div class="p-2 rounded-lg bg-surface-base/80 border border-slate-800">
+<span class="text-[10px] text-slate-400 uppercase block font-medium">Lake Expansion</span>
+<span class="text-xs font-mono font-bold text-rose-400">+42.0% Volume</span>
+</div>
+<div class="p-2 rounded-lg bg-surface-base/80 border border-slate-800">
+<span class="text-[10px] text-slate-400 uppercase block font-medium">Moraine Deficit</span>
+<span class="text-xs font-mono font-bold text-rose-400">-2.8m (ICESat-2)</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-[11px] text-slate-400">GLOF Broadcast: Stage 2</span>
+<button class="flex items-center gap-1 text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors">
+<span class="">Investigate Object</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Card 2: Warning - Ngozumpa -->
+<div class="p-4 rounded-xl bg-surface-card border border-amber-500/40 hover:border-amber-500/70 transition-all flex flex-col gap-2 shadow-sm relative overflow-hidden">
+<div class="absolute top-0 left-0 bottom-0 w-1 bg-amber-500"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-mono font-bold">WARNING</span>
+<span class="text-sm font-semibold text-white">Ngozumpa Tongue</span>
+</div>
+<span class="text-xs font-mono text-slate-400">48m ago</span>
+</div>
+<p class="text-xs text-slate-300 leading-relaxed">
+                Supraglacial spillway coalescence detected. Expansion +87.5% relative to 2024 SAR coherence baseline.
+              </p>
+<div class="flex items-center justify-between pt-1">
+<span class="text-[11px] font-mono text-amber-400">Dam Factor: 1.18 Marginal</span>
+<button class="flex items-center gap-1 text-xs font-medium text-sky-400 hover:text-sky-300 transition-colors">
+<span class="">Investigate Object</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- LIVE ACTIVITY & TELEMETRY FEED (CLEAN CHRONOLOGICAL) -->
+<div class="flex-1 flex flex-col rounded-2xl bg-surface-card border border-slate-800 p-4 overflow-hidden shadow-sm">
+<div class="flex items-center justify-between pb-3 border-b border-slate-800/80 mb-3">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-sky-400">dynamic_feed</span>
+<span class="font-mono text-sm font-semibold text-white">Live Telemetry &amp; Ingest</span>
+</div>
+<div class="flex items-center gap-1 text-[11px] font-mono text-emerald-400">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+<span class="">Streaming</span>
+</div>
+</div>
+<!-- Feed Items -->
+<div class="flex-1 overflow-y-auto pr-1 flex flex-col gap-3">
+<!-- Item 1 -->
+<div class="flex items-start gap-3">
+<span class="text-[11px] font-mono text-slate-500 mt-0.5 shrink-0">11:38</span>
+<div class="flex-1 p-2.5 rounded-lg bg-surface-base/80 border border-slate-800/80">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-medium text-slate-200">Landsat-9 L2 Surface Reflectance</span>
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-slate-800 text-slate-400">USGS</span>
+</div>
+<p class="text-[11px] text-slate-400">Orthorectification and cloud masking complete for path 140, row 041.</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-start gap-3">
+<span class="text-[11px] font-mono text-slate-500 mt-0.5 shrink-0">11:24</span>
+<div class="flex-1 p-2.5 rounded-lg bg-surface-base/80 border border-slate-800/80">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-medium text-slate-200">Segmentation Mask Generated</span>
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">CV ENGINE</span>
+</div>
+<p class="text-[11px] text-slate-400">Water delineation confidence 98.4% for Imja Tsho basin.</p>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="flex items-start gap-3">
+<span class="text-[11px] font-mono text-slate-500 mt-0.5 shrink-0">10:48</span>
+<div class="flex-1 p-2.5 rounded-lg bg-rose-500/5 border border-rose-500/20">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-medium text-rose-300">Hazard Rule Triggered</span>
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-rose-500/20 text-rose-300">ALERT ENGINE</span>
+</div>
+<p class="text-[11px] text-slate-400">Rule WRN-2026-0929-B elevated Imja Tsho threat to Critical.</p>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="flex items-start gap-3">
+<span class="text-[11px] font-mono text-slate-500 mt-0.5 shrink-0">10:12</span>
+<div class="flex-1 p-2.5 rounded-lg bg-surface-base/80 border border-slate-800/80">
+<div class="flex items-center justify-between mb-1">
+<span class="text-xs font-medium text-slate-200">ICESat-2 ATL06 Height Profile</span>
+<span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-sky-500/10 text-sky-400 border border-sky-500/20">HARMONY</span>
+</div>
+<p class="text-[11px] text-slate-400">214 elevation photons aligned along Khumbu transect.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+
+
+</body></html>
