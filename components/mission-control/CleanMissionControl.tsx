@@ -488,14 +488,12 @@ export default function CleanMissionControl() {
                         stroke="#38bdf8"
                         strokeLinecap="round"
                         strokeWidth="2"
-                        className="animate-pulse"
                       />
                       <path
                         d="M 350,300 L 346,335 M 346,335 L 341,328 M 346,335 L 351,328"
                         stroke="#38bdf8"
                         strokeLinecap="round"
                         strokeWidth="2"
-                        className="animate-pulse"
                       />
                     </>
                   )}
@@ -534,23 +532,22 @@ export default function CleanMissionControl() {
                       strokeWidth="1.8"
                     />
 
-                    <circle cx="455" cy="275" fill="#f43f5e" r="5" />
+                    <circle cx="455" cy="275" fill="#f43f5e" r="4.5" />
                     <circle
-                      className="animate-ping"
                       cx="455"
                       cy="275"
                       fill="none"
-                      opacity="0.8"
-                      r="14"
+                      opacity="0.7"
+                      r="12"
                       stroke="#f43f5e"
-                      strokeWidth="1.5"
+                      strokeWidth="1.2"
                     />
                     <circle
                       cx="455"
                       cy="275"
                       fill="none"
-                      opacity="0.4"
-                      r="24"
+                      opacity="0.35"
+                      r="22"
                       stroke="#f43f5e"
                       strokeDasharray="3,3"
                       strokeWidth="1"
@@ -642,7 +639,7 @@ export default function CleanMissionControl() {
                   <span
                     className={`w-2.5 h-2.5 rounded-full ${
                       selectedSite.status === "critical"
-                        ? "bg-rose-500 animate-pulse"
+                        ? "bg-rose-500"
                         : selectedSite.status === "warning"
                         ? "bg-amber-400"
                         : "bg-sky-400"
@@ -934,8 +931,8 @@ export default function CleanMissionControl() {
                 className="flex items-center gap-1.5 text-[10px] font-mono text-emerald-400 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20"
               >
                 <span
-                  className={`w-1.5 h-1.5 rounded-full bg-emerald-400 ${
-                    isStreaming ? "animate-pulse" : "opacity-40"
+                  className={`w-1.5 h-1.5 rounded-full ${
+                    isStreaming ? "bg-emerald-400" : "bg-slate-500"
                   }`}
                 />
                 <span>{isStreaming ? "Streaming" : "Paused"}</span>

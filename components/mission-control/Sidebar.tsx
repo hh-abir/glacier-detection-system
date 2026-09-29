@@ -19,13 +19,13 @@ const NAV_ITEMS: NavItem[] = [
   { id: "investigate", label: "Investigate", icon: "explore", href: "/investigate" },
   { id: "glof-modeling", label: "GLOF Modeling", icon: "schema", href: "/glof-modeling" },
   { id: "dashboard", label: "Surveillance Hub", icon: "monitoring", href: "/dashboard" },
-  { id: "glaciers", label: "Glaciers & Lakes", icon: "terrain", href: "/investigate" },
-  { id: "observations", label: "Observations", icon: "satellite_alt", href: "/#observations" },
+  { id: "glaciers", label: "Glaciers & Lakes", icon: "terrain", href: "/glaciers" },
+  { id: "observations", label: "Observations", icon: "satellite_alt", href: "/observations" },
   {
     id: "alerts-and-events",
     label: "Alerts & Events",
     icon: "crisis_alert",
-    href: "/glof-modeling",
+    href: "/#alerts",
     badge: "1 High",
     badgeClass: "bg-rose-500/20 text-rose-300 font-medium",
   },
@@ -54,7 +54,7 @@ export default function Sidebar() {
         >
           {!isCollapsed && (
             <div className="flex items-center gap-space-sm overflow-hidden whitespace-nowrap">
-              <span className="w-2 h-2 rounded-full bg-secondary animate-pulse shrink-0" />
+              <span className="material-symbols-outlined text-[15px] text-sky-400 shrink-0">public</span>
               <span className="font-label-sm text-[11px] uppercase tracking-wider text-on-surface font-semibold truncate">
                 EARTH OBSERVATION
               </span>
@@ -62,7 +62,7 @@ export default function Sidebar() {
           )}
 
           {isCollapsed && (
-            <span className="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse" />
+            <span className="material-symbols-outlined text-[16px] text-sky-400">public</span>
           )}
 
           <button
@@ -79,16 +79,7 @@ export default function Sidebar() {
         {/* Navigation Items */}
         <nav className="flex flex-col py-space-sm gap-0.5">
           {NAV_ITEMS.map((item) => {
-            const isActive =
-              item.href === "/"
-                ? pathname === "/"
-                : item.href === "/investigate"
-                ? pathname === "/investigate"
-                : item.href === "/glof-modeling"
-                ? pathname === "/glof-modeling"
-                : item.href === "/dashboard"
-                ? pathname === "/dashboard"
-                : false;
+            const isActive = pathname === item.href;
 
             return (
               <div key={item.id} className="relative group">

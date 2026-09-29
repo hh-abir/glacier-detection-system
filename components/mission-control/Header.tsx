@@ -92,7 +92,7 @@ export default function Header() {
       <div className="flex items-center gap-3 shrink-0">
         {/* Sync Status Pill */}
         <div className="hidden xl:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-900/80 border border-slate-800 text-xs">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
           <span className="text-slate-300 font-medium text-[11px]">NASA Harmony</span>
           <span className="text-slate-500">•</span>
           <span className="text-slate-400 text-[10px]">Synced 2m ago</span>
